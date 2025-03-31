@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@layer components {
+  .focus {
+    @apply transition-all duration-300 rounded-sm ring-offset-4 ring-offset-transparent focus-within:outline-none focus-within:ring-2 focus-within:ring-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500;
+  }
+}
