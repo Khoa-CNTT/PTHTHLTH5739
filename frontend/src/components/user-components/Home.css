@@ -1,0 +1,81 @@
+.hs-item {
+    /* background-image: url('../img/hero/hero-1.jpg'); */
+    height: auto;
+    padding-top: 0px;
+    background-size: cover;
+        /* Đảm bảo ảnh nền bao phủ toàn bộ */
+        background-position: center;
+        /* Căn giữa ảnh nền */
+        background-repeat: no-repeat;
+        /* Không lặp lại ảnh nền */
+        position: relative;
+        /* Toàn bộ chiều cao màn hình */
+        display: flex;
+        align-items: center;
+        /* Căn chỉnh theo chiều dọc */
+        justify-content: flex-end;
+        /* Đẩy nội dung sang phải */
+}
+
+.hi-text {
+    position: absolute;
+    /* Căn giữa theo chiều dọc */
+    left: 60%;
+    /* Căn giữa theo chiều ngang */
+    bottom: 50%;
+    transform: translate(-50%, -50%);
+    /* Đảm bảo chữ nằm chính giữa */
+    color: white;
+    /* Đổi màu chữ thành màu trắng để dễ đọc trên ảnh */
+    text-align: left;
+    /* Thêm nền mờ phía sau chữ để dễ đọc hơn */
+    padding: 20px;
+    border-radius: 10px;
+    width: 450px;
+}
+/* Định dạng cho chữ thường */
+.hi-text span {
+    font-size: 16px;
+    /* Kích thước chữ nhỏ cho dòng phụ */
+    letter-spacing: 2px;
+    /* Giãn cách chữ */
+    text-transform: uppercase;
+    /* Viết hoa toàn bộ */
+}
+
+/* Định dạng cho chữ tiêu đề lớn */
+.hi-text h1 {
+    font-size: 56px;
+    /* Chữ lớn cho tiêu đề */
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+}
+
+/* Định dạng cho chữ "strong" nổi bật */
+.hi-text h1 strong {
+    color: #ff6200;
+    /* Màu cam nổi bật cho chữ "strong" */
+}
+
+/* Nút "Get Info" */
+.primary-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    background-color: #ff6200;
+    /* Màu nền cam */
+    color: white;
+    text-transform: uppercase;
+    /* Viết hoa chữ */
+    font-weight: bold;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.primary-btn:hover {
+    background-color: #e55900;
+    /* Đổi màu khi hover */
+}

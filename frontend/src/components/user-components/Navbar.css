@@ -1,0 +1,180 @@
+.menu-toggle {
+    display: none;
+}
+
+.offcanvas-menu {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 270px;
+    height: 100%;
+    background-color: #1f1f1f;
+    /* Màu tối hơn cho nền */
+    color: white;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    padding-top: 50px;
+    box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.offcanvas-menu.active {
+    left: 0;
+}
+
+.offcanvas-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.offcanvas-menu ul li {
+    margin: 15px 0;
+}
+
+.offcanvas-menu ul li a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.offcanvas-menu ul li a:hover {
+    background-color: #ff7e00;
+    color: #ffffff;
+}
+
+.offcanvas-menu ul .active a {
+    color: #ff7e00;
+    background-color: #333;
+}
+
+
+.login-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+
+    /* Các menu thả xuống bên trong menu trượt */
+    .offcanvas-menu ul .dropdown {
+        margin-top: 10px;
+        padding-left: 20px;
+    }
+
+    .dropdown-menu {
+        background-color: #333;
+        box-shadow: none;
+    }
+
+    .dropdown-item {
+        padding: 10px 20px;
+        cursor: pointer;
+        color: #e0e0e0;
+    }
+
+    .dropdown-item:hover {
+        background-color: #ff7e00;
+        color: #ffffff;
+    }
+
+
+    /* Styles cho nút hamburger và offcanvas menu */
+    .menu-toggle {
+        display: fixed;
+        font-size: 24px;
+        color: #ffffff;
+        background-color: #ff7e00;
+        border-radius: 50%;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 1001;
+        position: fixed;
+        /* Đặt vị trí cố định */
+        top: 20px;
+        /* Khoảng cách từ trên xuống */
+        right: 20px;
+        /* Khoảng cách từ bên phải vào */
+    }
+
+    .header-section .nav-menu ul {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        /* position: absolute; */
+        top: 20px;
+        right: 20px;
+    }
+
+
+    /* Popup menu bên phải cho More */
+    .dropdown-popup {
+        position: fixed;
+        top: 10px;
+        /* Hoặc có thể là vị trí tùy chỉnh theo chiều dọc */
+        right: 10px;
+        /* Căn sang bên phải, và tránh xa một khoảng nhỏ từ mép */
+        width: 220px;
+        background-color: #333;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        z-index: 1002;
+        display: none;
+        /* Animation */
+        transform: translateX(10px);
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .dropdown-popup.active {
+        display: block;
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    .dropdown-popup ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .dropdown-popup ul li {
+        margin: 15px 0;
+    }
+
+    .dropdown-popup ul li a {
+        color: #e0e0e0;
+        text-decoration: none;
+        font-size: 16px;
+        display: block;
+        padding: 10px 20px;
+        border-radius: 8px;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .dropdown-popup ul li a:hover {
+        background-color: #ff7e00;
+        color: #ffffff;
+    }
+}
+
+@media (max-width: 576px) {
+    .dropdown-toggle {
+        width: 100%;
+    }
+}
+
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
