@@ -1,0 +1,122 @@
+/* General styles */
+
+
+.vh-100 {
+    height: 100vh;
+}
+
+.text-black {
+    color: #343a40;
+    /* Dark text color */
+}
+
+/* Logo styles */
+.h1 {
+    font-size: 2.5rem;
+}
+
+.fas {
+    color: #709085;
+    /* Logo icon color */
+}
+
+/* Form styles */
+.form-outline {
+    position: relative;
+}
+
+.form-outline input {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+}
+
+.form-outline input:focus {
+    border-color: #007bff;
+    /* Change border color on focus */
+}
+
+.form-outline .form-label {
+    color: #495057;
+    /* Label color */
+}
+
+/* Button styles */
+.btn {
+    border-radius: 5px;
+    /* Rounded button corners */
+}
+
+.btn-info {
+    background-color: #007bff;
+    /* Primary button color */
+    border: none;
+}
+
+.btn-info:hover {
+    background-color: #0056b3;
+    /* Darker shade on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .h-custom-2 {
+        padding: 2rem;
+    }
+
+    .login_wrapper {
+        padding: 2rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .login_wrapper {
+        padding: 5rem;
+        /* More padding on larger screens */
+    }
+}
+
+/* Alert styles */
+.alert {
+    margin-bottom: 1rem;
+}
+
+/* Small text */
+.small {
+    font-size: 0.875rem;
+    /* Smaller font size */
+}
+
+/* Image styles */
+img {
+    object-fit: cover;
+    object-position: left;
+}
+
+/* Additional spacing */
+.pt-1 {
+    padding-top: 0.25rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+.pb-lg-2 {
+    padding-bottom: 0.5rem !important;
+}
+
+/* Misc styles */
+.link-info {
+    color: #007bff;
+    /* Link color */
+}
+
+.link-info:hover {
+    text-decoration: underline;
+    /* Underline on hover */
+}
