@@ -138,7 +138,7 @@ function Navbar(props) {
                 "HLV",
                 "Khóa học",
                 "bài viết",
-                "liên lạc",
+                "liên hệ",
               ].map((menu) => {
                 const path =
                   menu === "trang chủ"
@@ -149,7 +149,7 @@ function Navbar(props) {
                     ? "course-details"
                     : menu === "bài viết"
                     ? "blog"
-                    : menu ==="liên lạc"
+                    : menu ==="liên hệ"
                     ? "contact"
                     : menu;
 

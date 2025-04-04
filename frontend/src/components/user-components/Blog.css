@@ -1,0 +1,136 @@
+/* Blog.css */
+.blog-container {
+    padding: 20px;
+    background-color: ##151515;
+}
+
+.blog-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.search-box {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.blog-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Space between cards */
+    justify-content: center;
+    /* Center items horizontally */
+}
+
+.blog-item {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px);
+    /* Adjust width to fit 3 items per row with gap */
+    box-sizing: border-box;
+    padding: 15px;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.blog-item:hover {
+    transform: scale(1.05);
+}
+
+.blog-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.blog-item-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+}
+
+.blog-item-content {
+    color: #808080;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.read-more-link {
+    display: inline-block;
+    padding: 7px 15px;
+    font-size: 14px;
+    color: #fff;
+    background: #2196F3;
+    border-radius: 25px;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.read-more-link:hover {
+    background: #3498db;
+    color: #fff;
+}
+
+/* Blog.css */
+/* Existing styles... */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination button.disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination button:hover:not(.disabled) {
+    background-color: #1e88e5;
+}
+
+.pagination span {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+
+/* Responsive design */
+@media only screen and (max-width: 992px) {
+    .blog-item {
+        width: calc(50% - 20px);
+        /* 2 items per row for medium screens */
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .blog-item {
+        width: calc(100% - 20px);
+        /* 1 item per row for small screens */
+    }
+}

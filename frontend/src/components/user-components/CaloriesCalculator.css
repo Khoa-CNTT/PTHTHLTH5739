@@ -1,0 +1,78 @@
+/* Popup styles */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    /* Mở rộng chiều rộng popup */
+    max-width: 1200px;
+    /* Giới hạn chiều rộng tối đa để tránh quá lớn */
+    text-align: center;
+    position: relative;
+    max-height: 90vh;
+    /* Giới hạn chiều cao của popup không vượt quá 90% chiều cao màn hình */
+    overflow: hidden;
+    /* Loại bỏ thanh cuộn dọc */
+}
+
+/* Nút tắt ở góc trên bên phải */
+.popup-content .close-btn {
+    position: absolute;
+    top: -12px;
+    right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+}
+
+.popup-content h3 {
+    color: black;
+}
+
+.popup-content span {
+    color: #FF5722;
+}
+
+.popup-content table {
+    width: 100%;
+    color: #fff;
+    background-color: #333;
+    margin-bottom: 20px;
+}
+
+.popup-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 95%;
+        /* Đảm bảo vừa với màn hình nhỏ */
+        max-width: 700px;
+        /* Giới hạn chiều rộng trên màn hình nhỏ */
+        max-height: 80vh;
+        /* Giới hạn chiều cao trên màn hình nhỏ để popup không chiếm quá nhiều không gian */
+    }
+}

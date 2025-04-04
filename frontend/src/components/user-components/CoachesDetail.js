@@ -7,6 +7,7 @@ const CoachDetails = () => {
   return (
     <div className="coach-details">
     <div className="coach-details-container">
+      
       <div className="coach-details-container-1">
         <div className="coach-details-account-info">
           <div className="coach-details-img-container">

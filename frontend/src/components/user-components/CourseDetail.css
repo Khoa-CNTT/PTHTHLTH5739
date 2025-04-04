@@ -1,0 +1,589 @@
+.course-details {
+    /* max-width: 1200px; */
+    margin: 0 auto;
+    /* padding: 20px; */
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 20px;
+}
+
+.back-btn {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.course-title {
+    font-size: 2rem;
+    margin: 10px 0;
+    color: #333;
+}
+
+.course-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.course-main-info {
+    flex: 2;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.description-highlight {
+    margin-bottom: 20px;
+}
+
+.highlight {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.highlight-label {
+    font-weight: 600;
+    color: #333;
+    padding: 10px;
+}
+
+.highlight-value {
+    font-weight: 600;
+    color: #f36100;
+}
+
+.course-sidebar {
+    flex: 1;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.sidebar-title {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+}
+
+.sidebar-section {
+    margin-bottom: 25px;
+}
+
+.workout-list {
+    list-style: none;
+    padding: 0;
+}
+
+.workout-header h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 5px;
+}
+
+.workout-date {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.workout-list li {
+    background: #e9ecef;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    text-align: center;
+    color: #555;
+    font-style: italic;
+}
+
+/* Chi tiết về Bài tập */
+.exercise-section {
+    margin-bottom: 15px;
+}
+
+.exercise-section h5 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.view-more-btn {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.view-more-btn:hover {
+    background-color: #0056b3;
+}
+
+.exercise-videos {
+    margin-top: 10px;
+}
+
+/* Chỉnh sửa cho các phần không có dữ liệu */
+
+.exercise-header {
+    display: flex;
+    align-items: center;
+}
+
+.view-more-btn {
+    margin-left: 8px;
+    color: #ccc;
+}
+
+.lock-icon {
+    margin-left: 8px;
+    color: #ccc;
+}
+
+.exercise-details p {
+    color: #777;
+    font-style: italic;
+}
+
+.coach-name {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.description-text {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.coach-image {
+    width: 100px;
+    /* Điều chỉnh kích thước ảnh theo ý muốn */
+    height: 100px;
+    border-radius: 50%;
+    /* Tạo ảnh tròn */
+    margin-top: 10px;
+    object-fit: cover;
+    /* Đảm bảo ảnh không bị méo */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.coach-introduce {
+    margin-top: 10px;
+    color: #555;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: justify;
+}
+
+.image-slider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    margin: 20px 0;
+}
+
+.slider-image {
+    width: 100%;
+    height: 400px;
+    /* Đặt độ cao cố định */
+    object-fit: cover;
+    /* Đảm bảo ảnh được cắt gọn mà không bị méo */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    z-index: 1;
+    /* Đảm bảo nút nằm trên hình ảnh */
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.workout-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.view-btn {
+    background-color: #ff8800;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.view-btn:hover {
+    background-color: #cc7000;
+}
+
+/* Video Modal Overlay */
+.video-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Màu nền mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Đảm bảo modal luôn ở trên cùng */
+}
+
+/* Modal Container */
+.video-modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 80%;
+    /* Chiều rộng tối đa của modal */
+    max-height: 80%;
+    /* Chiều cao tối đa của modal */
+    overflow: hidden;
+    width: 90%; /* Make the modal take up 90% of the width */
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #000;
+    background-color: transparent;
+    border: none;
+}
+
+/* Video Styling */
+video {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    /* Giới hạn chiều cao video */
+    border-radius: 8px;
+}
+
+/* Toàn màn hình overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Nội dung Modal */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    width: 80%;
+    max-width: 700px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Video container */
+.video-container {
+    position: relative;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio */
+    height: 0;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Nút đóng Modal */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-btn:hover {
+    background: darkred;
+}
+
+.icon {
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #555;
+}
+
+.icon:hover {
+    color: #000;
+}
+
+.reply-icon {
+    color: #007bff;
+}
+
+.edit-icon {
+    color: #ffc107;
+}
+
+.delete-icon {
+    color: #dc3545;
+}
+
+.exercise-modal {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: auto;
+}
+
+.exercise-modal-overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hiệu ứng mở Modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/*  */
+.course-slideshow-container {
+    margin: 20px auto;
+    max-width: 100%;
+    width: 80%;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.each-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.no-images {
+    text-align: center;
+    font-size: 18px;
+    color: gray;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .slide-image {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .slide-image {
+        height: 200px;
+    }
+}
+
+/* Styling for slide navigation buttons */
+.slider-nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+.slider-nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.slider-nav-button:focus {
+    outline: none;
+}
+
+.slider-nav-button svg {
+    width: 16px;
+    height: 16px;
+    color: #007bff;
+}
+
+.slider-nav-button.left {
+    left: 10px;
+}
+
+.slider-nav-button.right {
+    right: 10px;
+}
+
+.react-slideshow-container .default-nav:hover,
+.react-slideshow-container .default-nav:focus {
+    background: none;
+    color: #666;
+    outline: 0;
+}
+
+.react-slideshow-container .default-nav {
+    height: 30px;
+    background: none !important;
+    width: 30px;
+    border: 0;
+    text-align: center;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.transparent-dialog .MuiPaper-root {
+    background-color: rgba(255, 255, 255, 0);
+    box-shadow: none;
+    backdrop-filter: blur(5px);
+    overflow: hidden;
+}
+
+.video-player {
+    width: 100%;
+    overflow: hidden;
+    height: auto;
+    min-width: 300px;
+    min-height: 200px;
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Màn hình PC từ 1400px */
+@media (min-width: 1400px) {
+    .video-player {
+        min-width: 1200px;
+        min-height: 800px;
+        max-width: 70%;
+        max-height: 50vh;
+    }
+}
+
+@media (min-width: 1200px) {
+    .video-player {
+        min-width: 1000px;
+        min-height: 600px;
+        max-width: 100%;
+        max-height: 60vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-player {
+        min-width: 250px;
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .video-player {
+        min-width: 250px;
+        min-height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-player {
+        min-width: 200px;
+        min-height: 120px;
+    }
+}
