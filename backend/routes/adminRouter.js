@@ -9,7 +9,7 @@ const authMiddleware = require("../middleware/authMiddleware");
  *
  */
 
-// Get all accounts
+// Lấy tất cả accounts
 router.get(
   "/accounts",
   authMiddleware(["admin"]),
@@ -130,14 +130,3 @@ router.get("/courses/:id", authMiddleware(["admin"]), getCourseDetail);
 router.patch("/courses/:id/accept", authMiddleware(["admin"]), acceptCourse);
 router.patch("/courses/:id/reject", authMiddleware(["admin"]), rejectCourse);
 
-
-
-/**
- * ----------------------------------------------------------------------------
- * SEND REMIND EMAIL
- * 
- */
-
-const { sendReminder } = require("../controllers/adminController/sendEmailReminder");
-
-router.post("/send-reminder/:subscriptionId", sendReminder);

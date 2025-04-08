@@ -27,31 +27,6 @@ const accountSchema = mongoose.Schema(
     address: {
       type: String,
     },
-    hiringApply: [
-      {
-        cvFile: {
-          type: String,
-        },
-        frontIDCard: {
-          type: String,
-        },
-        backIDCard: {
-          type: String,
-        },
-        facePhoto: {
-          type: String,
-        },
-        date: {
-          type: Date,
-          default: Date.now,
-        },
-        applyStatus: {
-          type: String,
-          enum: ["pending", "accepted", "denied"],
-          default: "pending",
-        },
-      },
-    ],
     status: {
       type: String,
       enum: ['activate', 'blocked', 'non-activate'],
