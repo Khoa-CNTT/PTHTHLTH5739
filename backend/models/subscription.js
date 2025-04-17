@@ -47,12 +47,6 @@ const subscriptionSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Advice",
     },
-    revenue: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Revenue",
-      },
-    ],
   },
   {
     timestamps: true,
