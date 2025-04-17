@@ -1,6 +1,5 @@
 const Workout = require("../../models/workout");
 const Subscription = require("../../models/subscription");
-const Revenue = require("../../models/revenue");
 const Coach = require("../../models/coach");
 const Course = require("../../models/course");
 const moment = require("moment");
@@ -19,10 +18,6 @@ exports.getUserSubscriptions = async (req, res) => {
           model: "Account",
           select: "name",
         },
-      })
-      .populate({
-        path: "revenue",
-        select: "amount date",
       })
       .populate({
         path: "workoutId",
@@ -60,11 +55,6 @@ exports.getSubscriptionDetails = async (req, res) => {
           select: "name",
         },
       })
-      .populate({
-        path: "revenue",
-        select: "amount date",
-      })
-
       .populate({
         path: "workoutId", // Lấy thông tin huấn luyện viên
         model: "Workout",
