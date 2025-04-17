@@ -40,7 +40,7 @@ export default function SignUp() {
     const value = e.target.value;
     setPassword(value);
     if (!validatePassword(value)) {
-      setPasswordError("Mật khẩu phải đáp ứng độ phức tạp cần thiết.");
+      setPasswordError("Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường, 1 sổ và 1 ký tự đặc biệt.");
     } else {
       setPasswordError("");
     }

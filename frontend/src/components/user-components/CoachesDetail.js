@@ -1,66 +1,148 @@
 import React, { useState, useEffect } from "react";
-
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import WcIcon from "@mui/icons-material/Wc";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CoachDetailSlideShow from "../user-components/coach/Coach-Slideshow-Image";
 import "./CoachesDetail.css";
 
 const CoachDetails = () => {
+  const { id } = useParams();
+  const [coach, setCoach] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchCoach = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:4000/api/coaches/coachList/${id}`
+        );
+        setCoach(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCoach();
+  }, [id]);
+
+  if (loading) return <p className="loading-text">Đang tải thông tin HLV...</p>;
+  if (error) return <p className="error-text">Lỗi: {error}</p>;
+  if (!coach) return <p className="not-found-text">Không tìm thấy HLV</p>;
+
+  const { accountId, introduce, experience, certificate, selfImage } = coach || {};
+  const { name, gender, dob, address, avatar, phone } = accountId || {};
+
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const month = today.getMonth() - birthDate.getMonth();
+    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  const handleBack = () => {
+    navigate("/coach-details");
+  };
+
+  const getImageSrc = (imageName) => {
+    try {
+      return require(`../../assets/avatar/${imageName}`);
+    } catch (err) {
+      return imageName;
+    }
+  }; 
 
   return (
-    <div className="coach-details">
-    <div className="coach-details-container">
-      
-      <div className="coach-details-container-1">
-        <div className="coach-details-account-info">
-          <div className="coach-details-img-container">
-            <img src="https://fitnessonline.app/vi/img/user6.png" alt="Ảnh huấn luyện viên" />
-          </div>
-          <div className="coaches-detail-info">
-            <h3>Thông tin cá nhân</h3>
-            <p>Tên: Nguyễn Thị A</p>
-            <p>Giới tính: Nữ</p>
-            <p>Tuổi: 28</p>
-            <p>Số điện thoại: 0901234567</p>
-            <p>Địa chỉ: 123 Đường ABC, Quận XYZ, Thành phố HCM</p>
-          </div>
-        </div>
-      </div>
+    <div className="coach-detail-page">
+      <button className="btn-back" onClick={handleBack}>
+        &larr; Trở lại
+      </button>
 
-      <div className="coach-details-container-2">
-        <div className="title">
-          <h1>Hồ sơ của Nguyễn Thị A</h1>
-        </div>
+      {accountId ? (
+        <div className="coach-detail-wrapper">
+          <div className="coach-info-column">
+            <div className="coach-image-wrapper text-center">
+              <img src={getImageSrc(avatar)} alt={name} className="coach-avatar-detail" />
+            </div>
+            <div className="personal-info">
+              <h3 className="info-title">Thông tin cá nhân</h3>
+              <p><AssignmentIndIcon className="info-icon" />{name}</p>
+              <p><WcIcon className="info-icon" />{gender ? "Nam" : "Nữ"}</p>
+              <p><DateRangeIcon className="info-icon" />{dob ? calculateAge(dob) + " tuổi" : "N/A"}</p>
+              <p><LocalPhoneIcon className="info-icon" />{phone || "N/A"}</p>
+              <p><LocationOnIcon className="info-icon" />{address || "N/A"}</p>
+            </div>
+          </div>
 
-        <div className="coach-info">
-          <div className="coach-introduction">
-            <h3>Giới thiệu</h3>
-            <p>
-              Tôi là Nguyễn Thị An, một huấn luyện viên thể hình chuyên nghiệp với hơn 5 năm kinh nghiệm. Tôi đam mê giúp mọi người đạt được mục tiêu sức khỏe và thể hình của mình. Tôi tin rằng tập luyện không chỉ là về việc thay đổi cơ thể mà còn là về việc thay đổi cuộc sống.
-            </p>
-          </div>
-          <div className="coach-experience">
-            <h3>Kinh nghiệm</h3>
-            <ul>
-              <p>2018 - 2020: Huấn luyện viên tại Trung tâm Thể hình A</p>
-              <p>2020 - Hiện tại: Huấn luyện viên tự do và tư vấn trực tuyến</p>
-            </ul>
-          </div>
-        </div>
+          <div className="coach-profile-column">
+            <h1 className="profile-title">Hồ sơ của {name}</h1>
 
-        <div className="coach-certificates">
-          <h3>Chứng chỉ</h3>
-          <div className="course-images-slider">
-            <img src="https://leanhd.com/wp-content/uploads/2023/08/z4621213198439_e2edb68290f6980b9cfe8b45eff80a4f-1024x716.jpg" alt="Chứng chỉ Huấn luyện viên cá nhân" />
-          </div>
-        </div>
+            <div className="coach-introduction-section">
+              <h3 className="section-title">Giới thiệu</h3>
+              <ReactQuill
+                className="quill-viewer"
+                value={introduce || ""}
+                readOnly={true}
+                theme="bubble"
+              />
+            </div>
 
-        <div className="coach-self-images">
-          <h3>Hình ảnh cá nhân</h3>
-          <div className="course-images-slider">
-            <img src="https://leanhd.com/wp-content/uploads/2023/08/z4621213198439_e2edb68290f6980b9cfe8b45eff80a4f-1024x716.jpg" alt="Hình ảnh tập luyện" />
+            <div className="coach-experience-section">
+              <h3 className="section-title">Kinh nghiệm</h3>
+              {experience?.length ? (
+                <ul className="experience-list">
+                  {experience.map((exp, index) => (
+                    <li key={index} className="experience-item">
+                      <span className="time">{exp.time}</span> - <span className="workplace">{exp.workplace}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="no-info">Chưa có kinh nghiệm làm việc.</p>
+              )}
+            </div>
+
+            <div className="coach-certificates-section">
+              <h3 className="section-title">Chứng chỉ</h3>
+              <div className="certificate-image-wrapper">
+                {coach.certificate && coach.certificate.length > 0 ? (
+                  <img src={coach.certificate} alt="Chứng chỉ" className="certificate-image" />
+                ) : (
+                  <p className="no-info">Chưa có chứng chỉ.</p>
+                )}
+              </div>
+            </div>
+
+            <div className="coach-self-images-section">
+              <h3 className="section-title">Hình ảnh cá nhân</h3>
+              <div className="self-images-wrapper">
+                {coach.selfImage && coach.selfImage.length > 0 ? (
+                  <img src={coach.selfImage} alt="Hình ảnh cá nhân" className="self-image" />
+                ) : (
+                  <p className="no-info">Chưa có hình ảnh cá nhân.</p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <p className="no-info">Không có thông tin tài khoản.</p>
+      )}
     </div>
-  </div>
   );
 };
+
 export default CoachDetails;

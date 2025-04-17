@@ -16,7 +16,17 @@
         justify-content: flex-end;
         /* Đẩy nội dung sang phải */
 }
-
+.block {
+    display: block; /* Make the Link element behave like a block-level element */
+    width: 100%; /* Make it take the full width of its parent */
+    height: 100%; /* Make it take the full height of its parent */
+    text-decoration: none; /* Remove default link underline */
+    color: inherit; /* Inherit text color from parent */
+  }
+   
+  .block:focus {
+    outline: none; /* Optional: Remove default focus outline if you're providing custom focus styles */
+  }
 .hi-text {
     position: absolute;
     /* Căn giữa theo chiều dọc */

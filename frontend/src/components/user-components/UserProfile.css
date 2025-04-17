@@ -30,7 +30,7 @@
     place-items: center; /* Căn giữa theo cả chiều dọc và chiều ngang */
     font-size: 16px; /* Điều chỉnh kích thước biểu tượng */
   }
-  
+   
   .form-control {
     padding-right: 30px; /* Thêm padding bên phải input */
   }
@@ -162,19 +162,6 @@ button.btn-block {
     font-weight: bold;
 }
 
-/* Toastify styling */
-/* .Toastify__toast--success {
-    background-color: #4caf50;
-}
-
-.Toastify__toast--error {
-    background-color: #e74c3c;
-}
-
-.Toastify__toast {
-    font-size: 16px;
-    border-radius: 8px;
-} */
 
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {

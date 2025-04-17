@@ -30,7 +30,7 @@ const UserProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hasPassword, setHasPassword] = useState(true);
   const [isEditing, setIsEditing] = useState(true);
-
+ 
   const handleEditProfileClick = () => {
     setIsEditing(!isEditing);
   };

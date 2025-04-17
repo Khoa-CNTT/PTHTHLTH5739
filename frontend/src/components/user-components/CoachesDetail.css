@@ -1,252 +1,223 @@
-:root {
-    --height-value: 1400px;
+/* Overall Page Styling */
+.coach-detail-page {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    background-color: #E7E8EB;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.coach-details {
-    padding: 30px;
-    max-width: 900px;
-    margin: auto;
-    background-color: #1c1c1c;
-    border-radius: 10px;
-    box-shadow: 0px 8px 20px rgba(255, 255, 255, 0.1);
+.coach-detail-wrapper {
+    display: flex;
+    max-width: 960px;
+    width: 100%;
+    margin: 20px auto;
+    background-color: #444;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
 }
-
-.experience-item {
-    color: white !important;
-}
-
-
-.coach-details h1 {
-    text-align: center;
-    color: #f9f9f9;
-    margin-bottom: 30px;
-    font-size: 2.5rem;
-    text-transform: capitalize;
-
-}
-
-.back-btn {
-    background-color: #f39c12;
+ 
+.btn-back {
+    background-color: #e67e22;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    align-self: flex-start;
+    transition: background-color 0.3s ease;
 }
 
-.coaches-detail-info {
+.btn-back:hover {
+    background-color: #d46a17; /* Màu cam đậm hơn khi hover */
+}
+
+/* Left Column: Image and Personal Info */
+.coach-info-column {
+    flex: 0 0 300px;
+    padding-right: 20px;
+    border-right: 1px solid #555;
     display: flex;
     flex-direction: column;
-    text-align: left;
-    padding: 12px;
-    gap: 4px;
-}
-
-.coaches-detail-info h3 {
-    font-size: 20px;
-    width: 100%;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #fff;
-    border-bottom: 2px solid #ffc107;
-    padding-bottom: 5px;
-}
-
-.coaches-detail-info p {
-    margin: 10px 0;
-    font-size: 14px;
-    color: #fff;
-    display: flex;
     align-items: center;
 }
 
-.coach-details-container-2 {
-    width: 75%;
-    padding: 50px 120px 0 120px;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    position: relative;
+.coach-image-wrapper {
+    margin-bottom: 15px;
 }
 
-.coach-details-container-2 .title {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid;
-    padding: 20px;
-    color: #fff;
-}
-
-.coach-details-container-2 .title h1 {
-    font-size: 32px;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-.coach-info {
-    display: flex;
-    flex-direction: column;
-    margin: 10px 0;
-}
-
-.coach-introduction,
-.coach-experience {
-    margin: 12px 0;
-    border-bottom: 2px solid #cecece;
-    color: #fff;
-}
-
-.coach-introduction h3,
-.coach-experience h3,
-.coach-self-images h3,
-.coach-certificates h3 {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    border-bottom: 2px solid #ffc107;
-    display: inline-block;
-    padding-bottom: 5px;
-    margin-top: 20px;
-    color: #fff;
-}
-
-.coach-experience ul {
-    list-style: none;
-    padding: 0;
-}
-.coach-experience li {
-    color: #fff;
-}
-
-.coach-experience .experience-item {
-    font-size: 14px;
-    margin: 5px 0;
-}
-
-.course-images-slider {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    color: #fff;
-}
-
-.course-images-slider img {
-    width: 100%;
-    max-width: 120px;
-    height: 80px;
+.coach-avatar-detail {
+    width: 250px; /* Tăng kích thước avatar */
+    height: 250px; /* Tăng kích thước avatar */
+    border-radius: 50%;
     object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Tạo bóng nổi bật hơn */
+    border: 3px solid #e67e22; /* Thêm viền màu chủ đạo */
+}
+
+/* Style for the personal information container */
+.personal-info {
+    margin-top: 15px;
+    text-align: left;
+    width: 100%;
+    padding: 15px;
+    background-color: #333;
     border-radius: 5px;
 }
 
-.coaches-slideshow-container {
-    margin: 20px auto;
+/* Style for the title of the section */
+.info-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #e67e22;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #e67e22;
+    padding-bottom: 5px;
+    text-align: center;
+}
+.coach-introduction-section {
+    color: #fff;
+}
+
+/* Style for each information item (icon + text) */
+.personal-info p {
+    margin: 8px 0;
+    font-size: 0.9rem;
+    color: #fff;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align icon and text */
+}
+
+/* Style for the icons */
+.info-icon {
+    margin-right: 10px;
+    color: #e67e22;
+    font-size: 1.1rem;
+    width: 20px; /* Set a fixed width for the icons */
+    text-align: center; /* Center the icon within its width */
+}
+
+/* Adjustments for better spacing and alignment */
+.coach-info-column .personal-info {
+    align-self: stretch;
+}
+
+.coach-info-column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.profile-title {
+    font-size: 1.8rem; /* Tăng kích thước tiêu đề hồ sơ */
+    color: #e67e22; /* Màu chủ đạo */
+    margin-bottom: 20px;
+    border-bottom: 3px solid #e67e22; /* Màu chủ đạo */
+    padding-bottom: 8px;
+}
+
+.section-title {
+    font-size: 1.2rem; /* Tăng kích thước tiêu đề mục */
+    color: #e67e22; /* Màu chủ đạo */
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 5px;
+}
+
+.quill-viewer {
+    margin-bottom: 15px;
+    color: #fff !important; /* Đảm bảo màu chữ trong quill viewer */
+}
+
+.experience-list {
+    list-style: none;
+    padding: 0;
+}
+
+.experience-item {
+    padding: 6px 0;
+    border-bottom: 1px dashed #555;
+    font-size: 0.9rem;
+    color: #eee;
+}
+
+.time {
+    font-weight: bold;
+    color: #e67e22; /* Màu chủ đạo */
+    margin-right: 10px;
+}
+
+.workplace {
+    color: #eee;
+}
+
+.certificate-image-wrapper,
+.self-images-wrapper {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+.certificate-image,
+.self-image {
     max-width: 100%;
-    width: 100%;
-    overflow: hidden;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.coaches-slideshow-container .slide-image {
-    border-radius: 0 !important;
+.no-info {
+    color: #777;
+    font-style: italic;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .coach-details-container {
-        flex-direction: column;
-        /* Xếp lại các phần tử theo chiều dọc trên màn hình nhỏ */
-        padding: 20px;
-    }
-
-    .coach-details-container-1 {
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .coach-details-container-2 {
-        width: 100%;
-        padding: 20px;
-    }
-
-    .coach-details-img-container img {
-        height: auto;
-        max-width: 100%;
-    }
-
-    .coaches-detail-info {
-        align-items: flex-start;
-    }
-
-    .coaches-detail-info p {
-        font-size: 14px;
-    }
-
-    .coach-details-container-2 .title h1 {
-        font-size: 24px;
-    }
-
-    .coach-introduction h3,
-    .coach-experience h3,
-    .coach-self-images h3,
-    .coach-certificates h3 {
-        font-size: 18px;
-    }
-
-    .course-images-slider img {
-        width: 100%;
-        max-width: 80px;
-        height: 60px;
-    }
+.loading-text,
+.error-text,
+.not-found-text {
+    text-align: center;
+    padding: 20px;
+    color: #777;
 }
 
+.error-text {
+    color: #d9534f;
+}
+
+/* Responsive Layout */
 @media (max-width: 768px) {
-    .coach-details-container {
-        padding: 10px;
+    .coach-detail-wrapper {
+        flex-direction: column;
+        padding: 15px;
     }
 
-    .coach-details-container-1,
-    .coach-details-container-2 {
-        padding: 10px;
-    }
-
-    .coach-details-container-1 {
+    .coach-info-column {
+        flex: 0 0 auto;
         width: 100%;
-        padding: 10px;
+        padding-right: 0;
+        border-right: none;
+        margin-bottom: 20px;
+        align-items: center;
     }
 
-    .coach-details-container-2 {
-        width: 100%;
-        padding: 10px;
+    .coach-profile-column {
+        padding-left: 0;
     }
 
-    .coach-details-img-container img {
-        height: 250px;
+    .coach-avatar-detail {
+        width: 140px; /* Tăng kích thước avatar trên mobile */
+        height: 140px; /* Tăng kích thước avatar trên mobile */
     }
 
-    .coaches-detail-info {
+    .personal-info {
         text-align: center;
     }
 
-    .coaches-detail-info p {
-        font-size: 12px;
-    }
-
-    .coach-details-container-2 .title h1 {
-        font-size: 20px;
-    }
-
-    .coach-introduction h3,
-    .coach-experience h3,
-    .coach-self-images h3,
-    .coach-certificates h3 {
-        font-size: 16px;
-    }
-
-    .course-images-slider img {
-        width: 100%;
-        height: 50px;
+    .personal-info p {
+        justify-content: center;
     }
 }
