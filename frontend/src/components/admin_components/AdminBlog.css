@@ -1,0 +1,8 @@
+/* AdminBlog.css */
+.blog-content {
+    max-width: 300px;
+    /* Bạn có thể điều chỉnh theo nhu cầu */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

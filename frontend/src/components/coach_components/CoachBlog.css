@@ -1,0 +1,100 @@
+/* Global Styling */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Main Container */
+div {
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 20px;
+  margin-left: 240px;
+  /* Adjust based on your navbar width */
+}
+
+/* Form and Toolbar */
+.grid-container {
+  margin-bottom: 16px;
+}
+
+button {
+  background-color: #007bff;
+  color: rgb(0, 0, 0);
+  text-transform: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #013368;
+}
+
+/* Table Styles */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background-color: #007bff;
+  color: white;
+}
+
+thead th {
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+}
+
+tbody tr:hover {
+  background-color: #f1f3f4;
+}
+
+tbody td {
+  padding: 16px;
+  font-size: 14px;
+}
+
+/* Pagination */
+.MuiTablePagination-root {
+  margin-top: 16px;
+}
+
+/* Dialog Styles */
+.dialog-container {
+  background-color: white;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.dialog-actions button {
+  margin: 8px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 600px) {
+  div {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  .dialog-container {
+    padding: 8px;
+  }
+}

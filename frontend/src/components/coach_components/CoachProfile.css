@@ -1,51 +1,25 @@
 .container {
-    max-width: 120px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-  .profile-info {
-    display: flex; /* Sử dụng flexbox */
-    flex-direction: column; /* Xếp chồng các phần tử theo chiều dọc */
-    align-items: center; /* Căn giữa theo chiều ngang */
-    /* text-align: center; Căn giữa văn bản */
-  }
-  
-  .profile-info img {
-    margin-bottom: 10px; /* Thêm khoảng trống bên dưới hình ảnh */
-  }
-.password-input {
-    position: relative;
-  }
+.card-body {
+    background-color: #E7E8EB;
+}
 
-
-  .password-toggle {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: black;
-    display: grid; /* Sử dụng grid để căn giữa */
-    place-items: center; /* Căn giữa theo cả chiều dọc và chiều ngang */
-    font-size: 16px; /* Điều chỉnh kích thước biểu tượng */
-  }
-  
-  .form-control {
-    padding-right: 30px; /* Thêm padding bên phải input */
-  }
 .card {
-    background-color: #2a2a3c;
+    background-color: #E7E8EB;
     border: none;
     border-radius: 10px;
-    color: #ffffff;
+    color: #000;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* .card-header,
+.card-header,
 .card-body {
     padding: 20px;
-} */
+}
 
 .card-header h3 {
     margin: 0;
@@ -83,7 +57,7 @@
 }
 
 .form-control {
-    background-color: #efefef;
+    /* background-color: #3a3a4f; */
     border: 1px solid #4a4a63;
     /* color: #ffffff; */
     padding: 10px;
@@ -99,7 +73,6 @@
 .form-group label {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #ffffff;
 }
 
 textarea.form-control {
@@ -118,7 +91,7 @@ textarea.form-control {
 
 .online-indicator p {
     margin: 0;
-    color: #ffffff;
+    color: #8e8e8e;
 }
 
 .pulsating-dot {
@@ -163,7 +136,7 @@ button.btn-block {
 }
 
 /* Toastify styling */
-/* .Toastify__toast--success {
+.Toastify__toast--success {
     background-color: #4caf50;
 }
 
@@ -174,7 +147,7 @@ button.btn-block {
 .Toastify__toast {
     font-size: 16px;
     border-radius: 8px;
-} */
+}
 
 /* Media Queries for responsiveness */
 @media (max-width: 768px) {

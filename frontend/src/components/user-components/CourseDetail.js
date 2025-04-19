@@ -10,6 +10,8 @@ import CourseVideoDialog from "../user-components/course/Course-Video-Popup";
 import { toast, ToastContainer } from "react-toastify"; // Importing react-toastify for toast notifications
 import "react-toastify/dist/ReactToastify.css";
 import "./CourseDetail.css";
+import { LeftOutlined } from "@ant-design/icons";
+import { Button } from "react-bootstrap";
 
 const CourseDetails = () => {
   const { id } = useParams(); // courseId hiện tại
@@ -157,9 +159,14 @@ const CourseDetails = () => {
     <div className="course-details">
       <ToastContainer />
       <div className="course-details-container">
-        <div className="back-to-courses" onClick={handleBack}>
-          &larr; Quay lại
-        </div>
+        <Button
+          icon={<LeftOutlined />}
+          onClick={() => navigate(-1)}
+          className="mb-2"
+          style={{ marginRight: "10px" }} // Thêm một chút khoảng cách
+        >
+          Quay lại
+        </Button>
 
         <div className="course-header">
           <h1 className="course-title">{name}</h1>
@@ -167,14 +174,14 @@ const CourseDetails = () => {
             <button className="go-to-course-btn" onClick={goToCourseSchedule}>
               Đi đến Khóa Học
             </button>
-            
+
           ) : (
             // <button className="enroll-btn" onClick={handlePayment}>
             //   Đăng ký
             // </button>
             <button className="enroll-btn" >
-            Đăng ký
-          </button>
+              Đăng ký
+            </button>
           )}
         </div>
 

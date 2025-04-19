@@ -7,6 +7,7 @@ import "./UserProfile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { colors } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [loading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ const UserProfile = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [hasPassword, setHasPassword] = useState(true);
   const [isEditing, setIsEditing] = useState(true);
- 
+
   const handleEditProfileClick = () => {
     setIsEditing(!isEditing);
   };
@@ -73,6 +74,7 @@ const UserProfile = () => {
         }
       );
       toast.success("Profile updated successfully");
+      window.location.reload();
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error("Failed to update profile");
@@ -123,7 +125,7 @@ const UserProfile = () => {
   return (
     <div className="main-content">
       <ToastContainer /> {/* Toast container for notifications */}
-      <div className="container mt-5">
+      <div className="mt-5">
         <div className="row">
           <div className="col-lg-4 mb-4">
             <div className="card shadow">
@@ -215,7 +217,7 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="col-lg-8">
+          <div className="col-lg-6">
             <div className="card shadow" style={{ backgroundColor: "#121212" }}>
               <div className="card-header">
                 <div className="d-flex justify-content-between align-items-center">
@@ -230,8 +232,8 @@ const UserProfile = () => {
                 </div>
               </div>
               <div className="card-body">
-              {/* onSubmit={handleEditProfile} */}
-                <form >
+              
+                <form onSubmit={handleEditProfile}>
                   <div className="form-group">
                     <h5 htmlFor="input-email">Email</h5>
                     <input
@@ -283,7 +285,7 @@ const UserProfile = () => {
                   <div className="form-group">
                     <h5 htmlFor="input-phone">SĐT</h5>
                     <input
-                      type="text"
+                      type="number"
                       id="input-phone"
                       className="form-control"
                       value={phone}

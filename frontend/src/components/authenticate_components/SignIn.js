@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +12,7 @@ export default function SignIn() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  // Role-based navigation function
+  // Hàm điều hướng dựa trên vai trò
   const handleNavigation = (role, name, id) => {
     localStorage.setItem("role", role);
     localStorage.setItem("name", name);
@@ -27,43 +26,7 @@ export default function SignIn() {
     }
   };
 
-  // Handle successful Google login
-  const onSuccess = async (response) => {
-    const credential = response.credential;
-    const decoded = jwtDecode(credential);
-
-    const { email, name, sub: googleId } = decoded;
-
-    try {
-      const res = await axios.post(
-        "http://localhost:4000/api/authenticate/googleLogin",
-        { email, name, googleId }
-      );
-      toast.success(res.data.msg);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userId", res.data.id);
-      localStorage.setItem("accountId", res.data.id);
-      console.log("accountId", res.data.id);
-
-      // Call the role-based navigation function
-      handleNavigation(res.data.role);
-    } catch (error) {
-      const errorMsg =
-        error.response && error.response.data && error.response.data.msg
-          ? error.response.data.msg
-          : "Error logging in with Google";
-      toast.error(errorMsg);
-      setErrorMessage(errorMsg);
-    }
-  };
-
-  // Handle failed Google login
-  const onFailure = (error) => {
-    console.log("[Login Failed]", error);
-    toast.error("Google login failed.");
-  };
-
-  // Handle normal email/password login
+  // Xử lý đăng nhập bằng email/mật khẩu thông thường
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -74,7 +37,7 @@ export default function SignIn() {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.id);
       localStorage.setItem("accountId", response.data.id);
-      // Call the role-based navigation function
+      // Gọi hàm điều hướng dựa trên vai trò
       handleNavigation(
         response.data.role,
         response.data.name,
@@ -84,7 +47,7 @@ export default function SignIn() {
       const errorMsg =
         error.response && error.response.data && error.response.data.msg
           ? error.response.data.msg
-          : "Error logging in";
+          : "Lỗi đăng nhập";
       setErrorMessage(errorMsg); // Chỉ cập nhật thông báo vào state
     }
   };
@@ -100,7 +63,7 @@ export default function SignIn() {
                 <div class="crossbar mb-3"></div>
                 <div class="login-message">
                   <p class="welcome-text">
-                  Chào mừng trở lại! Đăng nhập để vào GYM.
+                    Chào mừng trở lại! Đăng nhập để vào GYM.
                   </p>
                   <p class="forgot-password">
                     Bạn{" "}
@@ -109,11 +72,7 @@ export default function SignIn() {
                     </a>
                   </p>
                 </div>
-                {/* <p className="small mb-5 pb-lg-2">
-                  <Link to="/forgotpassword" className="text-muted">
-                    Forgot password?
-                  </Link>
-                </p> */}
+
 
                 <div className="form-outline mb-4">
                   <input
@@ -146,10 +105,6 @@ export default function SignIn() {
                 {errorMessage && (
                   <div className="alert alert-danger mt-2">{errorMessage}</div>
                 )}
-
-                {/* {errorMessage && (
-                  <div className="alert alert-danger">{errorMessage}</div>
-                )} */}
 
                 <p>
                   Bạn không có tài khoản?{" "}

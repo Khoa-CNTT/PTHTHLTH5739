@@ -174,9 +174,9 @@ const CoursesList = () => {
           />
 
           <CategorySelect
-            // categories={categories}
-            // selectedCategory={filterCategory}
-            // setSelectedCategory={setFilterCategory}
+            categories={categories}
+            selectedCategory={filterCategory}
+            setSelectedCategory={setFilterCategory}
           />
 
           <SortBySelect
