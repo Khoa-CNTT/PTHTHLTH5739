@@ -1,0 +1,93 @@
+/* Container */
+.sidebar-container {
+    position: relative;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #1b1b2f;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .sidebar.closed {
+    transform: translateX(-100%);
+  }
+  
+  /* Sidebar Header */
+  .sidebar-header {
+    padding: 20px;
+    background-color: #162447;
+    text-align: center;
+  }
+  
+  /* Sidebar Menu */
+  .sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar-menu li {
+    padding: 15px 20px;
+  }
+  
+  .sidebar-menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .sidebar-menu li a:hover {
+    background-color: #4e4e50;
+  }
+  
+  /* Toggle Button */
+  .toggle-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: #f5a623;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1100;
+  }
+  
+  .toggle-btn:hover {
+    background-color: #f59e0b;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 200px;
+    }
+  
+    .toggle-btn {
+      top: 10px;
+      left: 10px;
+      font-size: 14px;
+    }
+  
+    .sidebar-header {
+      font-size: 16px;
+    }
+  
+    .sidebar-menu li {
+      padding: 10px 15px;
+    }
+  }
+  

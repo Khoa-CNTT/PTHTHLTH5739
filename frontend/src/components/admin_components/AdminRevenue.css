@@ -1,0 +1,92 @@
+/* AdminRevenue.css */
+
+.admin-revenue {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.application-section {
+    padding: 20px;
+}
+
+/* .overview-card {
+    background-color: #343a40;
+    color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+} */
+.overview-cards .overview-card {
+    background-color: #fff;
+    /* Nền thẻ màu trắng */
+    border: 1px solid #e0e0e0;
+    /* Viền nhạt cho thẻ */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    /* Đổ bóng nhẹ */
+}
+
+.overview-cards .overview-card .card-title {
+    color: #333;
+    /* Tiêu đề thẻ màu đen đậm hơn */
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.overview-cards .overview-card .card-text {
+    color: #555;
+    /* Nội dung thẻ màu xám đậm hơn */
+    font-size: 1.2rem;
+}
+
+.admin-revenue h2 {
+    color: #000000; /* Tiêu đề chính màu xanh dương Bootstrap */
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-revenue .table {
+    background-color: #fff; /* Nền bảng màu trắng */
+    border: 1px solid #bbd4ed; /* Viền bảng Bootstrap */
+  }
+  
+  .admin-revenue .table thead th {
+    background-color: #f0f0f0; /* Nền tiêu đề bảng nhạt */
+    color: #000000; /* Chữ tiêu đề bảng đen đậm */
+    border-bottom: 2px solid #ccc;
+  }
+  
+  .admin-revenue .table tbody td {
+    color: #000000; /* Chữ dữ liệu bảng xám đậm */
+  }
+  
+  .admin-revenue .card { /* Áp dụng cho cả card biểu đồ */
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .admin-revenue .card-body {
+    padding: 1.5rem;
+    background-color: #ffffff;
+  }
+/* .table {
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.schema-content {
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* AdminRevenue.css */
+
+/* .table-container {
+    min-height: 700px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.admin-revenue .table {
+    background-color: #ffffff;
+    border-radius: 8px;
+} */

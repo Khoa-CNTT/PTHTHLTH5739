@@ -1,0 +1,58 @@
+/* Sidebar.css */
+
+/* Sidebar mặc định */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #1b1b2f;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    /* Đảm bảo sidebar luôn trên top */
+}
+
+/* Sidebar bị đóng thì dịch ra khỏi màn hình */
+.sidebar.closed {
+    transform: translateX(-250px);
+    /* Dịch sidebar sang trái */
+}
+
+/* Nút toggle luôn hiện */
+.toggle-btn {
+    position: fixed;
+    /* Đặt ở vị trí cố định */
+    top: 20px;
+    left: 20px;
+    /* Giữ cho nút này luôn ở cạnh trái */
+    background-color: #f5a623;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1100;
+    /* Đảm bảo nút này luôn trên sidebar */
+}
+
+/* Hiệu ứng hover cho nút toggle */
+.toggle-btn:hover {
+    background-color: #f59e0b;
+}
+
+/* Nội dung chính */
+.content {
+    margin-left: 250px;
+    /* Khi sidebar hiện, nội dung được đẩy qua phải */
+    padding: 20px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+/* Khi sidebar ẩn, nội dung chiếm toàn bộ màn hình */
+.sidebar.closed+.content {
+    margin-left: 0;
+    width: 100%;
+}

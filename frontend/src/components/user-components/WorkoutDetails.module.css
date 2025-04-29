@@ -1,0 +1,211 @@
+/* Bố cục chính */
+.workoutDetails {
+    display: flex;
+    padding: 20px;
+    background-color: #000;
+}
+
+.workoutName {
+    color: white;
+}
+
+/* Sidebar bên trái */
+.sidebar {
+    width: 25%;
+    border-right: 1px solid #ffffff;
+    padding: 10px;
+}
+
+.sidebar h2 {
+    margin-bottom: 5px;
+}
+
+.sidebar p {
+    margin-top: 0;
+    color: #fff2f2;
+}
+
+/* Danh sách bài tập */
+.exerciseButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    text-align: left;
+    background-color: rgb(88, 88, 88);
+    border: 1px solid #ccc;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.completedButton {
+    background-color: #4caf50;
+    /* Màu nền xanh */
+    color: white;
+    /* Màu chữ trắng để dễ đọc */
+}
+
+.exerciseButtonSelected {
+    background-color: #4a90e2;
+}
+
+.description {
+    color: #fff !important;
+}
+
+/* Biểu đồ tỉ lệ hoàn thành */
+.completionCircle {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.completionCircle div {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #2aff17;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.completedMessage {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.completedButton {
+    background-color: #4caf50;
+    /* Màu xanh lá */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: not-allowed;
+}
+
+
+/* Nội dung bên phải */
+.exerciseContent {
+    flex: 1;
+    padding: 20px;
+}
+
+.exerciseContent h3 {
+    margin-bottom: 10px;
+}
+
+.exerciseContent ul {
+    padding-left: 20px;
+}
+
+.exerciseContent video {
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.buttons button {
+    margin-right: 10px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Hiển thị popup toàn màn hình */
+.popupOverlay {
+    position: fixed;
+    /* Đặt popup ở vị trí cố định */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Màu nền tối */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* Đảm bảo popup nằm trên tất cả các nội dung khác */
+}
+
+/* Nội dung chính của popup */
+.popupContent {
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Tiêu đề của popup */
+.popupContent h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #333;
+}
+
+/* Nút đóng popup */
+.popupContent button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.popupContent button:hover {
+    background-color: #0056b3;
+}
+.chatIcon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .chatRoomPopup {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    padding: 10px;
+    width: 400px; /* Tăng chiều rộng */
+    height: 500px; /* Tăng chiều cao */
+    overflow-y: auto;
+    padding: 15px; 
+    bottom: 100px; /* Điều chỉnh vị trí từ dưới lên */
+    right: 50px; /* Điều chỉnh vị trí từ phải sang */
+  }
+  
+  .closeChatButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
