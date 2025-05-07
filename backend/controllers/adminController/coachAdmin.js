@@ -3,11 +3,11 @@ const Coach = require('../../models/coach');
 const Course = require('../../models/course');
 
 
-// tạo mới hlv
+// Tạo mới huấn luyện viên
 exports.createCoach = async (req, res) => {
     const { accountId, introduce, selfImage, contract, certificate, experience } = req.body;
     try {
-        // Kiểm tra nếu accountId đã tồn tại
+        // Kiểm tra nếu accountId đã tồn tại trong bảng Account
         const existingAccount = await Account.findById(accountId);
         if (!existingAccount) {
             return res.status(404).json({ msg: 'Không tìm thấy tài khoản' });
@@ -16,30 +16,30 @@ exports.createCoach = async (req, res) => {
         // Kiểm tra nếu accountId đã tồn tại trong bảng Coach
         const existingCoach = await Coach.findOne({ accountId });
         if (existingCoach) {
-            return res.status(201).json({ msg: 'Hlv đã tông tại cho accountId này' });
+            return res.status(201).json({ msg: 'Huấn luyện viên đã tồn tại cho tài khoản này' });
         }
 
-        // Tạo coach mới
+        // Tạo huấn luyện viên mới
         const newCoach = new Coach({ accountId, introduce, selfImage, contract, certificate, experience });
         await newCoach.save();
-        res.status(201).json({ msg: 'Tạo mới HLV thành công', coach: newCoach });
+        res.status(201).json({ msg: 'Tạo mới huấn luyện viên thành công', coach: newCoach });
     } catch (err) {
-        res.status(500).json({ msg: 'Tạo mới HLV thất bại', error: err.message });
+        res.status(500).json({ msg: 'Tạo mới huấn luyện viên thất bại', error: err.message });
     }
 };
 
 
-// Lấy tất cả hlv
+// Lấy tất cả huấn luyện viên
 exports.getAllCoaches = async (req, res) => {
     try {
-        // Lấy tất cả các tài khoản có role là 'coach'
+        // Lấy tất cả các tài khoản có vai trò là 'coach'
         const accounts = await Account.find({ role: 'coach' });
 
         if (!accounts.length) {
-            return res.status(404).json({ msg: 'Không tìm tháy HLV' });
+            return res.status(404).json({ msg: 'Không tìm thấy huấn luyện viên' });
         }
 
-        // Lấy tất cả các coach từ database dựa trên accountId
+        // Lấy tất cả các huấn luyện viên từ database dựa trên accountId và populate thông tin tài khoản
         const coaches = await Coach.find({ accountId: { $in: accounts.map(account => account._id) } })
             .populate('accountId', 'email gender address role dob phone name avatar status ');
 
@@ -91,36 +91,36 @@ exports.getAllCoaches = async (req, res) => {
             status: "non-activate",
         });
 
-        res.status(200).json({ msg: 'Hlv đã được lấy lại thành công', coaches: mergedCoaches, totalCoaches, todayCoachesCount, blockedCoaches, activateCoaches, nonActivateCoaches });
+        res.status(200).json({ msg: 'Huấn luyện viên đã được lấy lại thành công', coaches: mergedCoaches, totalCoaches, todayCoachesCount, blockedCoaches, activateCoaches, nonActivateCoaches });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ msg: 'Không thể lấy lại hlv', error: err.message });
+        res.status(500).json({ msg: 'Không thể lấy lại huấn luyện viên', error: err.message });
     }
 };
 
 
 
-// lấy thông tin chi tiết về huấn luyện viên theo ID tài khoản
+// Lấy thông tin chi tiết về huấn luyện viên theo ID
 exports.getCoachById = async (req, res) => {
     try {
-        // Lấy coach từ DB và populate thông tin account
+        // Lấy huấn luyện viên từ DB và populate thông tin tài khoản
         const coach = await Coach.findById(req.params.id)
             .populate('accountId', 'email name avatar gender dob phone address') // Lấy các trường từ Account
             .exec();
 
         if (!coach) {
-            return res.status(404).json({ message: 'Không tìm thấy hlv' });
+            return res.status(404).json({ message: 'Không tìm thấy huấn luyện viên' });
         }
 
         return res.status(200).json(coach);
     } catch (err) {
         console.error(err);
-        return res.status(500).json({ message: 'Lỗi khi lấy thông tin chi tiết về hlv' });
+        return res.status(500).json({ message: 'Lỗi khi lấy thông tin chi tiết về huấn luyện viên' });
     }
 };
 
 
-// Edit coach information 
+// Chỉnh sửa thông tin huấn luyện viên
 exports.editCoach = async (req, res) => {
     const { accountId, name, avatar, gender, dob, phone, address, introduce, selfImage, contract, certificate, experience } = req.body;
 
@@ -142,31 +142,32 @@ exports.editCoach = async (req, res) => {
         // Cập nhật thông tin huấn luyện viên (Coach) - bao gồm giới thiệu, ảnh selfImage, hợp đồng (contract), chứng chỉ (certificate), và kinh nghiệm (experience)
         const updatedCoach = await Coach.findOneAndUpdate({ accountId }, {
             introduce,
-            selfImage,  // Cập nhật selfImage (URL ảnh)
-            contract,   // Cập nhật contract (URL hợp đồng)
+            selfImage,     // Cập nhật selfImage (URL ảnh)
+            contract,      // Cập nhật contract (URL hợp đồng)
             certificate, // Cập nhật certificate (URL chứng chỉ)
-            experience  // Cập nhật kinh nghiệm
+            experience     // Cập nhật kinh nghiệm
         }, { new: true });
 
         if (!updatedCoach) {
-            return res.status(404).json({ msg: 'Không tìm thấy hlv' });
+            return res.status(404).json({ msg: 'Không tìm thấy huấn luyện viên' });
         }
 
         // Trả về thông tin đã cập nhật
-        res.status(200).json({ msg: 'Cập nhập hlv thành công', account: updatedAccount, coach: updatedCoach });
+        res.status(200).json({ msg: 'Cập nhập huấn luyện viên thành công', account: updatedAccount, coach: updatedCoach });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ msg: 'Cập nhập hlv thất bại' });
+        res.status(500).json({ msg: 'Cập nhập huấn luyện viên thất bại' });
     }
 };
 
 
 
+// Chặn hoặc bỏ chặn huấn luyện viên
 exports.blockUnblockCoach = async (req, res) => {
     const { coachId } = req.body;
 
     try {
-        console.log('Received ID:', coachId);
+        console.log('Đã nhận ID:', coachId);
 
         // Tìm kiếm tài khoản dựa trên coachId
         const account = await Account.findById(coachId);
@@ -175,69 +176,34 @@ exports.blockUnblockCoach = async (req, res) => {
             return res.status(404).json({ msg: 'Không tìm thấy tài khoản' });
         }
 
-        // Toggle status (block/unblock)
+        // Toggle trạng thái (chặn/bỏ chặn)
         const previousStatus = account.status;
         account.status = account.status === 'activate' ? 'blocked' : 'activate';
 
-        // Nếu tài khoản bị block, tìm và cập nhật tất cả các khóa học có coachId trùng với accountId
+        // Nếu tài khoản bị chặn, tìm và cập nhật tất cả các khóa học có coachId trùng với accountId
         if (account.status === 'blocked' && previousStatus === 'activate') {
             const courses = await Course.find({ coachId: coachId });
 
             // Cập nhật trạng thái của tất cả các khóa học có coachId trùng với coachId
             for (let course of courses) {
-                course.status = 'rejected'; // Set status = deny
+                course.status = 'rejected'; // Đặt trạng thái = bị từ chối
                 await course.save(); // Lưu lại khóa học
             }
-            console.log(`${courses.length}khóa học cập nhật là 'rejected'`);
+            console.log(`${courses.length} khóa học đã được cập nhật thành 'rejected'`);
         }
 
-        // Lưu thay đổi tài khoản (block/unblock)
+        // Lưu thay đổi tài khoản (chặn/bỏ chặn)
         await account.save();
-        console.log('Trạng thái tài khoản sau cập nhập', account.status);
+        console.log('Trạng thái tài khoản sau cập nhật', account.status);
 
         res.status(200).json({ msg: 'Trạng thái huấn luyện viên đã được cập nhật thành công', status: account.status });
     } catch (err) {
         console.error('Lỗi khi cập nhật trạng thái huấn luyện viên:', err);
-        res.status(500).json({ msg: 'Không thể block hlv đang có khóa học được sử dụng' });
+        res.status(500).json({ msg: 'Không thể block huấn luyện viên đang có khóa học được sử dụng' });
     }
 };
 
-// exports.changeRoleToUser = async (req, res) => {
-//     const { coachId } = req.body;
-
-//     try {
-//         console.log('ID đã nhận:', coachId);
-
-//         const account = await Account.findById(coachId);
-//         if (!account) {
-//             console.error('Không tìm thấy tài khoản với ID:', coachId);
-//             return res.status(404).json({ msg: 'Không tìm thấy tài khoản' });
-//         }
-
-//         if (account.role !== 'user') {
-//             account.role = 'user';
-//             await account.save();
-//         }
-
-//         const courses = await Course.find({ coachId: coachId });
-
-//         if (courses.length > 0) {
-//             for (let course of courses) {
-//                 course.status = 'rejected';
-//                 await course.save();
-//             }
-//             console.log(`${courses.length} khóa học cập nhật là 'rejected'`);
-//         } else {
-//             console.log('Không tìm thấy khóa học nào cho huấn luyện viên này.');
-//         }
-
-//         // Trả về phản hồi thành công
-//         res.status(200).json({ msg: 'Vai trò hlv đã được cập nhật thành công', role: account.role });
-//     } catch (err) {
-//         console.error('Lỗi khi cập nhật vai trò hlv:', err);
-//         res.status(500).json({ msg: 'Không cập nhật được vai trò hlv' });
-//     }
-// };
+// Thay đổi vai trò thành người dùng
 exports.changeRoleToUser = async (req, res) => {
     const { coachId } = req.body;
 
@@ -275,7 +241,7 @@ exports.changeRoleToUser = async (req, res) => {
             }
 
             // Trả về phản hồi thành công
-            res.status(200).json({ msg: 'Vai trò hlv đã được cập nhật thành công và đã xóa khỏi bảng Coach', role: account.role });
+            res.status(200).json({ msg: 'Vai trò huấn luyện viên đã được cập nhật thành công và đã xóa khỏi bảng Coach', role: account.role });
         } else if (account.role === 'user') {
             res.status(200).json({ msg: 'Tài khoản này đã là người dùng', role: account.role });
         } else {
@@ -283,7 +249,7 @@ exports.changeRoleToUser = async (req, res) => {
         }
 
     } catch (err) {
-        console.error('Lỗi khi cập nhật vai trò hlv:', err);
-        res.status(500).json({ msg: 'Không cập nhật được vai trò hlv' });
+        console.error('Lỗi khi cập nhật vai trò huấn luyện viên:', err);
+        res.status(500).json({ msg: 'Không cập nhật được vai trò huấn luyện viên' });
     }
 };

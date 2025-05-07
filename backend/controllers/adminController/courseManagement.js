@@ -2,45 +2,46 @@ const { populate } = require("../../models/blog");
 const Course = require("../../models/course");
 const mongoose = require("mongoose");
 
+// Lấy danh sách các khóa học đã được gửi (có phân trang)
 exports.getSubmittedCourses = async (req, res) => {
-  const { page = 1, limit = 10 } = req.query; // Default values for page and limit
+  const { page = 1, limit = 10 } = req.query; // Giá trị mặc định cho trang và số lượng trên trang
 
   try {
     const courseId = req.params.id;
-    // Calculate the number of courses to skip based on current page
+    // Tính số lượng khóa học cần bỏ qua dựa trên trang hiện tại
     const skip = (page - 1) * limit;
 
-    // Find courses that are not deleted (isDeleted: false)
+    // Tìm các khóa học chưa bị xóa (isDeleted: false) và áp dụng phân trang, populate thông tin liên quan
     const courses = await Course.find({ courseId })
       .skip(skip)
       .limit(limit)
-      .populate("coachId", "name email") // Only retrieve name and email of the coach
+      .populate("coachId", "name email") // Chỉ lấy tên và email của huấn luyện viên
       .populate({
-        path: "workout", // Populate workouts in the course
+        path: "workout", // Populate các bài tập trong khóa học
         populate: {
-          path: "progressId", // Populate progress inside workouts
+          path: "progressId", // Populate tiến trình trong các bài tập
           populate: {
-            path: "exerciseId", // Populate exercise in progress
-            select: "name exerciseDuration", // Only fetch necessary fields from exercise
+            path: "exerciseId", // Populate bài tập trong tiến trình
+            select: "name exerciseDuration", // Chỉ lấy các trường cần thiết từ bài tập
           },
         },
       });
 
-    // Get total count of courses to calculate the total pages
+    // Lấy tổng số lượng khóa học để tính tổng số trang
     const totalCourses = await Course.countDocuments({ courseId });
 
-    // Calculate total pages
+    // Tính tổng số trang
     const totalPages = Math.ceil(totalCourses / limit);
 
     res.status(200).json({
-      courses, // List of courses on the current page
-      totalPages, // Total number of pages
-      currentPage: page, // Current page
-      totalCourses, // Total number of courses
+      courses, // Danh sách các khóa học trên trang hiện tại
+      totalPages, // Tổng số trang
+      currentPage: page, // Trang hiện tại
+      totalCourses, // Tổng số lượng khóa học
     });
   } catch (error) {
-    console.error("Error fetching courses:", error);
-    res.status(500).json({ message: "Error fetching courses." });
+    console.error("Lỗi khi lấy danh sách khóa học:", error);
+    res.status(500).json({ message: "Lỗi khi lấy danh sách khóa học." });
   }
 };
 
@@ -48,46 +49,46 @@ exports.getSubmittedCourses = async (req, res) => {
 exports.getCourseDetail = async (req, res) => {
   try {
     const courseId = req.params.id;
-    // Validate the courseId to check if it's a valid MongoDB ObjectId
+    // Validate ID khóa học để kiểm tra xem nó có phải là một ObjectId hợp lệ của MongoDB hay không
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
-      return res.status(400).json({ message: "Invalid course ID" });
+      return res.status(400).json({ message: "ID khóa học không hợp lệ" });
     }
 
-    // Fetch the course by ID along with related coach, exercises, workouts, and progress
+    // Lấy khóa học theo ID cùng với thông tin huấn luyện viên, bài tập, buổi tập và tiến trình liên quan
     const course = await Course.findById(courseId)
-      .populate("coachId", "name email") // Populate coachId with name and email
+      .populate("coachId", "name email") // Populate coachId với tên và email
       .populate({
-        path: "workout", // Populate workouts
+        path: "workout", // Populate các buổi tập
         populate: {
-          path: "progressId", // Populate progress inside workouts
-          select: "note completionRate exerciseId", // Select relevant progress fields
+          path: "progressId", // Populate tiến trình trong các buổi tập
+          select: "note completionRate exerciseId", // Chọn các trường liên quan từ tiến trình
           populate: {
-            path: "exerciseId", // Populate exerciseId to get the exercise details
-            select: "name exerciseDuration exerciseType", // Select relevant fields from Exercise model
+            path: "exerciseId", // Populate exerciseId để lấy chi tiết bài tập
+            select: "name exerciseDuration exerciseType", // Chọn các trường liên quan từ model Exercise
           },
         },
       });
 
-    // If course not found, send a 404 response
+    // Nếu không tìm thấy khóa học, trả về lỗi 404
     if (!course) {
-      return res.status(404).json({ message: "Course not found" });
+      return res.status(404).json({ message: "Không tìm thấy khóa học" });
     }
 
-    // Optionally log the course for debugging purposes
-    console.log("Course:", course);
+    // Tùy chọn: log khóa học để debug
+    console.log("Khóa học:", course);
 
-    // Send the course data in the response
+    // Gửi dữ liệu khóa học trong response
     res.status(200).json(course);
   } catch (error) {
-    // Handle any unexpected errors and send a 500 response
-    console.error("Error fetching course by ID:", error);
+    // Xử lý mọi lỗi không mong muốn và gửi response lỗi 500
+    console.error("Lỗi khi lấy khóa học theo ID:", error);
     res
       .status(500)
-      .json({ message: "Error fetching course", error: error.message });
+      .json({ message: "Lỗi khi lấy khóa học", error: error.message });
   }
 };
 
-// Thay đổi trạng thái khóa học thành "accepted"
+// Thay đổi trạng thái khóa học thành "accepted" (đã chấp nhận)
 exports.acceptCourse = async (req, res) => {
   try {
     const courseId = req.params.id;
@@ -98,39 +99,39 @@ exports.acceptCourse = async (req, res) => {
     );
     res.status(200).json(updatedCourse);
   } catch (error) {
-    console.error("Error accepting course:", error);
-    res.status(500).json({ message: "Error accepting course." });
+    console.error("Lỗi khi chấp nhận khóa học:", error);
+    res.status(500).json({ message: "Lỗi khi chấp nhận khóa học." });
   }
 };
 
-// Thay đổi trạng thái khóa học thành "rejected"
+// Thay đổi trạng thái khóa học thành "rejected" (đã từ chối)
 exports.rejectCourse = async (req, res) => {
   try {
     const courseId = req.params.id;
-    const { rejectionReason } = req.body; // Get the rejection reason from the request body
+    const { rejectionReason } = req.body; // Lấy lý do từ chối từ body request
 
-    // Validate that rejectionReason is provided
+    // Validate rằng rejectionReason đã được cung cấp
     if (!rejectionReason) {
-      return res.status(400).json({ message: "Rejection reason is required." });
+      return res.status(400).json({ message: "Cần có lý do từ chối." });
     }
 
-    // Find and update the course's status and rejectionReason
+    // Tìm và cập nhật trạng thái và lý do từ chối của khóa học
     const updatedCourse = await Course.findByIdAndUpdate(
       courseId,
       {
         status: "rejected",
-        rejectionReason: rejectionReason, // Set the rejection reason
+        rejectionReason: rejectionReason, // Đặt lý do từ chối
       },
-      { new: true } // Return the updated course document
+      { new: true } // Trả về document khóa học đã được cập nhật
     );
 
     if (!updatedCourse) {
-      return res.status(404).json({ message: "Course not found." });
+      return res.status(404).json({ message: "Không tìm thấy khóa học." });
     }
 
     res.status(200).json(updatedCourse);
   } catch (error) {
-    console.error("Error rejecting course:", error);
-    res.status(500).json({ message: "Error rejecting course." });
+    console.error("Lỗi khi từ chối khóa học:", error);
+    res.status(500).json({ message: "Lỗi khi từ chối khóa học." });
   }
 };

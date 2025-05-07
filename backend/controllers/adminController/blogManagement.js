@@ -8,12 +8,12 @@ adminRouter.use(bodyParser.json());
 
 // Các hoạt động CRUD cho Blog
 
-// Lấy một blog theo ID
+// Lấy một blog theo ID (cho người dùng cuối)
 const getBlogById = async (req, res) => {
   // Lấy một blog cụ thể theo ID để hiển thị cho người dùng cuối
   try {
     // Tìm blog theo ID được truyền qua params và điền thông tin của tác giả, thể loại
-    const blog = await Blog.findById(req.params.blogId).populate("author","name").populate('category', 'catName');
+    const blog = await Blog.findById(req.params.blogId).populate("author", "name").populate('category', 'catName');
 
     // Kiểm tra nếu blog tồn tại
     if (blog) {
@@ -27,9 +27,9 @@ const getBlogById = async (req, res) => {
   }
 };
 
-// Blog của Admin
+// Các chức năng dành cho Admin
 
-// Lấy tất cả các blog
+// Lấy tất cả các blog (bao gồm cả blog chưa được phê duyệt)
 const getAllBlogsByAdmin = async (req, res) => {
   // Lấy tất cả các blog (bao gồm cả các blog chưa được phê duyệt) để quản lý bởi admin
   try {
@@ -49,7 +49,7 @@ const approveBlog = async (req, res) => {
     // Lấy blogId từ params
     const { blogId } = req.params;
 
-    // Tìm và cập nhật trạng thái của blog thành "approved"
+    // Tìm và cập nhật trạng thái của blog thành "approved" và xóa lý do từ chối nếu có
     const blog = await Blog.findByIdAndUpdate(
       blogId,
       { status: "approved", $unset: { reasonReject: 1 } },// Sử dụng $unset để xóa trường reasonReject
