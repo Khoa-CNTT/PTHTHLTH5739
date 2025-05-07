@@ -38,12 +38,12 @@ const ChatRoom = () => {
 
           setMessages(data.chatRoom.messageId ?? []);
         } else {
-          console.error("Chat room or necessary data is missing:", data);
+          console.error("Phòng chat hoặc dữ liệu cần thiết bị thiếu:", data);
         }
       })
-      .catch((error) => console.error("Error fetching chat room:", error));
+      .catch((error) => console.error("Lỗi khi tải phòng chat:", error));
 
-    // Update messages when new message is received through socket
+    // Cập nhật tin nhắn khi có tin nhắn mới được nhận qua socket
     socket.on("receive-message", async () => {
       try {
         const response = await fetch(
@@ -56,10 +56,10 @@ const ChatRoom = () => {
         if (data && data.chatRoom && data.chatRoom._id) {
           setMessages(data.chatRoom.messageId ?? []);
         } else {
-          console.error("Error: Chat room or necessary data is missing", data);
+          console.error("Lỗi: Phòng chat hoặc dữ liệu cần thiết bị thiếu", data);
         }
       } catch (error) {
-        console.error("Error fetching updated chat room:", error);
+        console.error("Lỗi khi tải phòng trò chuyện đã cập nhật:", error);
       }
     });
 
@@ -161,7 +161,7 @@ const ChatRoom = () => {
             body: JSON.stringify(aiMessage),
           });
         } catch (error) {
-          console.error("Error with Gemini API:", error);
+          console.error("Lỗi với API Gemini:", error);
         }
       }
 
@@ -176,10 +176,10 @@ const ChatRoom = () => {
       if (data && data.chatRoom && data.chatRoom._id) {
         setMessages(data.chatRoom.messageId ?? []);
       } else {
-        console.error("Error: Chat room or necessary data is missing", data);
+        console.error("Lỗi: Phòng chat hoặc dữ liệu cần thiết bị thiếu", data);
       }
     } catch (error) {
-      console.error("Error sending message or fetching chat room:", error);
+      console.error("Lỗi khi gửi tin nhắn hoặc tải phòng trò chuyện:", error);
     } finally {
       setIsLoading(false);
     }
@@ -432,7 +432,7 @@ const ChatRoom = () => {
           }}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your message..."
+          placeholder="Nhập tin nhắn của bạn..."
           rows={1}
         />
         <Button

@@ -19,10 +19,10 @@ const WorkoutDetails = () => {
   const [isFinishPopupVisible, setIsFinishPopupVisible] = useState(false);
   const [videoLink, setVideoLink] = useState('');
   const videoRef = useRef(null);
-  const [activeTab, setActiveTab] = useState('workout'); // Default tab to 'workout'
-  const [adviceList, setAdviceList] = useState([]); // Store advice data
-  const [currentAdvice, setCurrentAdvice] = useState(''); // Display matched advice
-  const [timestamp, setTimestamp] = useState(0); // Track timestamp in whole seconds
+  const [activeTab, setActiveTab] = useState('workout'); //Tab mặc định là 'tập luyện'
+  const [adviceList, setAdviceList] = useState([]); // Lưu trữ dữ liệu tư vấn
+  const [currentAdvice, setCurrentAdvice] = useState(''); //Hiển thị lời khuyên phù hợp
+  const [timestamp, setTimestamp] = useState(0); // Theo dõi dấu thời gian tính bằng giây
   const [advice, setAdvice] = useState('');
   const [isChatPopupVisible, setIsChatPopupVisible] = useState(false);
 
@@ -42,8 +42,8 @@ const WorkoutDetails = () => {
       );
       setAdviceList(response.data.advice);
     } catch (error) {
-      console.error('Error fetching advice:', error);
-      toast.error('Failed to fetch advice. Please try again.');
+      console.error('Lỗi khi lấy lời khuyên:', error);
+      toast.error('Không thể lấy lời khuyên. Vui lòng thử lại.');
     }
   };
 
@@ -208,10 +208,6 @@ const WorkoutDetails = () => {
     handleAdviceByTimestamp(currentTime);
   };
 
-
-
-
-
   // Hiển thị Tab Bài tập hoặc Lời khuyên dựa trên trạng thái tab đang hoạt động
   return (
     <div className={styles.workoutDetails}>
@@ -236,7 +232,6 @@ const WorkoutDetails = () => {
           </div>
         </div>
       )}
-
       <div className={styles.sidebar}>
         <h2 className={styles.workoutName}>{workout.name}</h2>
         <p>
@@ -275,7 +270,6 @@ const WorkoutDetails = () => {
           <div>{completionPercentage}%</div>
         </div>
       </div>
-
       <div className={`${styles.exerciseContent} flex-col flex gap-3`}>
         <div className="flex justify-end">
           {workout.status === "success" && (
@@ -336,7 +330,6 @@ const WorkoutDetails = () => {
                 ) : (
                   <p>Không có video cho bài tập này.</p>
                 )}
-
                 <div className={styles.buttons}>
                   <button onClick={handleBack}>
                     {selectedExerciseIndex === 0 ? 'Trở lại tổng quan buổi tập' : 'Trở lại'}
@@ -409,6 +402,7 @@ const WorkoutDetails = () => {
           </div>
         )}
       </div>
+
       {isChatPopupVisible && (
         <div className={styles.chatRoomPopup}>
           <ChatRoom />
@@ -421,11 +415,7 @@ const WorkoutDetails = () => {
       <div className={styles.chatIcon} onClick={toggleChatPopup}>
         Chat
       </div>
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
-
-      {/* <div className={styles.chatRoomContainer}>
-        <ChatRoom />
-      </div> */}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 };

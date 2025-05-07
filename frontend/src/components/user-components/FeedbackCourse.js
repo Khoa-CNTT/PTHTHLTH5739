@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   faReply,
   faEdit,
@@ -84,7 +86,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
   // API: Thêm feedback
   const addFeedback = async () => {
     if (!newFeedback.trim()) {
-      setError("Vui lòng viết bình luận.");
+      toast.error("Vui lòng viết bình luận.");
       return;
     }
 
@@ -123,10 +125,10 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
       setFeedbackVideos([]);
       fetchFeedbacks();
       fetchCourseRatings();
-      setSuccessMessage("Phản hồi đã được thêm thành công.");
+      toast.success("Phản hồi đã được thêm thành công.");
     } catch (error) {
       console.error("Lỗi khi thêm phản hồi:", error);
-      setError("Không thể thêm phản hồi.");
+      toast.error("Không thể thêm phản hồi.");
     } finally {
       setLoading(false);
     }
@@ -135,7 +137,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
   // API: Cập nhật feedback
   const updateFeedback = async (feedbackId) => {
     if (!editingFeedback.content.trim()) {
-      setError("Nội dung là bắt buộc.");
+      toast.error("Nội dung là bắt buộc.");
       return;
     }
     setLoading(true);
@@ -170,10 +172,10 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
       setEditingFeedback(null);
       fetchFeedbacks();
       fetchCourseRatings();
-      setSuccessMessage("Phản hồi đã được cập nhật thành công.");
+      toast.success("Phản hồi đã được cập nhật thành công.");
     } catch (error) {
       console.error("Lỗi khi cập nhật phản hồi:", error);
-      setError("Không thể cập nhật phản hồi.");
+      toast.error("Không thể cập nhật phản hồi.");
     } finally {
       setLoading(false);
     }
@@ -192,11 +194,11 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
         );
         fetchFeedbacks();
         fetchCourseRatings();
-        setSuccessMessage("Phản hồi đã được xóa thành công.");
+        toast.success("Phản hồi đã được xóa thành công.");
         setError("");
       } catch (error) {
         console.error("Lỗi khi xóa phản hồi:", error);
-        setError("Không thể xóa phản hồi.");
+        toast.error("Không thể xóa phản hồi.");
         setSuccessMessage("");
       }
     }
@@ -258,21 +260,6 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
             placeholder={"Viết phản hồi của bạn..."}
           />
 
-          <div className="file-inputs">
-            <input
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={(e) => setFeedbackImages(e.target.files)}
-            />
-            <input
-              type="file"
-              multiple
-              accept="video/*"
-              onChange={(e) => setFeedbackVideos(e.target.files)}
-            />
-          </div>
-
           <div className="rating-input">
             <span>Đánh giá khóa học này:</span>
             {[1, 2, 3, 4, 5].map((star) => (
@@ -310,24 +297,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
               </span>
             </div>
             <p>{feedback.content}</p>
-            {feedback.imageUrls && feedback.imageUrls.length > 0 && (
-              <div className="feedback-images">
-                {feedback.imageUrls.map((url, index) => (
-                  <img key={index} src={url} alt={`Hình ảnh phản hồi ${index}`} />
-                ))}
-              </div>
-            )}
 
-            {feedback.videos && feedback.videos.length > 0 && (
-              <div className="feedback-videos">
-                {feedback.videos[0] !== '' ? feedback.videos.map((url, index) => (
-                  <video key={index} controls>
-                    <source src={url} type="video/mp4" />
-                    Trình duyệt của bạn không hỗ trợ thẻ video.
-                  </video>
-                )) : <></>}
-              </div>
-            )}
             <div className="feedback-actions">
               {isLoggedIn && currentUserId && feedback.userId?._id === currentUserId && (
                 <>
@@ -375,30 +345,6 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
                     </button>
                   ))}
                 </div>
-                <div className="file-inputs">
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={(e) =>
-                      setEditingFeedback({
-                        ...editingFeedback,
-                        images: e.target.files,
-                      })
-                    }
-                  />
-                  <input
-                    type="file"
-                    multiple
-                    accept="video/*"
-                    onChange={(e) =>
-                      setEditingFeedback({
-                        ...editingFeedback,
-                        videos: e.target.files,
-                      })
-                    }
-                  />
-                </div>
 
                 {error && <p className="error-message">{error}</p>}
                 {successMessage && <p className="success-message">{successMessage}</p>}
@@ -417,6 +363,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
           </li>
         ))}
       </ul>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
   );
 };

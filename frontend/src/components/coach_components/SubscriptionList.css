@@ -1,0 +1,33 @@
+/* SubscriptionListPage.css */
+
+.subscription-list-container {
+    margin-left: 250px;
+    /* Căn chỉnh theo chiều rộng của thanh bên */
+    padding: 20px;
+    margin-top: 60px;
+    /* Điều chỉnh cho bất kỳ chiều cao thanh trên cùng nào */
+    background-color: #000000;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.subscription-card {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ffae00;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.subscription-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.subscription-card.paused {
+    background-color: grey;
+    color: white;
+  }
+  
