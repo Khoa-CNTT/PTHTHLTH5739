@@ -1,0 +1,190 @@
+.subscription-detail {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+h2,
+h3 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+label {
+    color: #555;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+}
+
+.custom-calendar {
+    width: 100%;
+    max-width: 100%;
+    background-color: #585858;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.calendar-cell {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.calendar .react-calendar__tile {
+    height: 100px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+}
+
+.workout-card {
+    background-color: #4a90e2;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 5px;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.workout-card.green {
+    background-color: #3b8b3b;
+}
+
+.workout-card.orange {
+    background-color: #e27a3f;
+}
+
+.modal-content {
+    max-width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    background-color: #4a90e2;
+    color: #fff;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #357ab8;
+}
+
+.context-menu {
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 1000;
+}
+
+.context-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.context-menu button:hover {
+    background-color: #f0f0f0;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.dropdown-item {
+    padding: 10px;
+    cursor: pointer;
+} */
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.exercise-details-container {
+    display: flex;
+    gap: 20px;
+}
+
+.details-section {
+    flex: 1;
+    max-width: 25%;
+}
+
+.video-section {
+    flex: 3;
+}
+
+.note-section {
+    margin-top: 20px;
+}

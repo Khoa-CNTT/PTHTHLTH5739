@@ -1,0 +1,190 @@
+/* Chat container styling */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  margin: 30px auto;
+  height: 100vh;
+  background-color: #1e1e1e;
+  /* Dark background for the chat container */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  /* Set default text color to white */
+  overflow: hidden;
+  /* Ensure content fits within container */
+}
+
+/* Messages container */
+.messages-container {
+  flex-grow: 1;
+  padding: 56px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  /* Reduced gap between messages */
+  height: calc(100vh - 80px);
+  /* Adjusted height calculation */
+  margin-bottom: 16px;
+  /* Small margin for the last message */
+}
+
+/* Message styling */
+.message {
+  max-width: 75%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #fff;
+  position: relative;
+  margin: 4px 8px;
+  display: flex;
+  align-items: center;
+}
+
+/* Sent message styling */
+.sent {
+  align-self: flex-end;
+  background-color: #3a3a3a;
+  /* Darker gray for sent messages */
+  color: #fff;
+  border-top-right-radius: 0;
+  position: relative;
+}
+
+/* AI message styling */
+.ai-message {
+  align-self: flex-start;
+  background-color: #ffe8a1;
+  /* Different color for AI */
+  color: #333;
+  /* Darker color for AI text */
+  text-align: left;
+  font-style: italic;
+  /* Italic style for AI */
+  border-top-left-radius: 0;
+  position: relative;
+}
+
+/* Sent message avatar (right) */
+/* Sent message avatar (right) */
+.sent::after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  /* Adjusted distance from the right */
+  transform: translateY(-50%);
+}
+
+/* AI message avatar (left) */
+.ai-message::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  /* Adjusted distance from the left */
+  transform: translateY(-50%);
+}
+
+/* Time tooltip styling */
+.message-time {
+  visibility: hidden;
+  position: absolute;
+  top: -25px;
+  /* Position it above the message */
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+
+/* Tooltip positioning for sent messages */
+.sent .message-time {
+  right: 0;
+  left: auto;
+}
+
+/* Tooltip positioning for received messages */
+.received .message-time {
+  left: 0;
+  right: auto;
+}
+
+.message:hover .message-time {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Input container styling */
+.input-container {
+  display: flex;
+  padding: 12px;
+  border-top: 1px solid #444;
+  background-color: #1e1e1e;
+}
+
+/* Input field styling */
+.message-input {
+  flex: 1;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #555;
+  border-radius: 20px;
+  outline: none;
+  margin-right: 8px;
+  background-color: #2e2e2e;
+  color: #fff;
+}
+
+/* Send button styling */
+.send-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.send-button:hover {
+  background-color: #45a049;
+}
+
+/* Scroll bar styling */
+.messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+/* Date separator */
+.date-separator {
+  text-align: center;
+  margin: 10px 0;
+  color: #999;
+  font-weight: bold;
+  font-size: 0.85em;
+  /* Slightly smaller font for the date */
+}

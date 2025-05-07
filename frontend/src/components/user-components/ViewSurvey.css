@@ -1,0 +1,148 @@
+.survey-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 20px;
+}
+
+.survey-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.survey-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.survey-section {
+    margin-bottom: 2rem;
+}
+
+.survey-section h3 {
+    color: #444;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-value {
+    display: block;
+    padding: 0.5rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+.days-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+}
+
+.day-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.question-item {
+    background: #f9f9f9;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.question-text {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.options-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.selected-option {
+    color: #666;
+    font-style: italic;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.edit-btn,
+.save-btn,
+.cancel-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.edit-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.save-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}
+
+.save-btn:hover {
+    background-color: #218838;
+}
+
+.cancel-btn:hover {
+    background-color: #c82333;
+}
+
+.loading-spinner {
+    text-align: center;
+    padding: 2rem;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    padding: 2rem;
+}

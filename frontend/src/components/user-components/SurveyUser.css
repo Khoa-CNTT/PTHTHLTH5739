@@ -1,0 +1,82 @@
+.survey-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.survey-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.survey-step {
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.survey-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.options-list {
+    list-style: none;
+    padding: 0;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.option-input {
+    margin-right: 10px;
+}
+
+.option-image {
+    margin-left: 10px;
+    max-height: 50px;
+    border-radius: 5px;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.prev-button, .next-button, .submit-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.prev-button:hover, .next-button:hover, .submit-button:hover {
+    background-color: #45a049;
+}
+
+.loading, .error {
+    text-align: center;
+    font-size: 18px;
+    padding: 20px;
+}
