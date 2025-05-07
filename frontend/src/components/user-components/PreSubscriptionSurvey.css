@@ -1,0 +1,90 @@
+.survey-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.survey-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.survey-description {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.question-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.back-btn,
+.next-btn,
+.submit-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-btn {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.next-btn {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.submit-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.back-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.next-btn:hover,
+.submit-btn:hover {
+    opacity: 0.9;
+}

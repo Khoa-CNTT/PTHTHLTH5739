@@ -117,15 +117,7 @@ const WorkoutDetails = () => {
     return urlRegex.test(link);
   };
 
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Handle when user clicks the "Ho n th nh" button after watching all the videos in the workout.
-   * This function updates the workout status to 'success' and saves the video link to the server.
-   * If the video link is invalid, it shows an error message to the user.
-   * If the update is successful, it shows a success message and closes the popup.
-   * If the update fails, it shows an error message to the user.
-   */
-  /******  54ff41fd-200d-4275-8286-b5cef55aa3d4  *******/
+
   const handleFinishWorkout = async () => {
     if (!isValidVideoLink(videoLink)) {
       toast.error("Hãy nhập vào một liên kết video hợp lệ!", {
@@ -223,16 +215,6 @@ const WorkoutDetails = () => {
   // Hiển thị Tab Bài tập hoặc Lời khuyên dựa trên trạng thái tab đang hoạt động
   return (
     <div className={styles.workoutDetails}>
-      {/* {isPopupVisible && selectedExercise && (
-				<div className={styles.popupOverlay}>
-					<div className={styles.popupContent}>
-						<h3>Note</h3>
-						<p>{selectedExercise.note || 'Không có ghi chú trong bài tập.'}</p>
-						<button onClick={closePopup}>Done</button>
-					</div>
-				</div>
-			)} */}
-
       {isFinishPopupVisible && (
         <div className={styles.popupOverlay}>
           <div className={styles.popupContent}>
@@ -388,12 +370,12 @@ const WorkoutDetails = () => {
                     controls
                     src={workout.preview?.video}
                     className='w-full h-64 rounded-md'
-                    onTimeUpdate={handleTimeUpdate} // Track time on update
+                    onTimeUpdate={handleTimeUpdate} // Theo dõi thời gian cập nhật
                   >
                     Trình duyệt của bạn không hỗ trợ thẻ video.
                   </video>
 
-                  {/* Display Advice List */}
+                  {/* Hiển thị danh sách lời khuyên */}
                   <div className='mt-4'>
                     <h3 className='mb-2 text-lg font-semibold text-gray-700'>Danh sách lời khuyên</h3>
                     <ul className='space-y-2'>
@@ -406,9 +388,9 @@ const WorkoutDetails = () => {
                               setTimestamp(adv.timestamp);
                               const videoElement = document.querySelector('video');
                               if (videoElement) {
-                                videoElement.currentTime = adv.timestamp; // Set video time
+                                videoElement.currentTime = adv.timestamp; // Đặt thời gian video
                               }
-                              setCurrentAdvice(adv.advice); // Show advice in the textarea
+                              setCurrentAdvice(adv.advice); // Hiển thị lời khuyên trong textarea
                             }}
                           >
                             <span>{new Date(adv.timestamp * 1000).toISOString().substr(14, 5)}</span> {/* Format MM:SS */}
@@ -439,7 +421,7 @@ const WorkoutDetails = () => {
       <div className={styles.chatIcon} onClick={toggleChatPopup}>
         Chat
       </div>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
 
       {/* <div className={styles.chatRoomContainer}>
         <ChatRoom />

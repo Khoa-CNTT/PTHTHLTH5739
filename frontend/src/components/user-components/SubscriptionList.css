@@ -1,0 +1,150 @@
+.container-fluid {
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Tabs */
+.tabs button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.tabs button.active {
+  background-color: #007bff;
+}
+
+.tabs button:not(.active) {
+  background-color: #ccc;
+}
+
+/* Subscription Cards */
+.subscription-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.subscription-list .subscription-card {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+}
+
+.subscription-card h3 {
+  color: #007bff;
+}
+
+.subscription-card button {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.subscription-card .btn-primary {
+  background-color: #007bff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.subscription-card .btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+/* Revenue Section */
+.show-revenue {
+  background-color: #121212;
+  padding: 20px;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.revenue-details {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.table th {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Popup */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.popup-header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.popup-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-button {
+  font-size: 24px;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.subscription-card {
+  background-color: white;
+  color: black;
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin: 8px 0;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.subscription-card.paused {
+  background-color: grey;
+  color: white;
+}
