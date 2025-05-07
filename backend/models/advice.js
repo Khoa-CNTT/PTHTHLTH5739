@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Advice schema
 const adviceSchema = new Schema(
   {
     workoutId: {
@@ -10,7 +9,7 @@ const adviceSchema = new Schema(
       required: true,
     },
     timestamp: {
-      type: Number, // Store the timestamp in seconds
+      type: Number, // Lưu trữ dấu thời gian tính bằng giây
       required: true,
     },
     advice: {

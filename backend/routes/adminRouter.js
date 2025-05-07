@@ -1,6 +1,46 @@
 const express = require("express");
 const router = express.Router();
 
+const userAdminController = require("../controllers/adminController/userAdmin");
+const coachAdminController = require("../controllers/adminController/coachAdmin");
+
+
+const {
+  getSubmittedCourses,
+  getCourseDetail,
+  acceptCourse,
+  rejectCourse,
+} = require("../controllers/adminController/courseManagement");
+
+
+
+const {
+  getBlogById,
+  // getAllCommentsByBlog,
+  // createComment,
+  // updateComment,
+  // deleteComment,
+  // updateBlog,
+  // createBlog,
+  // deleteBlog,
+  rejectBlog,
+  approveBlog,
+  getAllBlogsByUser,
+  getAllBlogsByAdmin,
+  // getBlogByIdAdmin,
+  // getAllBlogCategory,
+  // createBlogCategory,
+  // updateBlogCategory,
+  // deleteBlogCategory,
+} = require("../controllers/adminController/blogManagement");
+
+
+
+
+const {
+  getRevenueData,
+  getSubscriptionDetail,
+} = require("../controllers/adminController/adminRevenue");
 const authMiddleware = require("../middleware/authMiddleware");
 
 /*
@@ -9,7 +49,7 @@ const authMiddleware = require("../middleware/authMiddleware");
  *
  */
 
-// Lấy tất cả accounts
+// Get all accounts
 router.get(
   "/accounts",
   authMiddleware(["admin"]),
@@ -93,29 +133,9 @@ router.get("/blogs", getAllBlogsByUser);
 router.get("/blogs/:blogId", getBlogById);
 
 router.get("/manageBlog", authMiddleware(['admin']), getAllBlogsByAdmin);
-router.post("/manageBlog", authMiddleware(['admin']), createBlog);
-
-router.get("/manageBlog/:blogId", authMiddleware(['admin']), getBlogByIdAdmin);
-router.put("/manageBlog/:blogId", authMiddleware(['admin']), updateBlog);
-router.delete("/manageBlog/:blogId", authMiddleware(['admin']), deleteBlog);
-
-//
 router.put("/manageBlog/:blogId/accept", authMiddleware(['admin']), approveBlog);
 router.put("/manageBlog/:blogId/reject", authMiddleware(['admin']), rejectBlog);
 
-// CRUD Blog Category
-
-router.get("/blogCategory", authMiddleware(['admin']), getAllBlogCategory);
-router.post("/blogCategory", authMiddleware(['admin']), createBlogCategory);
-router.put("/blogCategory/:blogCategoryId", authMiddleware(['admin']), updateBlogCategory);
-router.delete("/blogCategory/:blogCategoryId", authMiddleware(['admin']), deleteBlogCategory);
-
-
-// CRUD Comment
-router.get("/blogs/:blogId/comments", getAllCommentsByBlog);
-router.post("/blogs/:blogId/comments", authMiddleware(['user', 'coach', 'admin']), createComment);
-router.put("/comments/:commentId", authMiddleware(['user', 'coach', 'admin']), updateComment);
-router.delete("/comments/:commentId", authMiddleware(['user', 'coach', 'admin']), deleteComment);
 
 /*
  * --------------------------------------------------------------------------
@@ -130,3 +150,13 @@ router.get("/courses/:id", authMiddleware(["admin"]), getCourseDetail);
 router.patch("/courses/:id/accept", authMiddleware(["admin"]), acceptCourse);
 router.patch("/courses/:id/reject", authMiddleware(["admin"]), rejectCourse);
 
+/**
+ * ----------------------------------------------------------------------------
+ * REVENUE
+ */
+
+router.get("/revenue", authMiddleware(["admin"]), getRevenueData);
+
+router.get("/revenue/:id", authMiddleware(["admin"]), getSubscriptionDetail);
+
+module.exports = router;

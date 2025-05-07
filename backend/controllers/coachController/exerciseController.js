@@ -5,12 +5,12 @@ const Progress = require("../../models/progress");
 const Coach = require("../../models/account");
 const mongoose = require("mongoose");
 
-// Get exercises by coachId (only retrieves exercises where isDelete is false)
+// Lấy danh sách bài tập theo coachId (chỉ lấy các bài tập chưa bị xóa)
 exports.getExercisesByCoachId = async (req, res) => {
   try {
     const coachId = req.account.id;
 
-    // Find exercises for the given coachId where isDelete is false
+    // Tìm các bài tập của coachId và có isDelete là false
     const exercises = await Exercise.find({
       coachId: coachId,
       isDelete: false,
@@ -18,25 +18,26 @@ exports.getExercisesByCoachId = async (req, res) => {
 
     if (!exercises || exercises.length === 0) {
       return res.status(404).json({
-        message: "No exercises found for this coach.",
+        message: "Không tìm thấy bài tập nào cho huấn luyện viên này.",
       });
     }
 
     res.status(200).json(exercises);
   } catch (error) {
-    console.error("Error while fetching exercises by coachId:", error);
+    console.error("Lỗi khi lấy bài tập theo coachId:", error);
     res.status(500).json({
-      message: "Error while fetching exercises",
+      message: "Lỗi khi lấy bài tập",
       error: error.message,
     });
   }
 };
 
+// Kiểm tra xem bài tập có đang được sử dụng trong khóa học nào không
 exports.checkExerciseUsage = async (req, res) => {
   try {
     const exerciseId = req.params.id;
 
-    // Tìm tất cả progress có chứa exercise này
+    // Tìm tất cả progress có chứa bài tập này
     const progressesWithExercise = await Progress.find({
       exerciseId: exerciseId,
     });
@@ -78,24 +79,25 @@ exports.checkExerciseUsage = async (req, res) => {
       })),
     });
   } catch (error) {
-    console.error("Error checking exercise usage:", error);
+    console.error("Lỗi khi kiểm tra việc sử dụng bài tập:", error);
     res.status(500).json({
-      message: "Error checking exercise usage",
+      message: "Lỗi khi kiểm tra việc sử dụng bài tập",
       error: error.message,
     });
   }
 };
 
+// Hàm kiểm tra tính hợp lệ của dữ liệu bài tập
 const validateExercise = async (exercise) => {
   const errors = {};
 
-  // Validate name
+  // Kiểm tra tên
   if (!exercise.name) {
     errors.name = "Tên bài tập không được để trống";
   } else if (exercise.name.length < 3 || exercise.name.length > 100) {
     errors.name = "Tên bài tập phải từ 3 đến 100 ký tự";
   } else {
-    // Check trùng tên
+    // Kiểm tra trùng tên
     const existingExercise = await Exercise.findOne({
       name: exercise.name,
       coachId: exercise.coachId,
@@ -106,7 +108,7 @@ const validateExercise = async (exercise) => {
     }
   }
 
-  // Validate description
+  // Kiểm tra mô tả
   if (!exercise.description) {
     errors.description = "Mô tả không được để trống";
   } else if (
@@ -116,19 +118,19 @@ const validateExercise = async (exercise) => {
     errors.description = "Mô tả phải từ 10 đến 1000 ký tự";
   }
 
-  // Validate exerciseType
+  // Kiểm tra loại bài tập
   const validTypes = ["Cardio", "Strength", "Flexibility", "Balance"];
   if (!validTypes.includes(exercise.exerciseType)) {
     errors.exerciseType = "Loại bài tập không hợp lệ";
   }
 
-  // Validate difficulty
+  // Kiểm tra độ khó
   const validDifficulties = ["Dễ", "Trung bình", "Khó"];
   if (!validDifficulties.includes(exercise.difficulty)) {
     errors.difficulty = "Mức độ khó không hợp lệ";
   }
 
-  // Validate video duration
+  // Kiểm tra thời lượng video
   if (!exercise.exerciseDuration || exercise.exerciseDuration < 10) {
     errors.exerciseDuration = "Thời lượng video phải ít nhất 10 giây";
   }
@@ -139,7 +141,7 @@ const validateExercise = async (exercise) => {
   };
 };
 
-// Create a new exercise
+// Tạo một bài tập mới
 exports.createExercise = async (req, res) => {
   try {
     const exerciseData = {
@@ -147,42 +149,42 @@ exports.createExercise = async (req, res) => {
       coachId: req.account.id,
     };
 
-    // Validate exercise data
+    // Kiểm tra tính hợp lệ của dữ liệu bài tập
     const { isValid, errors } = await validateExercise(exerciseData);
     if (!isValid) {
       return res.status(400).json({ errors });
     }
 
-    // Create exercise if validation passes
+    // Tạo bài tập nếu dữ liệu hợp lệ
     const exercise = new Exercise(exerciseData);
     await exercise.save();
 
     res.status(201).json(exercise);
   } catch (error) {
-    console.error("Error creating exercise:", error);
-    res.status(500).json({ message: "Error creating exercise" });
+    console.error("Lỗi khi tạo bài tập:", error);
+    res.status(500).json({ message: "Lỗi khi tạo bài tập" });
   }
 };
 
-// Get exercise by ID
+// Lấy bài tập theo ID
 exports.getExerciseById = async (req, res) => {
   try {
-    const exercise = await Exercise.findById(req.params.id); // Find exercise by ID
+    const exercise = await Exercise.findById(req.params.id); // Tìm bài tập theo ID
     if (!exercise || exercise.isDelete) {
       return res
         .status(404)
-        .json({ message: "Exercise not found or has been deleted" });
+        .json({ message: "Không tìm thấy bài tập hoặc bài tập đã bị xóa" });
     }
-    res.status(200).json(exercise); // Return exercise details
+    res.status(200).json(exercise); // Trả về chi tiết bài tập
   } catch (error) {
-    console.error("Error while fetching exercise:", error);
+    console.error("Lỗi khi lấy bài tập:", error);
     res
       .status(500)
-      .json({ message: "Error while fetching exercise", error: error.message });
+      .json({ message: "Lỗi khi lấy bài tập", error: error.message });
   }
 };
 
-// Update exercise
+// Cập nhật bài tập
 exports.updateExercise = async (req, res) => {
   try {
     const {
@@ -194,19 +196,19 @@ exports.updateExercise = async (req, res) => {
       difficulty,
     } = req.body;
 
-    // Find exercise by ID
+    // Tìm bài tập theo ID
     const exercise = await Exercise.findById(req.params.id);
     console.log("Request params ID:", req.params.id);
     console.log("Exercise:", exercise);
 
-    // Check if the exercise exists or has been deleted
+    // Kiểm tra xem bài tập có tồn tại hoặc đã bị xóa không
     if (!exercise || exercise.isDelete) {
       return res
         .status(404)
-        .json({ message: "Exercise not found or has been deleted" });
+        .json({ message: "Không tìm thấy bài tập hoặc bài tập đã bị xóa" });
     }
 
-    // Update the exercise with new data
+    // Cập nhật bài tập với dữ liệu mới
     const updatedExercise = await Exercise.findByIdAndUpdate(
       req.params.id,
       {
@@ -217,46 +219,46 @@ exports.updateExercise = async (req, res) => {
         video,
         difficulty,
       },
-      { new: true } // Return the updated exercise
+      { new: true } // Trả về bài tập đã cập nhật
     );
 
-    res.status(200).json(updatedExercise); // Return the updated exercise
+    res.status(200).json(updatedExercise); // Trả về bài tập đã cập nhật
   } catch (error) {
-    console.error("Error while updating exercise:", error);
+    console.error("Lỗi khi cập nhật bài tập:", error);
     res
       .status(500)
-      .json({ message: "Error while updating exercise", error: error.message });
+      .json({ message: "Lỗi khi cập nhật bài tập", error: error.message });
   }
 };
 
-// Soft delete an exercise (set isDelete to true)
+// Xóa mềm một bài tập (đặt isDelete thành true)
 exports.deleteExercise = async (req, res) => {
   try {
-    console.log("Request params ID:", req.params.id); // Log the exercise ID
+    console.log("Request params ID:", req.params.id); // Log ID bài tập
 
-    // Find exercise by ID
+    // Tìm bài tập theo ID
     const exercise = await Exercise.findById(req.params.id);
 
-    // Check if the exercise exists or has been already deleted
+    // Kiểm tra xem bài tập có tồn tại hoặc đã bị xóa chưa
     if (!exercise || exercise.isDelete) {
-      console.log("Exercise not found or already deleted");
+      console.log("Không tìm thấy bài tập hoặc bài tập đã bị xóa");
       return res
         .status(404)
-        .json({ message: "Exercise not found or already deleted" });
+        .json({ message: "Không tìm thấy bài tập hoặc bài tập đã bị xóa" });
     }
 
-    // Soft delete by setting isDelete to true
+    // Xóa mềm bằng cách đặt isDelete thành true
     exercise.isDelete = true;
     await exercise.save();
 
-    console.log("Exercise marked as deleted successfully");
+    console.log("Đã đánh dấu bài tập là đã xóa thành công");
     res
       .status(200)
-      .json({ message: "Exercise has been successfully marked as deleted" });
+      .json({ message: "Bài tập đã được đánh dấu là đã xóa thành công" });
   } catch (error) {
-    console.error("Error while deleting exercise:", error);
+    console.error("Lỗi khi xóa bài tập:", error);
     res
       .status(500)
-      .json({ message: "Error while deleting exercise", error: error.message });
+      .json({ message: "Lỗi khi xóa bài tập", error: error.message });
   }
 };

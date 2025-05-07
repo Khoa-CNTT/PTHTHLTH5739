@@ -1,4 +1,3 @@
-const { populate } = require("../../models/blog");
 const Course = require("../../models/course");
 const Exercise = require("../../models/exercise");
 const Workout = require("../../models/workout");
@@ -6,9 +5,12 @@ const Progress = require("../../models/progress");
 const mongoose = require("mongoose");
 const axios = require("axios");
 
+// exerciseController.js
+
+// Lấy tất cả các bài tập (không bao gồm các bài tập đã bị xóa)
 exports.getAllExercises = async (req, res) => {
   try {
-    // Lấy các bài tập mà isDelete là false
+    // Lấy các bài tập có trường isDelete là false
     const exercises = await Exercise.find({ isDelete: false });
 
     if (!exercises || exercises.length === 0) {
@@ -25,7 +27,6 @@ exports.getAllExercises = async (req, res) => {
 };
 
 // Tạo một khóa học mới
-
 exports.createCourse = async (req, res) => {
   try {
     const {
@@ -43,29 +44,29 @@ exports.createCourse = async (req, res) => {
     let workoutNumber = 0;
     const workouts = [];
 
-    // Lặp qua từng slot buổi tập và tạo các buổi tập với tiến trình
+    // Lặp qua từng slot workout và tạo workout cùng với progress
     for (workoutNumber; workoutNumber < listExercise.length; workoutNumber++) {
       const workoutDetails = listExercise[workoutNumber];
       const workoutName =
-        workoutDetails.name || `Buổi tập ${workoutNumber + 1}`;
+        workoutDetails.name || `Workout slot ${workoutNumber + 1}`;
       const workoutDescription = workoutDetails.description || "";
       const listVideo = workoutDetails.listVideo || []; // Lấy danh sách video từ workoutDetails
 
-      const progresses = []; // Danh sách lưu trữ tiến trình cho buổi tập hiện tại
+      const progresses = []; // Danh sách lưu trữ progress cho workout hiện tại
 
-      // Lặp qua các bài tập cho buổi tập này và tạo tiến trình cho từng bài
+      // Lặp qua các bài tập cho workout này và tạo progress cho từng bài
       for (const exerciseId of workoutDetails.exercises) {
-        const progress = await createProgress(exerciseId); // Tạo tiến trình cho từng bài tập
+        const progress = await createProgress(exerciseId); // Tạo progress cho mỗi bài tập
         progresses.push(progress._id);
       }
 
-      // Tạo một buổi tập liên kết với các tiến trình này
+      // Tạo một workout liên kết với các progress này
       const workoutCreated = await createWorkout(
         workoutName,
         workoutDescription,
         new Date(), // Ngày hiện tại
         "", // Placeholder trạng thái
-        progresses, // Danh sách ID tiến trình
+        progresses, // Danh sách ID progress
         "", // Placeholder video
         "", // Placeholder lời khuyên
         listVideo // Truyền listVideo vào hàm createWorkout
@@ -101,6 +102,7 @@ exports.createCourse = async (req, res) => {
   }
 };
 
+// Hàm tạo progress
 const createProgress = async (exerciseId) => {
   try {
     const newProgress = new Progress({
@@ -109,15 +111,16 @@ const createProgress = async (exerciseId) => {
       completionRate: 0, // Tỷ lệ hoàn thành mặc định
     });
 
-    // Lưu và trả về tiến trình đã tạo
+    // Lưu và trả về progress đã tạo
     const savedProgress = await newProgress.save();
     return savedProgress;
   } catch (error) {
-    console.error("Lỗi khi tạo tiến trình:", error);
-    throw new Error("Lỗi khi tạo tiến trình");
+    console.error("Lỗi khi tạo progress:", error);
+    throw new Error("Lỗi khi tạo progress");
   }
 };
 
+// Hàm tạo workout
 const createWorkout = async (
   name,
   description,
@@ -142,12 +145,12 @@ const createWorkout = async (
       listVideo: listVideo, // Lưu danh sách video
     });
 
-    // Lưu và trả về buổi tập đã tạo
+    // Lưu và trả về workout đã tạo
     const savedWorkout = await newWorkout.save();
     return savedWorkout;
   } catch (error) {
-    console.error("Lỗi khi tạo buổi tập:", error);
-    throw new Error("Lỗi khi tạo buổi tập");
+    console.error("Lỗi khi tạo workout:", error);
+    throw new Error("Lỗi khi tạo workout");
   }
 };
 
@@ -159,24 +162,24 @@ exports.getCoursesByCoachId = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    // Đếm tổng số khóa học của huấn luyện viên mà isDeleted là false
+    // Đếm tổng số khóa học của coachId mà không bị xóa
     const totalCourses = await Course.countDocuments({
       coachId,
       isDeleted: false,
     });
 
-    // Lấy các khóa học mà isDeleted là false, populate coachId và workout
-    const courses = await Course.find({ coachId: coachId })
+    // Lấy các khóa học của coachId mà không bị xóa, populate coachId và workout
+    const courses = await Course.find({ coachId: coachId, isDeleted: false })
       .skip(skip)
       .limit(limit)
-      .populate("coachId", "name email") // Chỉ lấy tên và email của huấn luyện viên
+      .populate("coachId", "name email") // Chỉ lấy name và email của coach
       .populate({
-        path: "workout", // Lấy thông tin chi tiết của các buổi tập trong khóa học
+        path: "workout", // Populate workouts trong khóa học
         populate: {
-          path: "progressId", // Lấy thông tin chi tiết của tiến trình trong các buổi tập
+          path: "progressId", // Populate progress bên trong workouts
           populate: {
-            path: "exerciseId", // Lấy thông tin chi tiết của bài tập trong tiến trình
-            select: "name exerciseDuration", // Chỉ lấy các trường cần thiết từ bài tập
+            path: "exerciseId", // Populate exercise trong progress
+            select: "name exerciseDuration", // Chỉ lấy các trường cần thiết từ exercise
           },
         },
       });
@@ -184,7 +187,7 @@ exports.getCoursesByCoachId = async (req, res) => {
     if (!courses.length) {
       return res
         .status(404)
-        .json({ message: "Không tìm thấy khóa học nào cho huấn luyện viên này" });
+        .json({ message: "Không tìm thấy khóa học nào đang hoạt động cho huấn luyện viên này" });
     }
 
     res.status(200).json({
@@ -206,21 +209,21 @@ exports.getCourseById = async (req, res) => {
   try {
     const courseId = req.params.courseId;
 
-    // Kiểm tra courseId có phải là một ObjectId hợp lệ của MongoDB không
+    // Validate courseId để kiểm tra xem nó có phải là một ObjectId hợp lệ của MongoDB không
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(400).json({ message: "ID khóa học không hợp lệ" });
     }
 
-    // Lấy khóa học theo ID cùng với thông tin chi tiết của huấn luyện viên, bài tập, buổi tập và tiến trình
+    // Lấy khóa học theo ID cùng với coach, exercises, workouts và progress liên quan
     const course = await Course.findById(courseId)
-      .populate("coachId", "name email") // Lấy tên và email của huấn luyện viên
+      .populate("coachId", "name email") // Populate coachId với name và email
       .populate({
-        path: "workout", // Lấy thông tin chi tiết của các buổi tập
+        path: "workout", // Populate workouts
         populate: {
-          path: "progressId", // Lấy thông tin chi tiết của tiến trình trong các buổi tập
-          select: "note completionRate exerciseId", // Chọn các trường liên quan của tiến trình
+          path: "progressId", // Populate progress bên trong workouts
+          select: "note completionRate exerciseId", // Chọn các trường progress liên quan
           populate: {
-            path: "exerciseId", // Lấy thông tin chi tiết của bài tập từ progressId
+            path: "exerciseId", // Populate exerciseId để lấy chi tiết bài tập
             select: "name exerciseDuration exerciseType", // Chọn các trường liên quan từ model Exercise
           },
         },
@@ -231,13 +234,13 @@ exports.getCourseById = async (req, res) => {
       return res.status(404).json({ message: "Không tìm thấy khóa học" });
     }
 
-    // Ghi log khóa học để debug (tùy chọn)
+    // Tùy chọn log khóa học để debug
     console.log("Khóa học:", course);
 
-    // Trả về dữ liệu khóa học trong response
+    // Gửi dữ liệu khóa học trong response
     res.status(200).json(course);
   } catch (error) {
-    // Xử lý mọi lỗi không mong muốn và trả về lỗi 500
+    // Xử lý mọi lỗi không mong muốn và gửi response 500
     console.error("Lỗi khi lấy khóa học theo ID:", error);
     res
       .status(500)
@@ -261,22 +264,22 @@ exports.updateCourse = async (req, res) => {
 
     let updatedWorkouts = [];
 
-    // Xử lý các buổi tập
+    // Xử lý workouts
     if (workout && workout.length > 0) {
       updatedWorkouts = await Promise.all(
         workout.map(async (item) => {
           if (item._id) {
-            // Nếu buổi tập đã tồn tại, cập nhật nó
+            // Nếu workout đã tồn tại, cập nhật nó
             const updatedWorkout = await Workout.findById(item._id);
             updatedWorkout.name = item.name || updatedWorkout.name;
             updatedWorkout.preview = item.preview || updatedWorkout.preview;
 
-            // 2.1 Cập nhật tiến trình của buổi tập
+            // 2.1 Cập nhật progress của workout
             if (item.progressId && item.progressId.length > 0) {
               updatedWorkout.progressId = await Promise.all(
                 item.progressId.map(async (progress) => {
                   if (progress._id) {
-                    // Nếu tiến trình tồn tại, cập nhật nó
+                    // Nếu progress tồn tại, cập nhật nó
                     const updatedProgress = await Progress.findById(
                       progress._id
                     );
@@ -287,7 +290,7 @@ exports.updateCourse = async (req, res) => {
                     await updatedProgress.save();
                     return updatedProgress._id;
                   } else {
-                    // Nếu tiến trình không tồn tại, tạo mới
+                    // Nếu progress không tồn tại, tạo mới
                     const newProgress = await createProgress(
                       progress.exerciseId._id
                     );
@@ -305,10 +308,10 @@ exports.updateCourse = async (req, res) => {
             await updatedWorkout.save();
             return updatedWorkout._id;
           } else {
-            // Nếu buổi tập không có _id, tạo một buổi tập mới
+            // Nếu workout không có _id, tạo một workout mới
             const newProgressIds = [];
 
-            // Tạo các mục tiến trình mới nếu cần
+            // Tạo các progress mới nếu cần
             if (item.progressId && item.progressId.length > 0) {
               for (let progress of item.progressId) {
                 const newProgress = await createProgress(
@@ -318,7 +321,7 @@ exports.updateCourse = async (req, res) => {
               }
             }
 
-            // Tạo buổi tập mới với listVideo
+            // Tạo workout mới với listVideo
             const newWorkout = await createWorkout(
               item.name,
               item.description,
@@ -327,7 +330,7 @@ exports.updateCourse = async (req, res) => {
               newProgressIds,
               item.preview?.video || "",
               item.preview?.advice || "",
-              item.listVideo || [] // Thêm listVideo vào việc tạo buổi tập mới
+              item.listVideo || [] // Thêm listVideo khi tạo workout mới
             );
 
             return newWorkout._id;
@@ -347,7 +350,7 @@ exports.updateCourse = async (req, res) => {
         discount,
         image,
         category,
-        workout: updatedWorkouts, // Mảng ID các buổi tập
+        workout: updatedWorkouts, // Mảng ID workout
       },
       { new: true } // Trả về document đã cập nhật
     );
@@ -372,7 +375,7 @@ exports.deleteCourse = async (req, res) => {
     const { courseId } = req.params;
     const { status } = req.query; // Lấy trạng thái từ query parameter
 
-    // Kiểm tra định dạng courseId
+    // Validate định dạng courseId
     if (!mongoose.Types.ObjectId.isValid(courseId)) {
       return res.status(400).json({ message: "Định dạng ID khóa học không hợp lệ." });
     }
@@ -383,23 +386,23 @@ exports.deleteCourse = async (req, res) => {
       return res.status(404).json({ message: "Không tìm thấy khóa học." });
     }
 
-    // Nếu trạng thái không phải "accepted", xóa khóa học; ngược lại, thay đổi trạng thái của nó
+    // Nếu trạng thái không phải "accepted", xóa khóa học; ngược lại, chuyển đổi trạng thái của nó
     if (status !== "accepted") {
       await course.deleteOne(); // Xóa khóa học
-      return res.status(200).json({ message: "Đã xóa khóa học thành công." });
+      return res.status(200).json({ message: "Khóa học đã được xóa thành công." });
     }
 
-    // Thay đổi trạng thái isDeleted cho các khóa học "accepted"
+    // Chuyển đổi trạng thái isDeleted cho các khóa học "accepted"
     course.isDeleted = !course.isDeleted; // Đảo ngược giá trị isDeleted
     await course.save(); // Lưu khóa học đã cập nhật
 
     res.status(200).json({
-      message: `Đã đánh dấu khóa học là ${course.isDeleted ? "đã xóa" : "đang hoạt động"
-        } thành công.`,
+      message: `Khóa học đã được đánh dấu là ${course.isDeleted ? "đã xóa" : "đang hoạt động"
+        }.`,
       updatedCourse: course,
     });
   } catch (error) {
-    console.log("Lỗi khi thay đổi hoặc xóa khóa học:", error); // Log lỗi
+    console.log("Lỗi khi chuyển đổi hoặc xóa khóa học:", error); // Log lỗi
     res.status(500).json({ message: error.message });
   }
 };
@@ -409,12 +412,12 @@ exports.createProgressForExercise = async (req, res) => {
   const { exercises } = req.body;
   const { workoutId } = req.params;
 
-  console.log("Đã nhận bài tập:", exercises); // Dòng debug
+  console.log("Dữ liệu bài tập nhận được:", exercises); // Dòng debug
 
   try {
     const workout = await Workout.findById(workoutId);
     if (!workout) {
-      return res.status(404).json({ message: "Không tìm thấy buổi tập" });
+      return res.status(404).json({ message: "Không tìm thấy workout" });
     }
 
     if (!Array.isArray(workout.progressId)) {
@@ -440,13 +443,13 @@ exports.createProgressForExercise = async (req, res) => {
 
     await workout.save();
     res.status(201).json({
-      message: "Đã thêm tiến trình vào buổi tập",
+      message: "Đã thêm progress vào workout",
       progress: progressEntries,
     });
   } catch (error) {
-    console.error("Lỗi khi tạo các mục tiến trình:", error);
+    console.error("Lỗi khi tạo progress entries:", error);
     res.status(500).json({
-      message: "Không thể tạo các mục tiến trình",
+      message: "Không thể tạo progress entries",
       error: error.message,
     });
   }

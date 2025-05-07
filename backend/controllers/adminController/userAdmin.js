@@ -2,7 +2,7 @@ const Account = require("../../models/account");
 const bcrypt = require('bcrypt');
 
 
-// Lấy tất cả tài khoản người dùng
+// Get all accounts
 exports.getAllAccounts = async (req, res) => {
     try {
         // Lấy tất cả tài khoản người dùng
@@ -38,12 +38,12 @@ exports.getAllAccounts = async (req, res) => {
         res.json({ accounts, totalUsers, usersCreatedToday, activateUsers, blockedUsers, nonActivateUsers });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Lỗi máy chủ");
+        res.status(500).send("Server lỗi");
     }
 };
 
 
-// Tạo mới tài khoản
+// tạo mới tài khoản
 exports.createAccount = async (req, res) => {
     const { email, password, name, role, status, gender, dob, phone, address, avatar } = req.body;
 
@@ -75,11 +75,11 @@ exports.createAccount = async (req, res) => {
         res.json({ msg: "Tài khoản đã được tạo thành công", account });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Lỗi máy chủ");
+        res.status(500).send("Server lỗi");
     }
 };
 
-// Cập nhật tài khoản
+// Cập nhập tài khoản
 exports.updateAccount = async (req, res) => {
     const { status, gender, dob, phone, address, avatar } = req.body;
     const { accountId } = req.params;
@@ -91,7 +91,7 @@ exports.updateAccount = async (req, res) => {
             return res.status(404).json({ msg: "Không tìm thấy tài khoản" });
         }
 
-        // Cập nhật nếu có sự thay đổi
+        // cập nhập nếu có sự thay đổi
         if (status) account.status = status;
         if (gender) account.gender = gender;
         if (dob) account.dob = dob;
@@ -103,7 +103,7 @@ exports.updateAccount = async (req, res) => {
         res.json({ msg: "Tài khoản đã được cập nhật thành công", account });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Lỗi máy chủ");
+        res.status(500).send("Server lỗi");
     }
 };
 
@@ -121,10 +121,10 @@ exports.UpdateRole = async (req, res) => {
     }
 };
 
-// Chặn/Bỏ chặn tài khoản
+// Block/unblock tài khoản
 exports.blockUnblockAccount = async (req, res) => {
     const { accountId } = req.params;
-    const { status } = req.body; // 'activate' hoặc 'blocked'
+    const { status } = req.body; // 'activate' or 'blocked'
 
     try {
         let account = await Account.findById(accountId);
@@ -137,11 +137,11 @@ exports.blockUnblockAccount = async (req, res) => {
 
         await account.save();
         res.json({
-            msg: `Tài khoản đã được ${status === 'blocked' ? 'chặn' : 'bỏ chặn'} thành công`,
+            msg: `Tài khoản ${status === 'blocked' ? 'blocked' : 'unblocked'} thành công`,
             account,
         });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send("Lỗi máy chủ");
+        res.status(500).send("Server lỗi");
     }
 };

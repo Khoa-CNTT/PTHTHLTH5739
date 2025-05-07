@@ -11,12 +11,6 @@ const blogSchema = new Schema({
     content: {
         type: String
     },
-    comments: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Comment'
-        }
-    ],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'Account'

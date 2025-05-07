@@ -58,14 +58,14 @@ const courseSchema = mongoose.Schema(
     ],
     rejectionReason: {
       type: String,
-      // This field will store the rejection reason only when the status is "rejected"
+      // Trường này sẽ lưu trữ lý do từ chối chỉ khi trạng thái là "rejected"
       required: function () {
-        return this.status === "rejected"; // Only require this if the status is 'rejected'
+        return this.status === "rejected"; // Chỉ yêu cầu điều này nếu trạng thái là 'rejected'
       },
     },
     isDeleted: {
       type: Boolean,
-      default: false, // Default value is false, indicating the course is not deleted
+      default: false, // Giá trị mặc định là sai, cho biết khóa học không bị ẩn
     },
   },
   {
