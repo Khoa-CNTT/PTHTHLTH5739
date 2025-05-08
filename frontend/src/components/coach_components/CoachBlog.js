@@ -31,9 +31,11 @@ import {
   Search as SearchIcon,
   Category,
 } from "@mui/icons-material";
-import { Container } from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
+import { toast, ToastContainer } from "react-toastify";
+
 
 import { useTheme } from "@mui/material/styles";
 
@@ -58,19 +60,20 @@ function CoachBlog() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
-    fetchAllBlogs();
+    fetchBlogs();
   }, []);
 
-  // Hàm gọi API để lấy danh sách bài viết
-  const fetchAllBlogs = () => {
+  const fetchBlogs = () => {
     axios
       .get("http://localhost:4000/api/coaches/blogs", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
       .then((response) => setBlogs(response.data))
-      .catch((error) => console.error("Lỗi khi tải danh sách bài viết!", error));
+      .catch((error) => {
+        console.error("Có lỗi khi tải bài viết!", error);
+        toast.error("Có lỗi khi tải bài viết!");
+      })
 
-    // Gọi API để lấy danh mục bài viết
     axios
       .get("http://localhost:4000/api/coaches/blogCategory", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
@@ -79,20 +82,19 @@ function CoachBlog() {
         setBlogCategory(response.data.blogCategory);
       })
       .catch((error) => {
-        console.error("Lỗi khi tải danh mục bài viết!", error);
+        console.error("Đã xảy ra lỗi khi tìm thể loại bài viết!", error);
+        toast.error("Đã xảy ra lỗi khi tìm thể loại bài viết");
       });
   };
 
-  // Lọc bài viết dựa trên từ khóa tìm kiếm
   const filteredBlogs = Array.isArray(blogs)
     ? blogs.filter(
-        (blog) =>
-          blog.title &&
-          blog.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      (blog) =>
+        blog.title &&
+        blog.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     : [];
 
-  // Mở dialog để thêm hoặc chỉnh sửa bài viết
   const handleOpenDialog = (blog) => {
     setSelectedBlog(blog);
     setOpen(true);
@@ -100,65 +102,66 @@ function CoachBlog() {
     setFormData(
       blog
         ? {
-            title: blog.title,
-            content: blog.content,
-            category: blog.category,
-            image: blog.image,
-          }
-        : { title: "", content: "", image: "", category: "" }
+          title: blog.title,
+          content: blog.content,
+          category: blog.category,
+          image: blog.image,
+        }
+        : { title: "", content: "", image: "" }
     );
   };
 
-  // Đóng dialog
   const handleCloseDialog = () => {
     setOpen(false);
     setSelectedBlog(null);
     setIsAdding(false);
   };
 
-  // Xử lý thay đổi input trong form
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Lưu bài viết (thêm mới hoặc cập nhật)
   const handleSave = () => {
     const request = isAdding
       ? axios.post("http://localhost:4000/api/coaches/blogs", formData, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        })
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      })
       : axios.put(
-          `http://localhost:4000/api/coaches/blogs/${selectedBlog._id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        `http://localhost:4000/api/coaches/blogs/${selectedBlog._id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
     request
       .then((response) => {
-        const updatedBlogs = isAdding
+        const newBlogs = isAdding
           ? [...blogs, response.data]
           : blogs.map((blog) =>
-              blog._id === response.data._id ? response.data : blog
-            );
-        setBlogs(updatedBlogs);
+            blog._id === response.data._id ? response.data : blog
+          );
+        setBlogs(newBlogs);
         handleCloseDialog();
-        window.location.reload(); // Tải lại trang để cập nhật giao diện
+        window.location.reload();
+        toast.success("Lưu bài viết thành công");
       })
-      .catch((error) => console.error("Lỗi khi lưu bài viết!", error));
+      .catch((error) => {
+        console.error("Có lỗi khi lưu bài viết!", error);
+        toast.error("Có lỗi khi lưu bài viết!");
+      })
   };
 
-  // Hiển thị dialog xác nhận xóa
+
   const handleDeleteConfirmation = (blog) => {
-    setBlogToDelete(blog); // Lưu trữ bài viết cần xóa
-    setDeleteDialogOpen(true); // Mở dialog xác nhận
+    setBlogToDelete(blog); // Set the blog to be deleted
+    setDeleteDialogOpen(true); // Open the confirmation dialog
   };
 
-  // Xóa bài viết sau khi xác nhận
+  // Proceed with deleting the blog
   const handleDelete = () => {
     if (blogToDelete) {
       axios
@@ -166,41 +169,44 @@ function CoachBlog() {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         })
         .then(() => {
-          // Cập nhật danh sách bài viết sau khi xóa thành công
           setBlogs((prevBlogs) =>
             prevBlogs.filter((blog) => blog._id !== blogToDelete._id)
           );
-          setDeleteDialogOpen(false); // Đóng dialog xác nhận
-          setBlogToDelete(null); // Reset bài viết cần xóa
+          toast.success("Xóa bìa viết thành công")
+          setDeleteDialogOpen(false); // Close the confirmation dialog
         })
-        .catch((error) => console.error("Lỗi khi xóa bài viết!", error));
+        .catch((error) => {
+          console.error("Lỗi khi xóa bài viết!", error);
+          toast.error("Lỗi khi xóa bài viết");
+        })
     }
   };
 
-  // Hủy thao tác xóa
+  // Cancel the deletion
   const handleCancelDelete = () => {
     setDeleteDialogOpen(false);
-    setBlogToDelete(null); // Reset bài viết cần xóa
+    setBlogToDelete(null); // Reset the blog to be deleted
   };
 
-  // Gửi bài viết để phê duyệt
   const handleSubmitForApproval = (blogId) => {
     axios
       .put(`http://localhost:4000/api/coaches/blogs/${blogId}/submit`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       })
-      .then(() => fetchAllBlogs()) // Tải lại danh sách bài viết sau khi gửi
-      .catch((error) =>
-        console.error("Lỗi khi gửi bài viết để phê duyệt!", error)
-      );
+      .then(() => {
+        toast.success("Gửi bài viết thành công, hãy đợi để được duyệt")
+        fetchBlogs();
+      })
+      .catch((error) =>{
+        console.error("Có lỗi khi gửi bài viết để phê duyệt!", error);
+        toast.error("Có lỗi khi gửi bài viết để phê duyệt!");
+      })
   };
 
-  // Xử lý thay đổi trang trong pagination
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  // Xử lý thay đổi số hàng hiển thị trên mỗi trang
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -208,6 +214,7 @@ function CoachBlog() {
 
   return (
     <div className="mt-5">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
       <h2 className="text-3xl font-bold mb-8" style={{ color: '#000' }}>Quản lý bài viết</h2>
       <div style={{ padding: "16px" }}>
         <Grid
@@ -275,7 +282,7 @@ function CoachBlog() {
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{blog.title}</TableCell>
                     {!isMobile && (
-                      <TableCell>{blog.content?.substring(0, 50)}...</TableCell>
+                      <TableCell>{blog.content.substring(0, 50)}</TableCell>
                     )}
                     <TableCell>
                       {new Date(blog.date).toLocaleDateString()}
@@ -287,10 +294,10 @@ function CoachBlog() {
                         alt={blog.title}
                         className="blog-image"
                         style={{
-                          width: "100px",
-                          height: "auto",
-                          objectFit: "contain",
-                          maxHeight: "50px",
+                          width: "100px", // Đặt chiều rộng mong muốn
+                          height: "auto", // Tự động điều chỉnh chiều cao để duy trì tỷ lệ khung hình
+                          objectFit: "contain", // Giữ nguyên tỷ lệ khung hình và vừa với ô
+                          maxHeight: "50px", // Giới hạn chiều cao để tránh tràn
                         }}
                       />
                     </TableCell>
@@ -321,9 +328,7 @@ function CoachBlog() {
                           style={{
                             minWidth: isMobile ? "fit-content" : "auto",
                           }}
-                        >
-                          Gửi duyệt
-                        </Button>
+                        ></Button>
                       )}
                     </TableCell>
                   </TableRow>
@@ -341,8 +346,7 @@ function CoachBlog() {
               </Button>
               <Button
                 onClick={handleDelete}
-                color="secondary"
-              >
+                color="secondary">
                 Xóa
               </Button>
             </DialogActions>
@@ -355,8 +359,6 @@ function CoachBlog() {
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
-            labelRowsPerPage="Số hàng mỗi trang:"
-            labelDisplayedRows={({ from, to, count }) => `Từ ${from}-${to} của ${count}`}
           />
         </TableContainer>
 
@@ -391,7 +393,7 @@ function CoachBlog() {
                 <TextField
                   margin="dense"
                   name="image"
-                  label="URL hình ảnh"
+                  label="Ảnh URL"
                   type="text"
                   fullWidth
                   variant="outlined"
@@ -407,7 +409,6 @@ function CoachBlog() {
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    label="Thể loại bài viết"
                   >
                     {blogCategory.map((category) => (
                       <MenuItem key={category._id} value={category._id}>
@@ -433,24 +434,28 @@ function CoachBlog() {
                   <div style={{ marginBottom: "8px" }}>
                     <h4>
                       {formData.title || (
-                        <span style={{ color: "#777" }}>
-                          Tiêu đề xem trước sẽ hiển thị ở đây...
+                        <span style={{ color: "#000" }}>
+                          Tiêu đề xem trước sẽ xuất hiện ở đây...
                         </span>
                       )}
                     </h4>
                   </div>
-
+                  
                   <div style={{ marginBottom: "8px" }}>
                     {formData.content ? (
+                      // Render React Quill với nội dung nếu có
                       <ReactQuill
-                        style={{ color: "#333", fontWeight: 'normal' }}
-                        value={formData.content}
-                        readOnly={true}
-                        theme="bubble"
+                      style={{ color: "#000" ,fontWeight: 'bold'  }}
+                        value={formData.content} // Sử dụng nội dung từ formData
+                        //readOnly={true} // Biến nó thành chỉ đọc để hiển thị nội dung
+                        modules={{
+                          toolbar: false, // Tắt thanh công cụ vì nó chỉ để hiển thị
+                        }}
                       />
                     ) : (
-                      <span style={{ color: "#777" }}>
-                        Nội dung xem trước sẽ hiển thị ở đây...
+                      // Trình giữ chỗ khi không có nội dung
+                      <span style={{ color: "#000" , fontWeight: 'bold' }}>
+                        Nội dung xem trước sẽ xuất hiện ở đây...
                       </span>
                     )}
                   </div>
@@ -466,16 +471,16 @@ function CoachBlog() {
                         }}
                       />
                     ) : (
-                      <span style={{ color: "#777" }}>
-                        Hình ảnh xem trước sẽ hiển thị ở đây...
+                      <span style={{ color: "#000" }}>
+                        Ảnh xem trước sẽ xuất hiện ở đây...
                       </span>
                     )}
                   </div>
                   <div style={{ marginBottom: "8px" }}>
                     <span>
-                      {blogCategory.find(cat => cat._id === formData.category)?.catName || (
-                        <span style={{ color: "#777" }}>
-                          Thể loại xem trước sẽ hiển thị ở đây...
+                      {formData.category?.catName || (
+                        <span style={{ color: "#000" }}>
+                          Thể loại xem trước sẽ xuất hiện ở đây...
                         </span>
                       )}
                     </span>
@@ -489,9 +494,8 @@ function CoachBlog() {
               Hủy
             </Button>
             <Button
-              onClick={handleSave}
-              color="primary"
-            >
+              onClick={handleSave} 
+              color="primary">
               {isAdding ? "Thêm" : "Lưu"}
             </Button>
           </DialogActions>

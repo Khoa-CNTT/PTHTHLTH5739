@@ -3,6 +3,8 @@ import { Modal, Input, List, Checkbox, Button, Tag, Row, Col } from "antd";
 import { CloseOutlined, PlusOutlined, DeleteOutlined } from "@ant-design/icons";
 import axios from "axios";
 import ReactPlayer from "react-player";
+import { toast, ToastContainer } from "react-toastify";
+
 
 const EditWorkoutModal = ({
   isModalVisible,
@@ -14,7 +16,7 @@ const EditWorkoutModal = ({
 }) => {
   const [exercises, setExercises] = useState([]);
 
-  // Fetch all exercises when modal is visible
+  // Lấy tất cả các bài tập khi modal hiển thị
   useEffect(() => {
     if (isModalVisible) {
       axios
@@ -27,23 +29,24 @@ const EditWorkoutModal = ({
           setExercises(response.data);
         })
         .catch((error) => {
-          console.error("Error fetching exercises:", error);
+          console.error("Lỗi khi lấy danh sách bài tập:", error);
+          toast.error("Lỗi khi lấy danh sách bài tập");
         });
     }
   }, [isModalVisible]);
 
-  // Reset currentWorkout state if we are creating a new workout
+  // Reset trạng thái currentWorkout nếu đang tạo workout mới
   useEffect(() => {
     if (isNewWorkout) {
       setCurrentWorkout({
         name: "",
         progressId: [],
-        listVideo: [], // Initialize listVideo as an empty array when creating a new workout
+        listVideo: [], // Khởi tạo listVideo là một mảng trống khi tạo workout mới
       });
     }
   }, [isNewWorkout, setCurrentWorkout]);
 
-  // Update workout name
+  // Cập nhật tên workout
   const handleWorkoutNameChange = (e) => {
     setCurrentWorkout({
       ...currentWorkout,
@@ -51,7 +54,7 @@ const EditWorkoutModal = ({
     });
   };
 
-  // Handle exercise checkbox change
+  // Xử lý thay đổi checkbox bài tập
   const handleExerciseCheckboxChange = (exerciseId, checked) => {
     const newProgress = [...(currentWorkout.progressId || [])];
     if (checked) {
@@ -69,11 +72,11 @@ const EditWorkoutModal = ({
             exerciseType: exerciseData.exerciseType,
             exerciseDuration: exerciseData.exerciseDuration,
           },
-          note: "Not started",
+          note: "Chưa bắt đầu",
           completionRate: "0",
         };
         newProgress.push(newProgressItem);
-        // Add video related to the exercise to listVideo
+        // Thêm video liên quan đến bài tập vào listVideo
         setCurrentWorkout({
           ...currentWorkout,
           progressId: newProgress,
@@ -86,7 +89,7 @@ const EditWorkoutModal = ({
       );
       newProgress.length = 0;
       newProgress.push(...filteredProgress);
-      // Remove video related to the exercise from listVideo
+      // Xóa video liên quan đến bài tập khỏi listVideo
       const exerciseData = exercises.find(
         (exercise) => exercise._id === exerciseId
       );
@@ -100,7 +103,7 @@ const EditWorkoutModal = ({
     }
   };
 
-  // Handle remove video from listVideo
+  // Xử lý xóa video khỏi listVideo
   const handleRemoveVideo = (videoUrl) => {
     setCurrentWorkout({
       ...currentWorkout,
@@ -108,39 +111,39 @@ const EditWorkoutModal = ({
     });
   };
 
-  // Function to render the video
+  // Hàm hiển thị video
   const renderVideo = (videoUrl) => {
     if (
       videoUrl.includes("youtube.com") ||
       videoUrl.includes("youtube.com/shorts")
     ) {
-      // Handle YouTube and YouTube Shorts
+      // Xử lý YouTube và YouTube Shorts
       return <ReactPlayer url={videoUrl} width="100%" height="100%" controls />;
     } else if (videoUrl.includes("cloudinary.com")) {
-      // Handle Cloudinary
+      // Xử lý Cloudinary
       return <ReactPlayer url={videoUrl} width="100%" height="100%" controls />;
     } else {
-      // Default video rendering
+      // Hiển thị video mặc định
       return <ReactPlayer url={videoUrl} width="100%" height="100%" controls />;
     }
   };
 
   return (
     <Modal
-      title={isNewWorkout ? "Create New Workout" : "Edit Workout"}
+      title={isNewWorkout ? "Tạo Workout Mới" : "Chỉnh Sửa Workout"}
       visible={isModalVisible}
       onCancel={() => setIsModalVisible(false)}
       footer={null}
-      width={800} // Increase width of the modal
+      width={800} // Tăng chiều rộng của modal
     >
       <div>
-        <label>Workout Name</label>
+        <label>Tên Workout</label>
         <Input
           value={currentWorkout?.name}
           onChange={handleWorkoutNameChange}
           style={{ marginBottom: "20px" }}
         />
-        <h3>Exercises</h3>
+        <h3>Bài Tập</h3>
         <Row gutter={[16, 16]}>
           {exercises.map((exercise) => {
             const isChecked = (currentWorkout.progressId || []).some(
@@ -148,17 +151,17 @@ const EditWorkoutModal = ({
             );
             return (
               <Col span={12} key={exercise._id}>
-                {/* Display 2 exercises per row */}
+                {/* Hiển thị 2 bài tập trên một hàng */}
                 <List.Item
                   style={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                  }} // Use flexbox to align
+                  }} // Sử dụng flexbox để căn chỉnh
                 >
                   <List.Item.Meta
                     title={exercise.name}
-                    description={`Type: ${exercise.exerciseType} - Duration: ${exercise.exerciseDuration} minutes`}
+                    description={`Loại: ${exercise.exerciseType} - Thời lượng: ${exercise.exerciseDuration} phút`}
                   />
                   <Checkbox
                     checked={isChecked}
@@ -175,7 +178,7 @@ const EditWorkoutModal = ({
           })}
         </Row>
 
-        {/* Display listVideo */}
+        {/* Hiển thị listVideo */}
         <h3>Videos</h3>
         <div style={{ marginBottom: "20px" }}>
           {currentWorkout?.listVideo.length > 0 ? (
@@ -193,18 +196,10 @@ const EditWorkoutModal = ({
                 }}
               >
                 {renderVideo(videoUrl)}
-                <Button
-                  icon={<DeleteOutlined />}
-                  size="small"
-                  onClick={() => handleRemoveVideo(videoUrl)}
-                  style={{ marginTop: "5px", marginBottom: "20px" }}
-                >
-                  Remove
-                </Button>
               </div>
             ))
           ) : (
-            <p>No videos selected</p>
+            <p>Không có video nào được chọn</p>
           )}
         </div>
 
@@ -221,17 +216,18 @@ const EditWorkoutModal = ({
             onClick={() => setIsModalVisible(false)}
             type="default"
           >
-            Close
+            Đóng
           </Button>
           <Button
             icon={<PlusOutlined />}
             type="primary"
             onClick={() => handleSaveWorkout(currentWorkout)}
           >
-            Save Workout
+            Lưu Workout
           </Button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
     </Modal>
   );
 };

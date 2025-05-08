@@ -18,6 +18,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { toast, ToastContainer } from "react-toastify";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -54,6 +55,7 @@ const AdminRevenue = () => {
         processMonthlyRevenue(data.subscriptions);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu doanh thu:", error);
+        toast.error("Lỗi khi lấy dữ liệu doanh thu");
       }
     };
     fetchData();
@@ -71,7 +73,7 @@ const AdminRevenue = () => {
     subscriptions.forEach((sub) => {
       const date = new Date(sub.createdAt);
       const year = date.getFullYear();
-      const month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
+      const month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0 nên + 1
       const key = `${year}-${month}`;
       const revenue = sub.courseId?.price || 0;
       monthlyRevenue[key] = (monthlyRevenue[key] || 0) + revenue;
@@ -115,6 +117,7 @@ const AdminRevenue = () => {
 
   return (
     <Container fluid className="admin-revenue">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <Row>
         <Col className="application-section">
           <h2 className="mb-4">Quản lý doanh thu</h2>
@@ -137,14 +140,6 @@ const AdminRevenue = () => {
                 </Card.Body>
               </Card>
             </Col>
-            {/* <Col md={4}>
-              <Card className="overview-card">
-                <Card.Body>
-                  <Card.Title>Blocked Subscriptions</Card.Title>
-                  <Card.Text>{blockedSubscriptions}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col> */}
           </Row>
 
           <Card className="mb-4">

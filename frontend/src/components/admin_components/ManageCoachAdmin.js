@@ -45,7 +45,7 @@ const ManagerCoach = () => {
   const [activateCoaches, setActivateCoaches] = useState(0);
   const [blockedCoaches, setBlockedCoaches] = useState(0);
   const [nonActivateCoaches, setNonActivateCoaches] = useState(0);
- const { formatGender } = require("../../utils/formatGender");
+  const { formatGender } = require("../../utils/formatGender");
   useEffect(() => {
     fetchCoaches();
   }, []);
@@ -72,8 +72,8 @@ const ManagerCoach = () => {
         throw new Error("Dữ liệu không phải là mảng");
       }
     } catch (err) {
-      toast.error("Failed to fetch coaches");
-      console.error("Error fetching coaches:", err);
+      toast.error("Lỗi khi tải HLV");
+      console.error("Lỗi khi tải HLV:", err);
     }
   };
 
@@ -147,13 +147,13 @@ const ManagerCoach = () => {
       fetchCoaches();
       handleCloseEditModal();
     } catch (err) {
-      toast.error("Failed to update coach");
+      toast.error("Không cập nhật được HLV");
     }
   };
 
   const handleBlockUnblockCoach = async () => {
     if (!selectedCoach) {
-      toast.error("No coach selected");
+      toast.error("Không có hlv nào được chọn");
       return;
     }
 
@@ -161,7 +161,7 @@ const ManagerCoach = () => {
       const newStatus =
         selectedCoach.status === "activate" ? "blocked" : "activate";
 
-      console.log("Updating coach status:", {
+      console.log("Đang cập nhật trạng thái HLV:", {
         coachId: selectedCoach.accountId,
         newStatus,
       });
@@ -184,16 +184,16 @@ const ManagerCoach = () => {
       handleCloseConfirmBlockModal();
     } catch (err) {
       console.error(
-        "Error blocking/unblocking coach:",
+        "Lỗi khi chặn/bỏ chặn HLV:",
         err.response?.data || err.message
       );
-      toast.error(err.response?.data?.msg || "Failed to change coach status");
+      toast.error(err.response?.data?.msg || "Không thể thay đổi trạng thái HLV");
     }
   };
 
   const handleChangeToUser = async () => {
     if (!selectedCoach) {
-      toast.error("No coach selected");
+      toast.error("Không có hlv nào được chọn");
       return;
     }
     console.log("selectedCoach.accountId", selectedCoach.accountId);
@@ -216,10 +216,10 @@ const ManagerCoach = () => {
       handleCloseConfirmChangeRoleModal();
     } catch (err) {
       console.error(
-        "Error to update role coach:",
+        "Lỗi khi cập nhật vai trò HLV:",
         err.response?.data || err.message
       );
-      toast.error(err.response?.data?.msg || "Failed to change coach role");
+      toast.error(err.response?.data?.msg || "Không thể thay đổi vai trò HLV");
     }
   };
 
@@ -236,11 +236,11 @@ const ManagerCoach = () => {
 
   return (
 
-      <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px" }}>
       <h2 className="mb-4" >
-      Quản lý HLV
+        Quản lý HLV
       </h2>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <ChartTK
         title={"Trạng thái HLV"}
         active={activateCoaches}
@@ -259,9 +259,6 @@ const ManagerCoach = () => {
       </div>
 
       <div className=" justify-content-between mb-4">
-        {/* <Link to="/admin/coach" className="btn btn-primary">
-          Create Coach
-        </Link> */}
         <div>
           <TextField
             variant="outlined"
@@ -285,7 +282,7 @@ const ManagerCoach = () => {
                 color: "#000",
               },
             }}
-            sx={{ maxWidth: 300 }} // Max width of the input field
+            sx={{ maxWidth: 300 }} // chiều rộng tối đa
           />
         </div>
       </div>
@@ -293,7 +290,7 @@ const ManagerCoach = () => {
       {/* Coaches List */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="coaches table">
-          <TableHead style={{ fontWeight: 'bold',backgroundColor: '#F2F2F2' }}>
+          <TableHead style={{ fontWeight: 'bold', backgroundColor: '#F2F2F2' }}>
             <TableRow>
               <TableCell sx={{ fontWeight: "bold" }}>
                 Ảnh
@@ -304,9 +301,6 @@ const ManagerCoach = () => {
               <TableCell sx={{ fontWeight: "bold" }}>
                 Tên
               </TableCell>
-              {/* <TableCell sx={{ fontWeight: "bold" }}>
-                Vai trò
-              </TableCell> */}
               <TableCell sx={{ fontWeight: "bold" }}>
                 Trạng thái
               </TableCell>
@@ -324,7 +318,7 @@ const ManagerCoach = () => {
                     coach.status === "activate" ? "#d5f5dc" : "#FCC5C5",
                   "&:hover": {
                     backgroundColor:
-                      coach.status === "activate" ? "#a3d9a3" : "#F88D8D", // Darker shade on hover
+                      coach.status === "activate" ? "#a3d9a3" : "#F88D8D", // hover khi di chuột
                   },
                 }}
               >
@@ -341,7 +335,6 @@ const ManagerCoach = () => {
                 </TableCell>
                 <TableCell>{coach.email}</TableCell>
                 <TableCell>{coach.name}</TableCell>
-                {/* <TableCell>{coach.role}</TableCell> */}
                 <TableCell>{coach.status}</TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleShowViewModal(coach)}>
@@ -367,7 +360,7 @@ const ManagerCoach = () => {
         </Table>
       </TableContainer>
 
-      {/* Pagination */}
+      {/* Phân trang */}
       <nav>
         <ul className="pagination justify-content-center">
           {Array.from({
@@ -382,7 +375,7 @@ const ManagerCoach = () => {
         </ul>
       </nav>
 
-      {/* View Coach Modal */}
+      {/* Modal xem chi tiêt HLV */}
       <Modal show={showViewModal} onHide={handleCloseViewModal}>
         <Modal.Header closeButton>
           <Modal.Title>Chi tiết HLV</Modal.Title>
@@ -441,11 +434,6 @@ const ManagerCoach = () => {
                   </div>
                 </div>
               )}
-
-              {/* <Row className="mb-3">
-                <Col md={4}><strong>Hợp đồng:</strong></Col>
-                <Col md={8}>{selectedCoach.contract}</Col>
-            </Row> */}
 
               {selectedCoach.certificate && selectedCoach.certificate.length > 0 && (
                 <div className="mb-3">
@@ -532,7 +520,7 @@ const ManagerCoach = () => {
                 )}
               </Form.Group>
 
-              {/* Name */}
+              {/* Tên */}
               <Form.Group>
                 <Form.Label>Tên</Form.Label>
                 <Form.Control
@@ -563,7 +551,7 @@ const ManagerCoach = () => {
                 </Form.Control>
               </Form.Group>
 
-              {/* Date of Birth */}
+              {/* Ngày sinh */}
               <Form.Group>
                 <Form.Label>Ngày sinh</Form.Label>
                 <Form.Control
@@ -576,7 +564,7 @@ const ManagerCoach = () => {
                 />
               </Form.Group>
 
-              {/* Phone */}
+              {/* SĐT */}
               <Form.Group>
                 <Form.Label>SĐT</Form.Label>
                 <Form.Control
@@ -592,7 +580,7 @@ const ManagerCoach = () => {
                 />
               </Form.Group>
 
-              {/* Address */}
+              {/* Địa chỉ */}
               <Form.Group>
                 <Form.Label>Địa chỉ</Form.Label>
                 <Form.Control
@@ -608,7 +596,7 @@ const ManagerCoach = () => {
                 />
               </Form.Group>
 
-              {/* Status */}
+              {/* Trạng thái */}
               <Form.Group>
                 <Form.Label>Trạng thái</Form.Label>
                 <Form.Control
@@ -625,7 +613,7 @@ const ManagerCoach = () => {
                 />
               </Form.Group>
 
-              {/* Introduce */}
+              {/* Giới thiệu */}
               <Form.Group>
                 <Form.Label>Giới thiệu</Form.Label>
                 <Form.Control
@@ -642,7 +630,7 @@ const ManagerCoach = () => {
                 />
               </Form.Group>
 
-              {/* Self Image URL */}
+              {/* URL hình ảnh tự chụp */}
               <Form.Group>
                 <Form.Label>URL hình ảnh tự chụp</Form.Label>
                 <Form.Control
@@ -678,7 +666,7 @@ const ManagerCoach = () => {
                   )}
               </Form.Group>
 
-              {/* Contract URL */}
+              {/* Hợp đồng URL */}
               <Form.Group>
                 <Form.Label>Hợp đồng URL</Form.Label>
                 <Form.Control
@@ -694,7 +682,7 @@ const ManagerCoach = () => {
                 />
               </Form.Group>
 
-              {/* Certificate URL */}
+              {/* Chứng chỉ URL */}
               <Form.Group>
                 <Form.Label>URL chứng chỉ</Form.Label>
                 <Form.Control
@@ -736,7 +724,7 @@ const ManagerCoach = () => {
           )}
         </Modal.Body>
         <Modal.Footer>
-          {/* Save Changes Button */}
+          {/* Button lưu */}
           <Button variant="primary"
             onClick={handleUpdateCoach}
           >
@@ -750,7 +738,7 @@ const ManagerCoach = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Confirm Block/Unblock Modal */}
+      {/* Modal xác nhận block */}
       <Modal show={showConfirmBlockModal} onHide={handleCloseConfirmBlockModal}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -768,7 +756,7 @@ const ManagerCoach = () => {
           <Button variant="secondary" onClick={handleCloseConfirmBlockModal}>
             Hủy
           </Button>
-          <Button variant="danger"color="danger"
+          <Button variant="danger" color="danger"
             onClick={handleBlockUnblockCoach}
           >
             {selectedCoach?.status === "activate" ? "Block" : "Unblock"}
@@ -776,7 +764,7 @@ const ManagerCoach = () => {
         </Modal.Footer>
       </Modal>
 
-      {/* Confirm Block/Unblock Modal */}
+      {/* Modal thay đổi vai trò */}
       <Modal
         show={showConfirmChangeRoleModel}
         onHide={handleCloseConfirmChangeRoleModal}

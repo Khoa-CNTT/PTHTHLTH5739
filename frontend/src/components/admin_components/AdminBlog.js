@@ -57,45 +57,29 @@ function AdminBlog() {
 
       const allBlogs = response.data;
 
-      // Lọc và hiển thị các blog đang chờ xử lý
+      // Lọc và ghi lại các khóa học đã gửi
       const submitted = allBlogs.filter((blog) => {
         return blog.status === "pending";
       });
       setSubmittedBlogs(submitted);
 
-      // Lọc và hiển thị các blog đã được chấp nhận
+      // Lọc và ghi lại những khóa học được chấp nhận
       const accepted = allBlogs.filter((blog) => {
         return blog.status === "approved";
       });
       setAcceptedBlogs(accepted);
 
-      // Lọc và hiển thị các blog đã bị từ chối
+      // Lọc và ghi lại các khóa học bị từ chối
       const rejected = allBlogs.filter((blog) => {
         return blog.status === "rejected";
       });
       setRejectedBlogs(rejected);
     } catch (error) {
-      console.error("Lỗi khi lấy danh sách blog:", error);
+      console.error("Lỗi khi tải khóa học:", error);
     }
   };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:4000/api/admins/blogCategory",
-        {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        }
-      );
-      setBlogCategory(response.data.blogCategory);
-    } catch (error) {
-      console.error("Lỗi khi lấy danh mục:", error);
-    }
-  };
-
   useEffect(() => {
     fetchBlogs();
-    fetchCategories();
   }, []);
 
   const handleAcceptBlog = async (blogId) => {
@@ -178,12 +162,9 @@ function AdminBlog() {
       setSelectedBlog(response.data);
       setModalOpen(true);
     } catch (error) {
-      console.error("Lỗi khi lấy chi tiết blog:", error);
+      console.error("Lỗi khi tải thông tin chi tiết về khóa học:", error);
+      toast.error("Lỗi khi tải thông tin chi tiết về khóa học.");
     }
-  };
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN'); // Định dạng theo chuẩn Việt Nam (DD/MM/YYYY)
   };
   const BlogTable = ({ blogs, onAccept, onReject, onViewDetails }) => {
     const shouldShowReasonRejectColumn = blogs.some(blog => blog.status === "rejected" && blog.reasonReject);
@@ -209,20 +190,20 @@ function AdminBlog() {
               <th scope="row">{index + 1}</th>
               <td >{blog.title}</td>
               <td className="blog-content text-wrap"  style={{
-                maxWidth: "250px", // Hoặc giá trị bạn muốn
-                overflow: 'hidden',
-                display: '-webkit-box',
-                WebkitLineClamp: '3',
-                WebkitBoxOrient: 'vertical',
-                textOverflow: 'ellipsis',
-                height: 'calc(1.7em * 3)', // Chiều cao tương đương 3 dòng (line-height mặc định là 1.5)
-                  }}>{blog.content}</td>
+            maxWidth: "250px",
+            overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: '3',
+            WebkitBoxOrient: 'vertical',
+            textOverflow: 'ellipsis',
+            height: 'calc(1.7em * 3)', // Chiều cao tương đương 3 dòng (line-height mặc định là 1.5)
+              }}>{blog.content}</td>
               <td className="text-center">{new Date(blog.date).toLocaleString()}</td>
               <td>
                 {blog.image && (
                   <img
                     src={blog.image}
-                    alt="Xem trước"
+                    alt="Preview"
                     style={{ maxWidth: "150px", maxHeight: "150px", objectFit: "contain" }}
                   />
                 )}
@@ -262,9 +243,9 @@ function AdminBlog() {
         padding: "20px",
         borderRadius: "8px",
       }}
-    >
+    > 
       <h2 className="mb-4">Quản lý bài viết</h2>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
 
       <Nav tabs className="mb-3">
         <NavItem>
@@ -280,7 +261,7 @@ function AdminBlog() {
             className={classnames({ active: activeTab === "2" })}
             onClick={() => toggle("2")}
           >
-            Bài viết đã được chấp nhận
+            Bài viết được chấp nhận
           </NavLink>
         </NavItem>
         <NavItem>
@@ -288,7 +269,7 @@ function AdminBlog() {
             className={classnames({ active: activeTab === "3" })}
             onClick={() => toggle("3")}
           >
-            Bài viết đã bị từ chối
+            Bài viết bị từ chối
           </NavLink>
         </NavItem>
       </Nav>
@@ -352,7 +333,7 @@ function AdminBlog() {
                 {selectedBlog.image && (
                   <img
                     src={selectedBlog.image}
-                    alt="Xem trước"
+                    alt="Preview"
                     style={{
                       maxWidth: "100%",
                       maxHeight: "200px",
@@ -372,7 +353,9 @@ function AdminBlog() {
           </ModalFooter>
         </Modal>
       )}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
+    
   );
 }
 

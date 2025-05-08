@@ -9,7 +9,7 @@ export default function BlogDetailPage() {
     return (
         <>
             <Navbar />
-            <PageHeader title="Blog detail" readOnly />
+            <PageHeader title="Chi tiết bài viết" readOnly />
             <BlogDetail />
             <Footer /> 
         </>

@@ -44,8 +44,8 @@ function PreviewUserWorkout() {
 			);
 			setWorkouts(response.data.data);
 		} catch (error) {
-			console.error("Error fetching workout videos:", error);
-			toast.error("Failed to fetch workout videos. Please try again.");
+			console.error("Lỗi khi tải video tập luyện:", error);
+			toast.error("Lỗi khi tải video tập luyện.");
 		}
 	};
 
@@ -68,8 +68,8 @@ function PreviewUserWorkout() {
 			);
 			setAdviceList(response.data.advice);
 		} catch (error) {
-			console.error('Error fetching advice:', error);
-			toast.error('Failed to fetch advice. Please try again.');
+			console.error('Lỗi khi lấy lời khuyên:', error);
+			toast.error('Lỗi khi lấy lời khuyên');
 		}
 		setShowPopup(true);
 	};
@@ -93,21 +93,21 @@ function PreviewUserWorkout() {
 					},
 				}
 			);
-			toast.success('Advice updated successfully!');
+			toast.success('Đã cập nhật lời khuyên thành công!');
 			setAdviceList((prev) =>
 				prev.map((a) => (a.timestamp === timestamp ? response.data.advice : a))
 			);
 			setShowPopup(false);
 		} catch (error) {
-			console.error('Error saving advice:', error);
-			toast.error('Failed to save advice. Please try again.');
+			console.error('Lỗi khi lưu lời khuyên:', error);
+			toast.error('Lỗi khi lưu lời khuyên.');
 		}
 	};
 
 	// Function to handle adding advice (POST request)
 	const handleAddAdvice = async () => {
 		if (!advice.trim()) {
-			toast.warn('Advice cannot be empty.');
+			toast.warning('Lời khuyên không được để trống.');
 			return;
 		}
 
@@ -121,12 +121,12 @@ function PreviewUserWorkout() {
 					},
 				}
 			);
-			toast.success('Advice added successfully!');
+			toast.success('Đã thêm lời khuyên thành công!');
 			setAdviceList([...adviceList, response.data.advice]);
 			setShowPopup(false);
 		} catch (error) {
-			console.error('Error adding advice:', error);
-			toast.error('Failed to add advice. Please try again.');
+			console.error('Lỗi khi thêm lời khuyên:', error);
+			toast.error('Lỗi khi thêm lời khuyên.');
 		}
 	};
 
@@ -142,12 +142,12 @@ function PreviewUserWorkout() {
 					data: { timestamp },
 				}
 			);
-			toast.success('Advice deleted successfully!');
+			toast.success('Đã xóa lời khuyên thành công!');
 			setAdviceList(adviceList.filter((adv) => adv.timestamp !== timestamp));
 			setShowPopup(false);
 		} catch (error) {
-			console.error('Error deleting advice:', error);
-			toast.error('Failed to delete advice. Please try again.');
+			console.error('Lỗi khi xóa lời khuyên:', error);
+			toast.error('Lỗi khi xóa lời khuyên.');
 		}
 	};
 
@@ -267,19 +267,19 @@ function PreviewUserWorkout() {
 						</div>
 						<div className='flex justify-end space-x-4'>
 							<button
-								//onClick={handleAddAdvice}
+								onClick={handleAddAdvice}
 								className='px-4 py-2 text-white transition bg-blue-600 rounded-md hover:bg-blue-700'
 							>
 								Thêm lời khuyên
 							</button>
 							<button
-								//onClick={handleSaveAdvice}
+								onClick={handleSaveAdvice}
 								className='px-4 py-2 text-white transition bg-blue-600 rounded-md hover:bg-blue-700'
 							>
 								Lưu lời khuyên
 							</button>
 							<button
-								//onClick={handleDeleteAdvice}
+								onClick={handleDeleteAdvice}
 								className='px-4 py-2 text-white transition bg-red-600 rounded-md hover:bg-red-700'
 							>
 								Xóa lời khuyên
@@ -296,7 +296,7 @@ function PreviewUserWorkout() {
 			)}
 
 
-			<ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
+			<ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 		</div>
 	);
 }

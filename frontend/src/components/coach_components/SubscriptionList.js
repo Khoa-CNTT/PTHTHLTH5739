@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, Modal, Form } from "react-bootstrap";
 import "./SubscriptionList.css";
+import { toast, ToastContainer } from "react-toastify";
 
 function SubscriptionList() {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -22,7 +23,8 @@ function SubscriptionList() {
         );
         setSubscriptions(response.data.data);
       } catch (error) {
-        console.error("Lỗi khi tải gói đăng ký:", error);
+        console.error("Lỗi khi tải đăng ký:", error);
+        toast.error("Lỗi khi tải đăng ký");
       }
     };
     fetchSubscriptions();
@@ -45,14 +47,14 @@ function SubscriptionList() {
   return (
     <div >
       <h2 className="text-3xl font-bold mb-8" style={{ color: '#000' }}>
-      Danh sách đăng ký
+        Danh sách đăng ký
       </h2>
-
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <div className="mb-6">
         <input
           type="text"
           placeholder="Tìm kiếm theo tên khóa học..."
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
@@ -62,28 +64,27 @@ function SubscriptionList() {
         {filteredSubscriptions.map((subscription) => {
           const isPaused = subscription.subscriptionStatus.status === "pause";
           const progress = calculateProgress(subscription.workoutId);
-          
+
           return (
-            <div 
-              key={subscription._id} 
-              className={`rounded-lg shadow-lg overflow-hidden ${
-                isPaused ? 'bg-gray-200' : 'bg-white'
-              }`}
+            <div
+              key={subscription._id}
+              className={`rounded-lg shadow-lg overflow-hidden ${isPaused ? 'bg-gray-200' : 'bg-white'
+                }`}
             >
               <div className="p-6">
-                {/* Tiêu đề */}
+                {/* Header */}
                 <div className="flex justify-between items-center mb-4">
                   <h3 className="text-xl font-bold text-gray-800">
                     {subscription.courseId?.name || "Unknown Course"}
                   </h3>
                   {isPaused && (
                     <span className="px-3 py-1 bg-red-500 text-white rounded-full text-sm font-bold">
-                      TẠM DỪNG
+                      PAUSED
                     </span>
                   )}
                 </div>
 
-                {/* Thông tin người dùng */}
+                {/* User Info */}
                 <div className="space-y-2 mb-4">
                   <p className="text-gray-600">
                     <span className="font-semibold">Học viên: </span>
@@ -93,10 +94,10 @@ function SubscriptionList() {
                     <span className="font-semibold">Ngày bắt đầu: </span>
                     {new Date(subscription.createdAt).toLocaleDateString()}
                   </p>
-                
+
                 </div>
 
-                {/* Phần tiến độ */}
+                {/* Progress Section */}
                 <div className="bg-white rounded-lg p-4 mb-4 shadow-sm">
                   <div className="flex justify-between mb-2">
                     <span className="font-semibold">Tiến độ</span>
@@ -124,9 +125,9 @@ function SubscriptionList() {
                   </div>
                 </div>
 
-                {/* Nút hành động */}
+                {/* Action Buttons */}
                 <div className="grid grid-cols-2 gap-3">
-                  <Link 
+                  <Link
                     to={`/coach/subscription/${subscription._id}`}
                     className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 text-center transition-colors duration-200"
                   >
@@ -138,13 +139,13 @@ function SubscriptionList() {
                   >
                     Xem Khảo sát
                   </button>
-                  <Link 
+                  <Link
                     to={`/chatRoom/${subscription._id}`}
                     className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 text-center transition-colors duration-200"
                   >
                     Phòng chat
                   </Link>
-                  <Link 
+                  <Link
                     to={`/preview/${subscription._id}`}
                     className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 text-center transition-colors duration-200"
                   >

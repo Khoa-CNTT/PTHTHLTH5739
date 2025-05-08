@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./SignIn.css";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isShow, setIsShow] = useState(false);
+
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  // Hàm điều hướng dựa trên vai trò
+  // Role-based navigation function
   const handleNavigation = (role, name, id) => {
     localStorage.setItem("role", role);
     localStorage.setItem("name", name);
@@ -26,7 +30,8 @@ export default function SignIn() {
     }
   };
 
-  // Xử lý đăng nhập bằng email/mật khẩu thông thường
+
+  // Handle normal email/password login
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -35,7 +40,6 @@ export default function SignIn() {
         { email, password }
       );
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("userId", response.data.id);
       localStorage.setItem("accountId", response.data.id);
       // Gọi hàm điều hướng dựa trên vai trò
       handleNavigation(
@@ -43,12 +47,14 @@ export default function SignIn() {
         response.data.name,
         response.data.id
       );
+      toast.success("Đăng nhập thành công")
     } catch (error) {
       const errorMsg =
         error.response && error.response.data && error.response.data.msg
           ? error.response.data.msg
-          : "Lỗi đăng nhập";
+          : "Error logging in";
       setErrorMessage(errorMsg); // Chỉ cập nhật thông báo vào state
+      toast.error("Đăng nhập thất bại")
     }
   };
 
@@ -63,7 +69,7 @@ export default function SignIn() {
                 <div class="crossbar mb-3"></div>
                 <div class="login-message">
                   <p class="welcome-text">
-                    Chào mừng trở lại! Đăng nhập để vào GYM.
+                  Chào mừng trở lại! Đăng nhập để vào GYM.
                   </p>
                   <p class="forgot-password">
                     Bạn{" "}
@@ -72,7 +78,6 @@ export default function SignIn() {
                     </a>
                   </p>
                 </div>
-
 
                 <div className="form-outline mb-4">
                   <input
@@ -85,20 +90,27 @@ export default function SignIn() {
                   />
                 </div>
 
-                <div className="form-outline mb-4">
+                <div className="relative form-outline mb-4">
                   <input
-                    type="password"
-                    className="form-control form-control-lg"
-                    placeholder="Mật khẩu"
+                    type={isShow ? "text" : "password"}
+                    className="form-control form-control-lg w-full pr-10"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 flex items-center px-1 mb-1"
+                    onClick={() => setIsShow(!isShow)}
+                  >
+                    {isShow ? <EyeInvisibleOutlined style={{ fontSize: 20 }} /> : <EyeOutlined style={{ fontSize: 20 }} />}
+                  </button>
                 </div>
 
                 <div className="pt-1 mb-4">
                   <button type="submit" class="gradient-button">
-                    <span class="button-icon">➜</span> tiếp tục
+                    <span class="button-icon">➜</span> Tiếp tục
                   </button>
                 </div>
 
@@ -106,7 +118,7 @@ export default function SignIn() {
                   <div className="alert alert-danger mt-2">{errorMessage}</div>
                 )}
 
-                <p>
+                <p className="text-black">
                   Bạn không có tài khoản?{" "}
                   <Link to="/signup" className="link-info">
                     Đăng ký ngay
@@ -117,7 +129,7 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
     </section>
   );
 }

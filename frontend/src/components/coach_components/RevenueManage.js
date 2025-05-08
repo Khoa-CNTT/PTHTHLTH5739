@@ -1,124 +1,163 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
+  Table,
+  Card,
+  Container,
+  Row,
+  Col,
+} from "react-bootstrap";
+import axios from "axios";
+import "./RevenueManage.css";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
   Legend,
-  ResponsiveContainer,
-} from "recharts";
-import { Modal, Button, Table } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./RevenueManage.css";
-import { Container, Grid, Paper, Typography } from '@mui/material';
+} from "chart.js";
+import { toast, ToastContainer } from "react-toastify";
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const RevenueManage = () => {
-    const [revenueData, setRevenueData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
   const [totalRevenue, setTotalRevenue] = useState(0);
-  const [totalSubscriptions, setTotalSubscriptions] = useState(0);
-  const [totalCourses, setTotalCourses] = useState(0);
-  const [chartData, setChartData] = useState([]);
-  const [courses, setCourses] = useState([]);
+  const [activeSubscriptions, setActiveSubscriptions] = useState(0);
+  const [totalCourses, settotalCourses] = useState(0);
+  const [monthlyRevenueData, setMonthlyRevenueData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Doanh thu theo tháng (VND)",
+        data: [],
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+      },
+    ],
+  });
 
   useEffect(() => {
-    const fetchRevenueData = async () => {
+    const fetchData = async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://localhost:4000/api/coaches/revenue",
+          "http://localhost:4000/api/coaches/revenue", // Đổi endpoint API
           {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        setRevenueData(response.data.subscriptions);
-        setTotalRevenue(response.data.totalRevenue);
-        setTotalSubscriptions(response.data.totalSubscriptions);
-        setTotalCourses(response.data.totalCourses);
-        setChartData(response.data.chartData);
-        setCourses(response.data.courses);
+        const data = response.data;
+
+        setRevenueData(data.subscriptions);
+        setTotalRevenue(data.totalRevenue);
+        setActiveSubscriptions(data.totalSubscriptions);
+        settotalCourses(data.totalCourses);
+        processMonthlyRevenue(data.subscriptions);
       } catch (error) {
-        console.error("Error fetching revenue data:", error);
+        console.error("Lỗi khi lấy dữ liệu doanh thu:", error);
+        toast.error("Lỗi khi lấy dữ liệu doanh thu");
       }
     };
-
-    fetchRevenueData();
+    fetchData();
   }, []);
 
+  const formatVND = (amount) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(amount);
+  };
+
+  const processMonthlyRevenue = (subscriptions) => {
+    const monthlyRevenue = {};
+    subscriptions.forEach((sub) => {
+      const date = new Date(sub.createdAt); // Sử dụng createdAt thay vì startDate
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0 nên + 1
+      const key = `${year}-${month.toString().padStart(2, '0')}`;
+      const revenue = sub.courseId?.price || 0;
+      monthlyRevenue[key] = (monthlyRevenue[key] || 0) + revenue;
+    });
+
+    const sortedMonths = Object.keys(monthlyRevenue).sort();
+    const labels = sortedMonths.map((key) => key);
+    const data = sortedMonths.map((key) => monthlyRevenue[key]);
+
+    setMonthlyRevenueData({
+      labels: labels,
+      datasets: [
+        {
+          label: "Doanh thu theo tháng (VND)",
+          data: data,
+          backgroundColor: "rgba(54, 162, 235, 0.6)",
+        },
+      ],
+    });
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Thống kê doanh thu theo tháng",
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            return formatVND(value);
+          },
+        },
+      },
+    },
+  };
 
   return (
-    <Container>
-      <h2 className="text-3xl font-bold mb-8" style={{ color: '#000' }}>
-        Quản lý doanh thu
-      </h2>
+    <Container fluid className="admin-revenue">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+      <Row>
+        <Col className="application-section">
+          <h2 className="mb-4">Quản lý doanh thu</h2>
 
-      <Grid container spacing={3} sx={{ marginBottom: '30px' }}>
-        {/* Total Revenue Card */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 3, backgroundColor: '#E7E8EB', color: 'black', textAlign: 'center' }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              Tổng doanh thu
-            </Typography>
-            <Typography variant="h5">
-              {totalRevenue.toLocaleString()} VND
-            </Typography>
-          </Paper>
-        </Grid>
+          <Row className="overview-cards text-center mb-4">
+            <Col md={4}>
+              <Card className="overview-card" style={{ backgroundColor: '#E7E8EB' }}>
+                <Card.Body>
+                  <Card.Title>Tổng doanh thu</Card.Title>
+                  <Card.Text>{formatVND(totalRevenue)}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={4}>
+              <Card className="overview-card" style={{ backgroundColor: '#E7E8EB' }}>
+                <Card.Body>
+                  <Card.Title>Tổng các gói đăng ký</Card.Title>
+                  <Card.Text>{activeSubscriptions}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col md={4}>
+              <Card className="overview-card" style={{ backgroundColor: '#E7E8EB' }}>
+                <Card.Body>
+                  <Card.Title>Tổng số khóa học</Card.Title>
+                  <Card.Text>{totalCourses}</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
 
-        {/* Total Subscriptions Card */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 3, backgroundColor: '#E7E8EB', color: 'black', textAlign: 'center' }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              Tổng số đăng ký
-            </Typography>
-            <Typography variant="h5">
-              {totalSubscriptions}
-            </Typography>
-          </Paper>
-        </Grid>
+          <Card className="mb-4">
+            <Card.Body>
+              <Bar data={monthlyRevenueData} options={chartOptions} />
+            </Card.Body>
+          </Card>
 
-        {/* Total Courses Card */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 3, backgroundColor: '#E7E8EB', color: 'black', textAlign: 'center' }}>
-            <Typography variant="h6" fontWeight="bold" gutterBottom>
-              Tổng số khóa học
-            </Typography>
-            <Typography variant="h5">
-              {totalCourses}
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-
-      <Paper elevation={3} sx={{ padding: 3, marginBottom: '30px', backgroundColor: '#E7E8EB' }}>
-        <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ color: '#333' }}>
-          Số lượt mua hàng tháng theo khóa học
-        </Typography>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart
-            data={chartData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="monthYear" style={{ color: '#555' }} />
-            <YAxis style={{ color: '#555' }} />
-            <Tooltip formatter={(value) => `${value} đơn hàng`} />
-            <Legend wrapperStyle={{ color: '#555' }} />
-            <Bar dataKey="purchases" fill="#8884d8" name="Mua hàng" />
-          </BarChart>
-        </ResponsiveContainer>
-      </Paper>
-
-      <Paper elevation={3} sx={{ padding: 3 , backgroundColor: '#E7E8EB'}}>
-        <Typography variant="h6" fontWeight="bold" gutterBottom sx={{ color: '#333', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          Danh sách khóa học đã đăng ký
-        </Typography>
-        {courses.length > 0 ? (
-          <div style={{ overflowX: 'auto' }}>
-            <Table responsive striped bordered hover className="mt-3">
+          <Table responsive striped bordered hover className="mt-3">
             <thead>
               <tr>
                 <th>Tên khóa học</th>
@@ -134,7 +173,7 @@ const RevenueManage = () => {
                 <tr key={subscription._id}>
                   <td>{subscription.courseId?.name}</td>
                   <td>{new Date(subscription.createdAt).toLocaleString()}</td>
-                  <td>{(subscription.courseId?.price).toLocaleString()}</td>
+                  <td>{formatVND(subscription.courseId?.price)}</td>
                   <td>{subscription.userId?.email || "N/A"}</td>
                   <td>{subscription.userId?.name || "N/A"}</td>
                   <td>{subscription.subscriptionStatus?.status}</td>
@@ -142,13 +181,8 @@ const RevenueManage = () => {
               ))}
             </tbody>
           </Table>
-          </div>
-        ) : (
-          <Typography variant="subtitle1" color="textSecondary">
-            Không có khóa học nào.
-          </Typography>
-        )}
-      </Paper>
+        </Col>
+      </Row>
     </Container>
   );
 };

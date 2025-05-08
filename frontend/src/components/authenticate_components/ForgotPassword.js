@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import axios from "axios";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import './ForgotPassword.css';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");

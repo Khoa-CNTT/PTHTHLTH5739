@@ -8,10 +8,6 @@ const ManageCourseAdminPage = () => {
 	// Toggle sidebar function
 	const toggleSidebar = () => setIsSidebarOpen((prevState) => !prevState);
 	return (
-		// <div className='flex'>
-		// 	<Navbar isSidebarOpen={isSidebarOpen} />
-		// 	<ManageCourseAdmin toggleSidebar={toggleSidebar} />
-		// </div>
 		<AdminDashboardLayout>
 			{/* Nội dung của trang Manage User */}
 			<ManageCourseAdmin toggleSidebar={toggleSidebar} />

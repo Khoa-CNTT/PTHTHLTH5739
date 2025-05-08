@@ -12,7 +12,7 @@ const AdminDashboardLayout = ({ children }) => {
 
             <Box sx={{ flex: 1, p: 3, ml: 30 }}>
 
-                {/* Content Section: where you can put child components */}
+                {/* Phần Nội dung: nơi đặt các thành phần con */}
                 <Container >
                     {children}
                 </Container>

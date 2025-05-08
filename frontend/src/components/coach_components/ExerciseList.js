@@ -7,7 +7,8 @@ import "react-quill/dist/quill.snow.css"; // Import CSS of React Quill
 import "./ExerciseList.css";
 import { uploadVideoToCloudinary } from "../../utils/uploadImage";
 import { message } from "antd";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import { toast, ToastContainer } from "react-toastify";
 
 const ExerciseList = () => {
   const navigate = useNavigate();
@@ -34,8 +35,6 @@ const ExerciseList = () => {
 
   // Fetch exercises from API on component mount
 
-  // Check commit nè
-
   useEffect(() => {
     axios
       .get("http://localhost:4000/api/coaches/exercises", {
@@ -47,7 +46,8 @@ const ExerciseList = () => {
         setExercises(response.data);
       })
       .catch((error) => {
-        console.error("Error fetching exercises:", error);
+        console.error("Lỗi khi tải bài tập:", error);
+        toast.error("Lỗi khi tải bài tập");
       });
   }, []);
 
@@ -76,7 +76,7 @@ const ExerciseList = () => {
   const handleSaveChanges = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      message.warning("You need to be logged in to update an exercise.");
+      toast.warning("Bạn cần phải đăng nhập để cập nhật bài tập.");
       return;
     }
 
@@ -88,7 +88,7 @@ const ExerciseList = () => {
         const videoUrl = await uploadVideoToCloudinary(videoFile);
         selectedExercise.video = videoUrl;
       } catch (error) {
-        message.error("Failed to upload video.");
+        toast.error("Không tải được video lên.");
         return;
       }
     }
@@ -109,12 +109,12 @@ const ExerciseList = () => {
             exercise._id === selectedExercise._id ? response.data : exercise
           )
         );
-        message.success("Exercise updated successfully!");
+        toast.success("Bài tập đã được cập nhật thành công!");
         setIsEditing(false);
       })
       .catch((error) => {
-        console.error("Error updating exercise:", error);
-        message.error("Failed to update exercise.");
+        console.error("Lỗi khi cập nhật bài tập:", error);
+        toast.error("Lỗi khi cập nhật bài tập.");
       });
   };
 
@@ -131,11 +131,11 @@ const ExerciseList = () => {
 
       setExercises(exercises.filter((exercise) => exercise._id !== id));
       toast.dismiss(loadingToast);
-      toast.success("Delete successful exercises!");
+      toast.success("Xóa bài tập thành công!");
     } catch (error) {
-      console.error("Error deleting exercise:", error);
+      console.error("Lỗi khi xóa bài tập:", error);
       toast.dismiss(loadingToast);
-      toast.error("Error occurs when deleting the exercise!");
+      toast.error("Lỗi khi xóa bài tập!");
     }
   };
 
@@ -152,7 +152,7 @@ const ExerciseList = () => {
       );
       return response.data;
     } catch (error) {
-      console.error("Error checking exercise usage:", error);
+      console.error("Kiểm tra lỗi sử dụng bài tập:", error);
       return { isUsed: false, courses: [] };
     }
   };
@@ -217,7 +217,7 @@ const ExerciseList = () => {
         }
       );
     } catch (error) {
-      console.error("Error in handleDelete:", error);
+      console.error("Lỗi:", error);
       toast.error("Đã xảy ra lỗi khi kiểm tra bài tập!");
     }
   };
@@ -249,42 +249,6 @@ const ExerciseList = () => {
   const handleVideoFileChange = (e) => {
     const file = e.target.files[0];
     setVideoFile(file);
-  };
-
-  // Thêm hàm createExercise
-  const createExercise = async (exerciseData) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/coaches/exercises",
-        exerciseData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
-      // Thêm bài tập mới vào state
-      setExercises([...exercises, response.data]);
-
-      // Đóng modal tạo bài tập
-      setShowCreateModal(false);
-
-      // Reset form
-      setNewExercise({
-        name: "",
-        description: "",
-        exerciseType: "",
-        exerciseDuration: "",
-        video: "",
-        difficulty: "",
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error("Error creating exercise:", error);
-      throw error;
-    }
   };
 
   // Định nghĩa hàm checkVideoDuration
@@ -373,7 +337,7 @@ const ExerciseList = () => {
 
       // Cập nhật danh sách bài tập
       setExercises([...exercises, response.data]);
-      message.success("Tạo bài tập thành công!");
+      toast.success("Tạo bài tập thành công!");
       setShowCreateModal(false); // Đóng modal
       setNewExercise({
         // Reset form
@@ -386,7 +350,7 @@ const ExerciseList = () => {
       });
     } catch (error) {
       console.error("Error creating exercise:", error.response.data); // Log phản hồi từ server
-      message.error("Đã xảy ra lỗi khi tạo bài tập!");
+      toast.error("Đã xảy ra lỗi khi tạo bài tập!");
     } finally {
       setIsUploading(false);
     }
@@ -406,7 +370,7 @@ const ExerciseList = () => {
   };
 
   return (
-    <div className="container ml-40 w-full">
+    <div>
       <Toaster
         position="top-center"
         toastOptions={{
@@ -436,7 +400,7 @@ const ExerciseList = () => {
         }}
       />
 
-      <h2 style={{ color: "#F36100" }}>Danh sách các bài tập trong hệ thống</h2>
+      <h2 style={{ color: "#000" }}>Danh sách các bài tập trong hệ thống</h2>
 
       {/* Search input */}
       <input
@@ -444,11 +408,11 @@ const ExerciseList = () => {
         placeholder="Nhập bài tập..."
         className="search-input"
         value={searchTerm}
-        //onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+        onChange={(e) => setSearchTerm(e.target.value)} // Update search term
       />
 
       {/* Create new exercise button */}
-      <Button variant="primary mb-3" onClick={handleShowCreateModal}>
+      <Button variant="primary ms-3" onClick={handleShowCreateModal}>
         Tạo bài tập mới
       </Button>
 
@@ -470,7 +434,7 @@ const ExerciseList = () => {
                 className="delete-button"
                 onClick={(e) => {
                   e.stopPropagation();
-                  //handleDelete(exercise._id);
+                  handleDelete(exercise._id);
                 }}
               >
                 ✖
@@ -506,15 +470,18 @@ const ExerciseList = () => {
 
             <Form.Group>
               <Form.Label>Mô tả</Form.Label>
-              <ReactQuill
+              <Form.Control
+                as="textarea"
+                rows={5}
                 value={newExercise.description}
-                onChange={(value) =>
-                  setNewExercise({ ...newExercise, description: value })
+                onChange={(e) =>
+                  setNewExercise({ ...newExercise, description: e.target.value })
                 }
+                isInvalid={!!errors.description}
               />
-              {errors.description && (
-                <div className="text-danger">{errors.description}</div>
-              )}
+              <Form.Control.Feedback type="invalid">
+                {errors.description}
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group>
@@ -611,7 +578,7 @@ const ExerciseList = () => {
           </Button>
           <Button
             variant="primary"
-            //onClick={handleSubmit}
+            onClick={handleSubmit}
             disabled={isUploading}
           >
             {isUploading ? "Đang xử lý..." : "Tạo bài tập"}
@@ -629,7 +596,7 @@ const ExerciseList = () => {
         >
           <Modal.Header closeButton>
             <Modal.Title>
-              {isEditing ? "Edit Exercise" : selectedExercise.name}
+              {isEditing ? "Chỉnh sửa bài tập" : selectedExercise.name}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -648,7 +615,9 @@ const ExerciseList = () => {
                     </Form.Group>
                     <Form.Group controlId="formDescription">
                       <Form.Label>Mô tả</Form.Label>
-                      <ReactQuill
+                      <Form.Control
+                        as="textarea"
+                        rows={5}
                         value={selectedExercise.description}
                         onChange={handleDescriptionChange}
                       />
@@ -744,8 +713,8 @@ const ExerciseList = () => {
             {isEditing ? (
               <>
                 <Button variant="primary"
-                // onClick={handleSaveChanges}
-                 >
+                onClick={handleSaveChanges}
+                >
                   Lưu
                 </Button>
                 <Button variant="secondary" onClick={() => setIsEditing(false)}>
@@ -763,6 +732,7 @@ const ExerciseList = () => {
           </Modal.Footer>
         </Modal>
       )}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
     </div>
   );
 };

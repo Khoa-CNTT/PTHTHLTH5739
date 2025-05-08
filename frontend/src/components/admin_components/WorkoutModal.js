@@ -36,8 +36,8 @@ const WorkoutModal = ({
       onCancel={() => setIsModalVisible(false)}
       footer={null}
       width={800}
-      style={{ zIndex: 9999 }} // Increased zIndex value
-      getContainer={false} // Render the modal inside the current container (prevents conflicts with other elements)
+      style={{ zIndex: 9999 }} // Tăng giá trị zIndex
+      getContainer={false} // Hiển thị chế độ bên trong vùng chứa hiện tại (ngăn ngừa xung đột với các phần tử khác)
     >
       <div>
         <h1>Thông tin tập luyện</h1>
@@ -62,7 +62,6 @@ const WorkoutModal = ({
                   title={exercise?.name}
                   description={`Loại: ${exercise?.exerciseType}`}
                 />
-                {/* <Tag color="blue">{`Completion: ${item?.completionRate}%`}</Tag> */}
               </List.Item>
             );
           }}

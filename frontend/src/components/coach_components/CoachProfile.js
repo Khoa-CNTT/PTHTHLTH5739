@@ -20,7 +20,7 @@ const CoachProfile = () => {
   const [dob, setDob] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [avatar, setAvatar] = useState(""); // State cho URL ảnh đại diện
+  const [avatar, setAvatar] = useState(""); // State for avatar URL
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -69,7 +69,7 @@ const CoachProfile = () => {
       } catch (error) {
         setError(error.message);
         setLoading(false);
-        console.error("Lỗi khi tải hồ sơ:", error);
+        console.error("Error fetching profile:", error);
       }
     };
 
@@ -103,7 +103,7 @@ const CoachProfile = () => {
       );
       toast.success("Hồ sơ đã được cập nhật thành công!");
     } catch (error) {
-      console.error("Lỗi khi cập nhật hồ sơ:", error);
+      console.error("Error updating profile:", error);
       toast.error("Lỗi: Không thể cập nhật hồ sơ.");
     }
   };
@@ -133,7 +133,7 @@ const CoachProfile = () => {
       setNewPassword("");
       setConfirmPassword("");
     } catch (error) {
-      console.error("Lỗi khi thay đổi mật khẩu:", error);
+      console.error("Error changing password:", error);
       toast.error("Lỗi: " + error.message);
     }
   };
@@ -157,7 +157,7 @@ const CoachProfile = () => {
       );
       toast.success("Kinh nghiệm đã được cập nhật thành công!");
     } catch (error) {
-      console.error("Lỗi khi cập nhật kinh nghiệm:", error);
+      console.error("Error updating experience:", error);
       toast.error("Lỗi: Không thể cập nhật kinh nghiệm.");
     }
   };
@@ -234,303 +234,307 @@ const CoachProfile = () => {
         <div className="loader"></div>
       </div>
     );
-  if (error) return <div>Lỗi: {error}</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className=" mt-5">
-      <div className="row">
-        <div className="col-12 col-md-4 mb-4">
-          <div className="card shadow">
-            <div className="card-body text-center">
-              <img
-                src={avatar || "https://via.placeholder.com/150"}
-                className="rounded-circle mb-3"
-                alt="Profile"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
-              {isEditing && (
-                <div className="form-group">
-                  <label htmlFor="avatarInput">URL Ảnh Đại Diện</label>
-                  <input
-                    type="text"
-                    id="avatarInput"
-                    className="form-control"
-                    value={avatar}
-                    onChange={(e) => setAvatar(e.target.value)}
-                  />
-                </div>
-              )}
-              <h5 className="card-title">{profile && profile.name}</h5>
-            </div>
-          </div>
-          {/* Thay đổi mật khẩu */}
-          <div className="card shadow mt-4">
-            <div className="card-body">
-              <h5 className="card-title">Thay đổi mật khẩu</h5>
-              <form onSubmit={handleChangePassword}>
-                {hasPassword && (
+    <div className="">
+      <div />
+      <div className=" mt-5">
+        <div className="row">
+          <div className="col-12 col-md-4 mb-4">
+            <div className="card shadow">
+              <div className="card-body text-center">
+                <img
+                  src={avatar || "https://via.placeholder.com/150"}
+                  className="rounded-circle mb-3"
+                  alt="Profile"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+                {isEditing && (
                   <div className="form-group">
-                    <label>Mật khẩu hiện tại</label>
+                    <label htmlFor="avatarInput">Avatar URL</label>
                     <input
-                      type={showCurrentPassword ? "text" : "password"}
+                      type="text"
+                      id="avatarInput"
+                      className="form-control"
+                      value={avatar}
+                      onChange={(e) => setAvatar(e.target.value)}
+                    />
+                  </div>
+                )}
+                <h5 className="card-title">{profile && profile.name}</h5>
+              </div>
+            </div>
+            {/* Change Password */}
+            <div className="card shadow mt-4">
+              <div className="card-body">
+                <h5 className="card-title">Thay đổi mật khẩu</h5>
+                <form onSubmit={handleChangePassword}>
+                  {hasPassword && (
+                    <div className="form-group">
+                      <label>Mật khẩu hiện tại</label>
+                      <input
+                        type={showCurrentPassword ? "text" : "password"}
+                        className="form-control"
+                        required
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
+                      />
+                      <div className="form-check mt-2">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="showCurrentPassword"
+                          checked={showCurrentPassword}
+                          onChange={() => toggleShowPassword("current")}
+                        />
+                        <label className="form-check-label" htmlFor="showCurrentPassword">Hiển thị mật khẩu</label>
+                      </div>
+                    </div>
+                  )}
+                  <div className="form-group">
+                    <label>Mật khẩu mới</label>
+                    <input
+                      type={showNewPassword ? "text" : "password"}
                       className="form-control"
                       required
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                     />
                     <div className="form-check mt-2">
                       <input
                         type="checkbox"
                         className="form-check-input"
-                        id="showCurrentPassword"
-                        checked={showCurrentPassword}
-                        onChange={() => toggleShowPassword("current")}
+                        id="showNewPassword"
+                        checked={showNewPassword}
+                        onChange={() => toggleShowPassword("new")}
                       />
-                      <label className="form-check-label" htmlFor="showCurrentPassword">Hiển thị mật khẩu</label>
+                      <label className="form-check-label" htmlFor="showNewPassword">Hiển thị mật khẩu</label>
                     </div>
                   </div>
-                )}
-                <div className="form-group">
-                  <label>Mật khẩu mới</label>
-                  <input
-                    type={showNewPassword ? "text" : "password"}
-                    className="form-control"
-                    required
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  />
-                  <div className="form-check mt-2">
+                  <div className="form-group">
+                    <label>Xác nhận mật khẩu mới</label>
                     <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="showNewPassword"
-                      checked={showNewPassword}
-                      onChange={() => toggleShowPassword("new")}
+                      type={showConfirmPassword ? "text" : "password"}
+                      className="form-control"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <label className="form-check-label" htmlFor="showNewPassword">Hiển thị mật khẩu</label>
+                    <div className="form-check mt-2">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="showConfirmPassword"
+                        checked={showConfirmPassword}
+                        onChange={() => toggleShowPassword("confirm")}
+                      />
+                      <label className="form-check-label" htmlFor="showConfirmPassword">Hiển thị mật khẩu</label>
+                    </div>
                   </div>
-                </div>
-                <div className="form-group">
-                  <label>Xác nhận mật khẩu mới</label>
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    className="form-control"
-                    required
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  />
-                  <div className="form-check mt-2">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id="showConfirmPassword"
-                      checked={showConfirmPassword}
-                      onChange={() => toggleShowPassword("confirm")}
-                    />
-                    <label className="form-check-label" htmlFor="showConfirmPassword">Hiển thị mật khẩu</label>
-                  </div>
-                </div>
-                <button type="submit" className="btn btn-info btn-block">
-                  Lưu
-                </button>
-              </form>
+                  <button type="submit" className="btn btn-info btn-block">
+                    Lưu
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="col-12 col-md-8">
-          {/* Tabs Navigation */}
-          <ul className="nav nav-tabs">
-            <li className="nav-item">
-              <a
-                className={`nav-link ${activeTab === "profile" ? "active" : ""}`}
-                href="#profile"
-                onClick={() => handleTabClick("profile")}
-              >
-                Chỉnh sửa hồ sơ
-              </a>
-            </li>
-            <li className="nav-item d-flex align-items-center">
-              <a
-                className={`nav-link ${activeTab === "experience" ? "active" : ""}`}
-                href="#experience"
-                onClick={() => handleTabClick("experience")}
-              >
-                Chỉnh sửa kinh nghiệm
-              </a>
-            </li>
-          </ul>
+          <div className="col-12 col-md-8">
+            {/* Tabs Navigation */}
+            <ul className="nav nav-tabs">
+              <li className="nav-item">
+                <a
+                  className={`nav-link ${activeTab === "profile" ? "active" : ""}`}
+                  href="#profile"
+                  onClick={() => handleTabClick("profile")}
+                >
+                  Chỉnh sửa hồ sơ
+                </a>
+              </li>
+              <li className="nav-item d-flex align-items-center">
+                <a
+                  className={`nav-link ${activeTab === "experience" ? "active" : ""}`}
+                  href="#experience"
+                  onClick={() => handleTabClick("experience")}
+                >
+                  Chỉnh sửa kinh nghiệm
+                </a>
+              </li>
+            </ul>
 
-          <div className="tab-content">
-            {/* Edit Profile Tab */}
-            {activeTab === "profile" && (
-              <div className="tab-pane fade show active" id="profile">
-                <div className="card shadow mt-3">
-                  <div className="card-body">
-                    <form onSubmit={handleEditProfile}>
-                      <div className="form-group">
-                        <label>Email</label>
-                        <input
-                          type="email"
-                          className="form-control"
-                          value={email}
-                          readOnly
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Họ và tên</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          readOnly={!isEditing}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Giới tính</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={gender}
-                          onChange={(e) => setGender(e.target.value)}
-                          readOnly={!isEditing}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Ngày sinh</label>
-                        <input
-                          type="date"
-                          className="form-control"
-                          value={dob}
-                          onChange={(e) => setDob(e.target.value)}
-                          readOnly={!isEditing}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>SĐT</label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          readOnly={!isEditing}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label>Địa chỉ</label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
-                          readOnly={!isEditing}
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="btn btn-info btn-block"
-                      >
-                        Lưu
-                      </button>
-                    </form>
+            <div className="tab-content">
+              {/* Edit Profile Tab */}
+              {activeTab === "profile" && (
+                <div className="tab-pane fade show active" id="profile">
+                  <div className="card shadow mt-3">
+                    <div className="card-body">
+                      <form onSubmit={handleEditProfile}>
+                        <div className="form-group">
+                          <label>Email</label>
+                          <input
+                            type="email"
+                            className="form-control"
+                            value={email}
+                            readOnly
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Họ và tên</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            readOnly={!isEditing}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Giới tính</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                            readOnly={!isEditing}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Ngày sinh</label>
+                          <input
+                            type="date"
+                            className="form-control"
+                            value={dob}
+                            onChange={(e) => setDob(e.target.value)}
+                            readOnly={!isEditing}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>SĐT</label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            readOnly={!isEditing}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Địa chỉ</label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            readOnly={!isEditing}
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          className="btn btn-info btn-block"
+                        >
+                          Lưu
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Edit Experience Tab */}
-            {activeTab === "experience" && (
-              <div className="tab-pane fade show active" id="experience">
-                <div className="card shadow mt-3">
-                  <div className="card-body">
-                    <div className="form-group">
-                      <label>Giới thiệu</label>
-                      {isEditing ? (
-                        <textarea
-                          className="form-control"
-                          value={introduce}
-                          onChange={(e) => setIntroduce(e.target.value)}
-                          rows="5"
-                        />
-                      ) : (
-                        <div
-                          className="form-control"
-                          style={{ whiteSpace: "pre-wrap" }}
-                          dangerouslySetInnerHTML={{ __html: introduce }}
-                        />
-                      )}
-                    </div>
-                    <div className="form-group">
-                      <label>Kinh nghiệm</label>
-                      {experience.map((exp, index) => (
-                        <div key={index} className="mb-2">
-                          <div className="row">
-                            <div className="col-md-5">
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Thời gian" value={exp.time}
-                                onChange={(e) =>
-                                  handleExperienceChange(index, "time", e.target.value)
-                                }
-                                readOnly={!isEditing}
-                              />
-                            </div>
-                            <div className="col-md-5">
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Nơi làm việc"
-                                value={exp.workplace}
-                                onChange={(e) =>
-                                  handleExperienceChange(index, "workplace", e.target.value)
-                                }
-                                readOnly={!isEditing}
-                              />
-                            </div>
-                            {isEditing && (
-                              <div className="col-md-2 d-flex align-items-center justify-content-end">
-                                <button
-                                  type="button"
-                                  className="btn btn-danger btn-sm"
-                                  onClick={() => handleRemoveExperience(index)}
-                                >
-                                  <FontAwesomeIcon icon={faTrash} />
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                      {isEditing && (
-                        <button
-                          type="button"
-                          className="btn btn-success btn-sm mt-2"
-                          onClick={handleAddExperience}
-                        >
-                          <FontAwesomeIcon icon={faPlus} /> Thêm kinh nghiệm
-                        </button>
-                      )}
-                      <div className="form-group mt-3">
-                        <label>Ảnh bản thân</label>
-                        {selfImage.map((img, index) => (
+              {/* Edit Experience Tab */}
+              {activeTab === "experience" && (
+                <div className="tab-pane fade show active" id="experience">
+                  <div className="card shadow mt-3">
+                    <div className="card-body">
+                      <div className="form-group">
+                        <label>Giới thiệu</label>
+                        {isEditing ? (
+                          <textarea
+                            className="form-control"
+                            value={introduce}
+                            onChange={(e) => setIntroduce(e.target.value)}
+                            rows="5"
+                          />
+                        ) : (
+                          <div
+                            className="form-control"
+                            style={{ whiteSpace: "pre-wrap" }}
+                            dangerouslySetInnerHTML={{ __html: introduce }}
+                          />
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <label>Kinh nghiệm</label>
+                        {experience.map((exp, index) => (
                           <div key={index} className="mb-2">
-                            <div className="row align-items-center">
-                              <div className="col-md-10">
+                            <div className="row">
+                              <div className="col-md-5">
                                 <input
                                   type="text"
                                   className="form-control"
-                                  value={img}
-                                  onChange={(e) => handleSelfImageChange(index, e.target.value)}
+                                  placeholder="Thời gian"
+                                  value={exp.time}
+                                  onChange={(e) =>
+                                    handleExperienceChange(index, "time", e.target.value)
+                                  }
+                                  readOnly={!isEditing}
+                                />
+                              </div>
+                              <div className="col-md-5">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Nơi làm việc"
+                                  value={exp.workplace}
+                                  onChange={(e) =>
+                                    handleExperienceChange(index, "workplace", e.target.value)
+                                  }
                                   readOnly={!isEditing}
                                 />
                               </div>
                               {isEditing && (
-                                <div className="col-md-2 d-flex align-items-center justify-content-end">
+                                <div className="col-md-2">
                                   <button
-                                    type="button"
-                                    className="btn btn-danger btn-sm"
+                                    className="btn btn-danger"
+                                    onClick={() => handleRemoveExperience(index)}
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                        {isEditing && (
+                          <button
+                            className="btn btn-success"
+                            onClick={handleAddExperience}
+                          >
+                            <FontAwesomeIcon icon={faPlus}/> Thêm kinh nghiệm
+                          </button>
+                        )}
+                      </div>
+                      <div className="form-group">
+                        <label>Hình ảnh tự chụp</label>
+                        {selfImage.map((image, index) => (
+                          <div key={index} className="mb-2">
+                            <div className="row">
+                              <div className="col-md-10">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="URL hình ảnh"
+                                  value={image}
+                                  onChange={(e) =>
+                                    handleSelfImageChange(index, e.target.value)
+                                  }
+                                  readOnly={!isEditing}
+                                />
+                              </div>
+                              {isEditing && (
+                                <div className="col-md-2">
+                                  <button
+                                    className="btn btn-danger"
                                     onClick={() => handleRemoveSelfImage(index)}
                                   >
                                     <FontAwesomeIcon icon={faTrash} />
@@ -542,64 +546,77 @@ const CoachProfile = () => {
                         ))}
                         {isEditing && (
                           <button
-                            type="button"
-                            className="btn btn-success btn-sm mt-2"
+                            className="btn btn-success"
                             onClick={handleAddSelfImage}
                           >
-                            <FontAwesomeIcon icon={faPlus} /> Thêm ảnh
+                            <FontAwesomeIcon icon={faPlus} /> Thêm hình ảnh
                           </button>
                         )}
-                        <div className="form-group mt-3">
-                          <label>Chứng chỉ</label>
-                          {certificate.map((cert, index) => (
-                            <div key={index} className="mb-2">
-                              <div className="row align-items-center">
-                                <div className="col-md-10">
-                                  <input
-                                    type="text"
-                                    className="form-control"
-                                    value={cert}
-                                    onChange={(e) => handleCertificateChange(index, e.target.value)}
-                                    readOnly={!isEditing}
-                                  />
-                                </div>
-                                {isEditing && (
-                                  <div className="col-md-2 d-flex align-items-center justify-content-end">
-                                    <button
-                                      type="button"
-                                      className="btn btn-danger btn-sm"
-                                      onClick={() => handleRemoveCertificate(index)}
-                                    >
-                                      <FontAwesomeIcon icon={faTrash} />
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                          {isEditing && (
-                            <button
-                              type="button"
-                              className="btn btn-success btn-sm mt-2"
-                              onClick={handleAddCertificate}
-                            >
-                              <FontAwesomeIcon icon={faPlus} /> Thêm chứng chỉ
-                            </button>
-                          )}
-                          {isEditing && (
-                            <button type="button" className="btn btn-info btn-block mt-3" onClick={handleEditExperience}>
-                              Lưu kinh nghiệm
-                            </button>
-                          )}
-                        </div>
                       </div>
-                    </div>
+                      <div className="form-group">
+                        <label>Hợp đồng</label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={contract}
+                          onChange={(e) => setContract(e.target.value)}
+                          readOnly={!isEditing}
+                        />
+                      </div>
 
+                      <div className="form-group">
+                        <label>Giấy chứng nhận</label>
+                        {certificate.map((cert, index) => (
+                          <div key={index} className="mb-2">
+                            <div className="row">
+                              <div className="col-md-10">
+                                <input
+                                  type="text"
+                                  className="form-control"
+                                  placeholder="Chứng chỉ"
+                                  value={cert}
+                                  onChange={(e) =>
+                                    handleCertificateChange(index, e.target.value)
+                                  }
+                                  readOnly={!isEditing}
+                                />
+                              </div>
+                              {isEditing && (
+                                <div className="col-md-2">
+                                  <button
+                                    className="btn btn-danger"
+                                    onClick={() => handleRemoveCertificate(index)}
+                                  >
+                                    <FontAwesomeIcon icon={faTrash} />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                        {isEditing && (
+                          <button
+                            className="btn btn-success"
+                            onClick={handleAddCertificate}
+                          >
+                            <FontAwesomeIcon icon={faPlus} /> Thêm chứng chỉ
+                          </button>
+                        )}
+                      </div>
+
+                      <button
+                        type="button"
+                        className="btn btn-info btn-block"
+                        onClick={handleEditExperience}
+                      >
+                        Lưu
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )};
+              )}
             </div>
+          </div>
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />

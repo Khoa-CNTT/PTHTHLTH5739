@@ -19,6 +19,7 @@ import {
 } from "@mui/material";
 import { Visibility as EyeIcon, Close as CloseIcon } from "@mui/icons-material";
 import WorkoutModal from "./WorkoutModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const CourseDetails = ({ selectedCourse, onClose }) => {
   const [course, setCourse] = useState(null);
@@ -27,7 +28,7 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentWorkout, setCurrentWorkout] = useState(null);
 
-  // Lấy dữ liệu khóa học
+  // Fetch course data
   const fetchCourseData = async () => {
     if (!selectedCourse) return;
 
@@ -43,7 +44,8 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
       );
       setCourse(response.data);
     } catch (error) {
-      console.error("Lỗi khi lấy dữ liệu khóa học", error);
+      console.error("Lỗi khi tải dữ liệu khóa học", error);
+      toast.error("Lỗi khi tải dữ liệu khóa học");
     } finally {
       setLoading(false);
     }
@@ -67,7 +69,9 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
   };
 
   return (
+
     <Box padding={3} display="flex" justifyContent="center">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <Card
         sx={{
           width: 1200,
@@ -79,7 +83,7 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
           position: "relative",
         }}
       >
-        {/* Nút đóng */}
+        {/* Nút Đóng */}
         <IconButton
           sx={{
             position: "absolute",
@@ -100,17 +104,17 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
         <CardMedia
           component="img"
           sx={{ width: 400 }}
-          image={course?.image?.[0] || "default-image-url"}
-          alt={course?.name}
+          image={course.image[0] || "default-image-url"}
+          alt={course.name}
         />
 
-        {/* Thông tin khóa học và Tabs bài tập */}
+        {/*Tab Thông tin khóa học và Tab bài tập */}
         <CardContent sx={{ flex: 1, paddingLeft: 3 }}>
           <Typography variant="h4" fontWeight="bold" gutterBottom>
-            {course?.name}
+            {course.name}
           </Typography>
           <Typography variant="body1" color="text.secondary" gutterBottom>
-            {course?.description && (
+            {course.description && (
               <div dangerouslySetInnerHTML={{ __html: course.description }} />
             )}
           </Typography>
@@ -126,15 +130,15 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
 
           {tabIndex === 0 && (
             <Box>
-              <Typography variant="h6">Giá khóa học: {course?.price}</Typography>
-              <Typography variant="h6">Thể loại: {course?.category}</Typography>
-              <Typography variant="h6">Số lượng bài tập: {course?.slotNumber}</Typography>
+              <Typography variant="h6">Giá khóa học: {course.price}</Typography>
+              <Typography variant="h6">Thể loại: {course.category}</Typography>
+              <Typography variant="h6">Số lượng bài tập: {course.slotNumber}</Typography>
             </Box>
           )}
 
           {tabIndex === 1 && (
             <List>
-              {course?.workout?.map((item) => (
+              {course.workout.map((item) => (
                 <ListItem
                   key={item._id}
                   secondaryAction={
@@ -148,7 +152,7 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
                 >
                   <ListItemText
                     primary={item.name}
-                    secondary={`Ngày: ${new Date(
+                    secondary={`Date: ${new Date(
                       item.date
                     ).toLocaleDateString()}`}
                   />
@@ -159,7 +163,7 @@ const CourseDetails = ({ selectedCourse, onClose }) => {
         </CardContent>
       </Card>
 
-      {/* Modal Xem chi tiết bài tập */}
+      {/* Modal bài tập */}
       <WorkoutModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}

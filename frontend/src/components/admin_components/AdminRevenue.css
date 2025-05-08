@@ -9,13 +9,6 @@
     padding: 20px;
 }
 
-/* .overview-card {
-    background-color: #343a40;
-    color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-} */
 .overview-cards .overview-card {
     background-color: #fff;
     /* Nền thẻ màu trắng */
@@ -68,25 +61,3 @@
     padding: 1.5rem;
     background-color: #ffffff;
   }
-/* .table {
-    background-color: #ffffff;
-    border-radius: 8px;
-}
-
-.schema-content {
-    background-color: #ffffff;
-    border-radius: 8px;
-}
-
-/* AdminRevenue.css */
-
-/* .table-container {
-    min-height: 700px;
-    overflow-y: auto;
-    margin-bottom: 20px;
-}
-
-.admin-revenue .table {
-    background-color: #ffffff;
-    border-radius: 8px;
-} */

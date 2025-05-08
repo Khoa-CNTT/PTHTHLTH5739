@@ -14,7 +14,7 @@ function ResetPassword() {
 
   axios.defaults.withCredentials = true;
 
-  // Password validation function
+  // Chức năng xác thực mật khẩu
   const validatePassword = (password) => {
     const passwordPattern =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -25,7 +25,7 @@ function ResetPassword() {
     e.preventDefault();
     if (!isPasswordValid) {
       setMessage(
-        "Password must be at least 8 characters long, include at least one lowercase letter, one uppercase letter, and one special character."
+        "Mật khẩu phải dài ít nhất 8 ký tự, bao gồm ít nhất một chữ cái thường, một chữ cái viết hoa và một ký tự đặc biệt."
       );
       return;
     }
@@ -38,7 +38,7 @@ function ResetPassword() {
       )
       .then((res) => {
         setLoading(false);
-        toast.success("Password updated successfully. Redirecting to login...");
+        toast.success("Đã cập nhật mật khẩu thành công. Đang chuyển hướng đến trang đăng nhập...");
         setTimeout(() => navigate("/signin"), 3000);
       })
       .catch((err) => {
@@ -46,17 +46,17 @@ function ResetPassword() {
 
         if (err.response && err.response.status === 401) {
           // Token hết hạn, chuyển đến trang forgotpassword
-          toast.error("Token has expired. Redirecting to forgot password...");
+          toast.error("Mã thông báo đã hết hạn. Đang chuyển hướng đến quên mật khẩu...");
           setTimeout(() => navigate("/forgotpassword"), 3000);
         } else {
-          setMessage("An error occurred. Please try again.");
-          toast.error("An error occurred. Please try again.");
+          setMessage("Đã xảy ra lỗi. Vui lòng thử lại.");
+          toast.error("Đã xảy ra lỗi. Vui lòng thử lại.");
         }
         console.error(err);
       });
   };
 
-  // Handle password change
+  // Handle thay đổi mật khẩu
   const handlePasswordChange = (e) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -74,7 +74,7 @@ function ResetPassword() {
                   className="fw-normal mb-3 pb-3"
                   style={{ letterSpacing: "1px" }}
                 >
-                  Reset Password
+                  Đặt lại mật khẩu
                 </h3>
 
                 {message && <div className="alert alert-info">{message}</div>}
@@ -85,22 +85,21 @@ function ResetPassword() {
                     placeholder="Enter New Password"
                     autoComplete="off"
                     name="password"
-                    className={`form-control form-control-lg ${
-                      password
+                    className={`form-control form-control-lg ${password
                         ? isPasswordValid
                           ? "is-valid"
                           : "is-invalid"
                         : ""
-                    }`}
+                      }`}
                     onChange={handlePasswordChange}
                     value={password}
                     required
                   />
                   {!isPasswordValid && password && (
                     <div className="invalid-feedback">
-                      Password must be at least 8 characters long, including at
-                      least one lowercase letter, one uppercase letter, and one
-                      special character.
+                      Mật khẩu phải dài ít nhất 8 ký tự, bao gồm
+                      ít nhất một chữ cái thường, một chữ cái viết hoa và một
+                      ký tự đặc biệt.
                     </div>
                   )}
                 </div>
@@ -117,7 +116,7 @@ function ResetPassword() {
 
                 <div className="mt-3 text-center">
                   <Link to="/signin" className="text-decoration-none">
-                    Back to Login
+                  Quay lại Đăng nhập
                   </Link>
                 </div>
               </form>

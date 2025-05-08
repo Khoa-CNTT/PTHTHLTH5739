@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const CreateUserForm = ({ onUserCreated }) => {
     const [newUser, setNewUser] = useState({
@@ -26,7 +26,7 @@ const CreateUserForm = ({ onUserCreated }) => {
         e.preventDefault();
 
         if (!newUser.email || !newUser.name || !newUser.password) {
-            toast.error('Email, Name, and Password are required.');
+            toast.error('Email, Tên và Mật khẩu là bắt buộc.');
             return;
         }
 
@@ -51,11 +51,12 @@ const CreateUserForm = ({ onUserCreated }) => {
                 password: '',
             });
         } catch (err) {
-            toast.error(err.response?.data?.msg || 'Failed to create user');
+            toast.error(err.response?.data?.msg || 'Không tạo được người dùng');
         }
     };
 
     return (
+        
         <Form onSubmit={handleCreateUser}>
             <Form.Group>
                 <Form.Label>Email</Form.Label>
@@ -87,7 +88,7 @@ const CreateUserForm = ({ onUserCreated }) => {
                     onChange={handleInputChange}
                 />
                 <Form.Text className="text-muted">
-                Cung cấp URL hình ảnh hợp lệ (ví dụ: https://example.com/avatar.jpg).
+                    Cung cấp URL hình ảnh hợp lệ (ví dụ: https://example.com/avatar.jpg).
                 </Form.Text>
                 {newUser.avatar && (
                     <div className="mt-3">
@@ -158,6 +159,7 @@ const CreateUserForm = ({ onUserCreated }) => {
                     Thêm mới
                 </Button>
             </Modal.Footer>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
         </Form>
     );
 };

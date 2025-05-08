@@ -28,7 +28,6 @@ const Sidebar = () => {
         'Quản lý khóa học': '/admin/course',
         'Quản lý bài viết': '/admin/blog',
         'Quản lý doanh thu': '/admin/revenue',
-        //'Quản lý câu hỏi': '/admin/question',
     };
 
     return (
@@ -91,10 +90,8 @@ const Sidebar = () => {
                 </IconButton>
                 <Menu
                     anchorEl={anchorEl}
-                    //open={Boolean(anchorEl)}
                     open={isMenuOpen}
                     onClose={handleMenuClose}
-                    //onClose={handleClose}
                     PaperProps={{
                         style: {
                             backgroundColor: '#b84c04',
@@ -103,8 +100,6 @@ const Sidebar = () => {
                         },
                     }}
                 >
-                    {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Settings</MenuItem> */}
                     <MenuItem
                         onClick={() => {
                             handleClose();

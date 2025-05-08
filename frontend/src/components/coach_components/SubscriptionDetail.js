@@ -48,7 +48,8 @@ function SubscriptionDetail() {
       setSubscription(response.data.data);
       setWorkouts(sortedWorkouts);
     } catch (error) {
-      console.error("Error fetching subscription details:", error);
+      console.error("Lỗi khi tải thông tin đăng ký:", error);
+      toast.error("Lỗi khi tải thông tin đăng ký");
     }
   };
 
@@ -64,8 +65,8 @@ function SubscriptionDetail() {
       );
       setExercises(response.data);
     } catch (error) {
-      console.error("Error fetching exercises by coach ID:", error);
-      toast.error("Could not fetch exercises. Please try again.");
+      console.error("Lỗi khi tìm bài tập theo coach ID:", error);
+      toast.error("Không thể tải bài tập");
     }
   };
 
@@ -84,11 +85,6 @@ function SubscriptionDetail() {
     });
   };
 
-  const openEditWorkoutModal = () => {
-    setOpenEditModal(true);
-    setContextMenu(null);
-  };
-
   const openExerciseListModal = async () => {
     await fetchExercisesByCoachId();
     setOpenExerciseModal(true);
@@ -100,43 +96,6 @@ function SubscriptionDetail() {
     setOpenExerciseModal(false);
     setSelectedWorkout(null);
     setSelectedExercises([]);
-  };
-
-  const handleSaveWorkout = async () => {
-    const isDuplicateDate = workouts.some(
-      (workout) =>
-        workout.date &&
-        new Date(workout.date).toDateString() ===
-        new Date(selectedWorkout.date).toDateString() &&
-        workout._id !== selectedWorkout._id
-    );
-
-    if (isDuplicateDate) {
-      toast.error("Đã có bài tập cho ngày này.");
-      return;
-    }
-
-    try {
-      await axios.put(
-        `http://localhost:4000/api/coaches/subscription/workouts/${selectedWorkout._id}`,
-        selectedWorkout,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      setWorkouts(
-        workouts.map((workout) =>
-          workout._id === selectedWorkout._id ? selectedWorkout : workout
-        )
-      );
-      toast.success("Workout updated successfully!");
-      handleCloseModals();
-    } catch (error) {
-      console.error("Error saving workout:", error);
-      toast.error("Error saving workout. Please try again.");
-    }
   };
 
   const handleExerciseSelect = (exercise) => {
@@ -160,27 +119,6 @@ function SubscriptionDetail() {
     setSelectedExercises(
       selectedExercises.filter((ex) => ex.exerciseId !== exerciseId)
     );
-  };
-
-  const saveAllProgress = async () => {
-    try {
-      // Send selectedExercises as the 'exercises' field in the body
-      const response = await axios.post(
-        `http://localhost:4000/api/coaches/workouts/${selectedWorkout._id}/progress`,
-        { exercises: selectedExercises },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      toast.success("All progress entries added successfully!");
-      handleCloseModals();
-    } catch (error) {
-      console.error("Error saving progress entries:", error);
-      toast.error("Failed to save progress entries. Please try again.");
-    }
   };
 
   const CalendarCell = ({ date }) => {
@@ -351,67 +289,9 @@ function SubscriptionDetail() {
               left: contextMenu.x,
             }}
           >
-            {/* <button onClick={openEditWorkoutModal}>Chỉnh sửa bài tập</button> */}
             <button onClick={openExerciseListModal}>Xem Bài tập</button>
           </div>
         )}
-
-        {/* Chỉnh sửa chế độ luyện tập */}
-        <Modal
-          isOpen={openEditModal}
-          onRequestClose={handleCloseModals}
-          contentLabel="Edit Workout"
-          className="modal-content small-modal"
-          overlayClassName="modal-overlay"
-        >
-          {selectedWorkout && (
-            <div>
-              <h2>Chỉnh sửa chi tiết bài tập</h2>
-              <label>
-                Tên: {" "}
-                <input
-                  type="text"
-                  value={selectedWorkout.name || ""}
-                  onChange={(e) =>
-                    setSelectedWorkout({
-                      ...selectedWorkout,
-                      name: e.target.value,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Trạng thái: {" "}
-                <input
-                  type="text"
-                  value={selectedWorkout.status || ""}
-                  onChange={(e) =>
-                    setSelectedWorkout({
-                      ...selectedWorkout,
-                      status: e.target.value,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Ngày: {" "}
-                <input
-                  type="date"
-                  value={moment(selectedWorkout.date).format("YYYY-MM-DD")}
-                  onChange={(e) =>
-                    setSelectedWorkout({
-                      ...selectedWorkout,
-                      date: e.target.value,
-                    })
-                  }
-                />
-              </label>
-              <button
-              //onClick={handleSaveWorkout}
-              >Lưu</button>
-            </div>
-          )}
-        </Modal>
 
         {/* Danh sách bài tập Modal */}
         <Modal
@@ -494,12 +374,6 @@ function SubscriptionDetail() {
             </div>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '15px', borderTop: '1px solid #eee', gap: '10px' }}>
-            {/* <button
-              //onClick={saveAllProgress}
-              style={{ padding: '10px 15px', borderRadius: '5px', cursor: 'pointer', border: '1px solid #ccc', backgroundColor: '#28a745', color: 'white', borderColor: '#28a745' }}
-            >
-              Lưu tất cả tiến trình
-            </button> */}
             <button
               onClick={handleCloseModals}
               style={{ padding: '10px 15px', borderRadius: '5px', cursor: 'pointer', border: '1px solid #ccc', backgroundColor: '#f0f0f0', color: '#333' }}
@@ -508,7 +382,6 @@ function SubscriptionDetail() {
             </button>
           </div>
         </Modal>
-
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
       </div>
     </DndProvider>

@@ -8,7 +8,7 @@ export default function ResetPasswordPage() {
     return (
         <>
             <Navbar />
-            <PageHeader title="Reset Password" readOnly />
+            <PageHeader title="Đặt lại mật khẩu" readOnly />
             <ResetPassword />
             <Footer />
         </>

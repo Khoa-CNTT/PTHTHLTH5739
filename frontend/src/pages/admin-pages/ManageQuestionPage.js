@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
-import ManageOrder from '../../components/admin_components/AdminOrders';
+import ManagerQuestion from '../../components/admin_components/ManageQuestion';
 import AdminDashboardLayout from '../../components/admin_components/AdminDashboardLayout';
 
-const ManageOrderAdminPage = () => {
+const ManageQuestionPage = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
 	// Toggle sidebar function
 	const toggleSidebar = () => setIsSidebarOpen((prevState) => !prevState);
 	return (
-		// <div className='flex'>
-		// 	<Navbar isSidebarOpen={isSidebarOpen} />
-		// 	<div className='w-full h-full bg-white orders-page'>
-		// 		<ManageOrder toggleSidebar={toggleSidebar} />
-		// 	</div>
-		// </div>
+
 		<AdminDashboardLayout>
 			{/* Nội dung của trang Manage User */}
-			<ManageOrder toggleSidebar={toggleSidebar} />
+			<ManagerQuestion toggleSidebar={toggleSidebar} />
 		</AdminDashboardLayout>
-
 	);
 };
 
-export default ManageOrderAdminPage;
+export default ManageQuestionPage;

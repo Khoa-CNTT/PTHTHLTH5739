@@ -2,10 +2,10 @@
 
 .subscription-list-container {
     margin-left: 250px;
-    /* Căn chỉnh theo chiều rộng của thanh bên */
+    /* Align with sidebar width */
     padding: 20px;
     margin-top: 60px;
-    /* Điều chỉnh cho bất kỳ chiều cao thanh trên cùng nào */
+    /* Adjust for any top bar height */
     background-color: #000000;
     min-height: 100vh;
     box-sizing: border-box;

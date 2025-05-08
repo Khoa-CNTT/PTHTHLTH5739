@@ -5,11 +5,9 @@ import CoachDashboardLayout from '../../components/coach_components/CoachDashboa
 export default function CourseDetailForm() {
   return (
     <>
-      {/* <NavbarCoach />
-      <CourseDetail /> */}
       <CoachDashboardLayout>
-			<CourseDetail />
-		</CoachDashboardLayout>
+        <CourseDetail />
+      </CoachDashboardLayout>
     </>
   );
 }

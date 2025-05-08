@@ -25,6 +25,7 @@ import { Search as SearchIcon } from "@mui/icons-material";
 import { Container } from "react-bootstrap";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { toast, ToastContainer } from "react-toastify";
 
 function CoachFeedback() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -44,8 +45,9 @@ function CoachFeedback() {
       });
       setFeedbacks(response.data);
     } catch (error) {
-      console.error("Error fetching feedbacks!", error);
+      console.error("Có lỗi khi lấy phản hồi!", error);
       console.log(error);
+      toast.error("Có lỗi khi lấy phản hồi!");
     }
   };
 
@@ -71,8 +73,10 @@ function CoachFeedback() {
           fb._id === feedbackId ? { ...fb, isHidden: !fb.isHidden } : fb
         )
       );
+      toast.success("Chuyển trạng thái thành công");
     } catch (error) {
-      console.error("Error toggling feedback hidden status!", error);
+      console.error("Có lỗi khi chuyển đổi trạng thái ẩn phản hồi!", error);
+      toast.error("Có lỗi khi chuyển đổi trạng thái ẩn phản hồi!");
     }
   };
 
@@ -126,6 +130,7 @@ function CoachFeedback() {
 
   return (
     <div >
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
       <h1 className="text-black mb-4">Quản Lý Phản Hồi</h1>
       <div style={{ padding: "16px" }}>
         <Grid container spacing={2} alignItems="center" style={{ marginBottom: "16px" }}>

@@ -13,7 +13,7 @@ const CoachDashboardLayout = ({ children }) => {
 
             <Box sx={{ flex: 1, p: 3, ml: 30 }}>
 
-                {/* Phần Nội dung: nơi bạn có thể đặt các thành phần con */}
+                {/* Phần Nội dung: nơi đặt các thành phần con */}
                 <Container >
                     {children}
                 </Container>

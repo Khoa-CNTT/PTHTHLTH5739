@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Modal, Button, Form, Card } from "react-bootstrap";
+import { Modal, Button, Form, Card, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -191,10 +191,10 @@ const ManagerUser = (onUserCreated) => {
     // Nhận userId
     setLoading(true); // Đặt trạng thái loading
     try {
-      console.log("Selected User ID for Upgrade:", userId);
+      console.log("ID người dùng đã chọn để nâng cấp:", userId);
 
       if (!userId) {
-        toast.error("No user selected for upgrade");
+        toast.error("Không có người dùng nào được chọn để nâng cấp");
         return;
       }
 
@@ -233,16 +233,19 @@ const ManagerUser = (onUserCreated) => {
       fetchUsers();
     } catch (err) {
       console.error(err.response ? err.response.data : err.message);
-      toast.error("Failed to upgrade user to coach");
+      toast.error("Không thể nâng cấp người dùng lên HLV");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container ml-40">
-      <h2>Quản lý người dùng</h2>
-      <ToastContainer />
+
+    <div style={{ padding: "20px" }}>
+      <h2 className="mb-4" >
+        Quản lý người dùng
+      </h2>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <ChartTK title={'Trạng thái người dùng'} active={activateUsers} block={blockedUsers} non={nonActivateUsers}
         label1={'Người dùng được kích hoạt'}
         label2={'Người dùng bị chặn'}
@@ -335,7 +338,7 @@ const ManagerUser = (onUserCreated) => {
                   <img
                     src={
                       user.avatar ||
-                      "https://chiemtaimobile.vn/images/companies/1/%E1%BA%A2nh%20Blog/avatar-facebook-dep/Anh-avatar-hoat-hinh-de-thuong-xinh-xan.jpg?1704788263223"
+                      "https://i.pinimg.com/236x/5e/e0/82/5ee082781b8c41406a2a50a0f32d6aa6.jpg"
                     }
                     alt="avatar"
                     style={{
@@ -445,7 +448,7 @@ const ManagerUser = (onUserCreated) => {
         </Modal.Footer>
       </Modal>
 
-      {/* View User Modal */}
+      {/* Modal xem chi tiết người dùng */}
       <Modal show={showViewModal} onHide={handleCloseViewModal}>
         <Modal.Header closeButton>
           <Modal.Title>Chi tiết người dùng</Modal.Title>
@@ -453,45 +456,56 @@ const ManagerUser = (onUserCreated) => {
         <Modal.Body>
           {selectedUser && (
             <>
-              <img src={selectedUser.avatar} />
-              <p>
-                <strong>ID:</strong> {selectedUser._id}
-              </p>
-              <p>
-                <strong>Email:</strong> {selectedUser.email}
-              </p>
-              <p>
-                <strong>Tên:</strong> {selectedUser.name}
-              </p>
-              <p>
-                <strong>Giới tính:</strong> {selectedUser.gender}
-              </p>
-              <p>
-                <strong>Ngày sinh:</strong> {selectedUser.dob}
-              </p>
-              <p>
-                <strong>SĐT:</strong> {selectedUser.phone}
-              </p>
-              <p>
-                <strong>Địa chỉ:</strong> {selectedUser.address}
-              </p>
-              <p>
-                <strong>Vai trò:</strong> {selectedUser.role}
-              </p>
-              <p>
-                <strong>Trạng thái:</strong> {selectedUser.status}
-              </p>
+              <div className="d-flex justify-content-center mb-3">
+                <img src={selectedUser.avatar} alt="Avatar" style={{ width: '150px', height: '150px', borderRadius: '50%', objectFit: 'cover' }} />
+              </div>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">ID:</Col>
+                <Col md={8}>{selectedUser._id}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Email:</Col>
+                <Col md={8}>{selectedUser.email}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Tên:</Col>
+                <Col md={8}>{selectedUser.name}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Giới tính:</Col>
+                <Col md={8}>{selectedUser.gender}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Ngày sinh:</Col>
+                <Col md={8}>{selectedUser.dob}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">SĐT:</Col>
+                <Col md={8}>{selectedUser.phone}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Địa chỉ:</Col>
+                <Col md={8}>{selectedUser.address}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Vai trò:</Col>
+                <Col md={8}>{selectedUser.role}</Col>
+              </Row>
+              <Row className="mb-2">
+                <Col md={4} className="fw-bold">Trạng thái:</Col>
+                <Col md={8}>{selectedUser.status}</Col>
+              </Row>
             </>
           )}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseViewModal}>
-            Close
+            Đóng
           </Button>
         </Modal.Footer>
       </Modal>
 
-      {/* Edit User Modal */}
+      {/* Modal chỉnh sửa người dùng */}
       <Modal show={showEditModal} onHide={handleCloseEditModal}>
         <Modal.Header closeButton>
           <Modal.Title>Chỉnh sửa người dùng</Modal.Title>
@@ -614,7 +628,7 @@ const ManagerUser = (onUserCreated) => {
         </Modal.Body>
       </Modal>
 
-      {/* Confirm Block/Unblock User Modal */}
+      {/* Modal xác nhận block */}
       <Modal show={showConfirmBlockModal} onHide={handleCloseConfirmBlockModal}>
         <Modal.Header closeButton>
           <Modal.Title>{selectedUser?.status === "activate" ? "Block User" : "Unblock User"}</Modal.Title>

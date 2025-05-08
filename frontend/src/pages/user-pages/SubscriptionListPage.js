@@ -2,14 +2,14 @@ import React from 'react'
 import Navbar from '../../components/user-components/Navbar';
 import Footer from '../../components/user-components/Footer';
 import PageHeader from "../../components/user-components/PageHeader";
-import ManageCourse from '../../components/coach_components/ManageCourse';
+import SubscriptionList from '../../components/user-components/SubscriptionList';
 
-export default function BmiCalculatorPage() {
+export default function SubscriptionListPage() {
     return (
         <>
             <Navbar />
-            <PageHeader title="Manage Course" readOnly />
-            <ManageCourse />
+            <PageHeader title="Danh sách đăng ký" readOnly />
+            <SubscriptionList />
             <Footer />
         </>
     )
