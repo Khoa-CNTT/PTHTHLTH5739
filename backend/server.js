@@ -5,6 +5,14 @@ const cors = require("cors");
 const http = require("http");
 const socketIo = require("socket.io");
 
+const authenRouters = require("./routes/authenRouters");
+const userRoutes = require("./routes/userRoutes");
+const coachRouter = require("./routes/coachRouter");
+const adminRoutes = require("./routes/adminRouter");
+
+
+const authMiddleware = require("./middleware/authMiddleware");
+
 const chalk = require("chalk");
 const connectDB = require("./config/mongodb"); // Import connectDB function
 
@@ -26,15 +34,17 @@ app.get("/", (req, res) => {
 app.use("/api/authenticate", authenRouters);
 app.use("/api/users", userRoutes);
 app.use("/api/admins", adminRoutes);
+app.use("/api/coaches", coachRouter);
 
 // Create HTTP server and integrate Socket.IO
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: { origin: "http://localhost:3000" },
 });
+
 // Define Socket.IO connection logic here
 io.on("connection", (socket) => {
-  console.log("User kết nối:", socket.id);
+  console.log("User connected:", socket.id);
 
   socket.on("join-room", ({ roomId }) => {
     socket.join(roomId);
@@ -45,9 +55,35 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("User ngắt kết nối:", socket.id);
+    console.log("User disconnected:", socket.id);
   });
 });
+
+/*
+ * --------------------------------------------------------------------------
+ *  CHAT ROUTES
+ *
+ */
+
+// Now import the chatController and pass `io` to it
+const chatController = require("./controllers/userController/chatController")(
+  io
+);
+const { getOrCreateChatRoom, sendMessage } = chatController;
+
+// Define chat routes with the required middleware
+const router = express.Router();
+router.get(
+  "/chatroom/:subscriptionId",
+  authMiddleware(["user", "coach"]),
+  getOrCreateChatRoom
+);
+router.post(
+  "/chatroom/send-message",
+  authMiddleware(["user", "coach"]),
+  sendMessage
+);
+app.use("/api/users", router);
 
 
 // Start the server with Socket.IO
