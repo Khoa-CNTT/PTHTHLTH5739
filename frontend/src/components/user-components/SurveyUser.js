@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./SurveyUser.css"; // Tạo file CSS riêng để quản lý giao diện
+import { toast, ToastContainer } from "react-toastify";
 
 const Survey = () => {
   const [loading, setLoading] = useState(true);
@@ -68,10 +69,12 @@ const Survey = () => {
           surveyOptions,
         }
       );
-      console.log("Survey saved successfully:", response.data);
+      console.log("Khảo sát đã được lưu thành công:", response.data);
+      toast.success("Khảo sát đã được lưu thành công");
       navigate("/");
     } catch (err) {
-      console.error("Error saving survey:", err);
+      console.error("Lỗi khi lưu khảo sát:", err);
+      toast.error("Lỗi khi lưu khảo sát");
     }
   };
 
@@ -80,6 +83,7 @@ const Survey = () => {
 
   return (
     <div className="survey-container">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <form onSubmit={handleSubmit} className="survey-form">
         {currentStep === 0 && (
           <div className="survey-step">

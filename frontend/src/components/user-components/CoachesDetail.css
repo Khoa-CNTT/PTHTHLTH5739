@@ -19,7 +19,7 @@
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     padding: 20px;
 }
- 
+
 .btn-back {
     background-color: #e67e22;
     color: white;
@@ -90,7 +90,7 @@
     font-size: 0.9rem;
     color: #fff;
     display: flex; /* Use flexbox for alignment */
-    align-items: center; /* Vertically align icon and text */
+    /* align-items: center; Vertically align icon and text */
 }
 
 /* Style for the icons */
@@ -99,7 +99,7 @@
     color: #e67e22;
     font-size: 1.1rem;
     width: 20px; /* Set a fixed width for the icons */
-    text-align: center; /* Center the icon within its width */
+    /* text-align: center; Center the icon within its width */
 }
 
 /* Adjustments for better spacing and alignment */
@@ -130,10 +130,6 @@
     padding-bottom: 5px;
 }
 
-.quill-viewer {
-    margin-bottom: 15px;
-    color: #fff !important; /* Đảm bảo màu chữ trong quill viewer */
-}
 
 .experience-list {
     list-style: none;

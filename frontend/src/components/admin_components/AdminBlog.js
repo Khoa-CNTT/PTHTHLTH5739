@@ -57,25 +57,25 @@ function AdminBlog() {
 
       const allBlogs = response.data;
 
-      // Lọc và ghi lại các khóa học đã gửi
+      // Lọc và ghi lại các bài viết đã gửi
       const submitted = allBlogs.filter((blog) => {
         return blog.status === "pending";
       });
       setSubmittedBlogs(submitted);
 
-      // Lọc và ghi lại những khóa học được chấp nhận
+      // Lọc và ghi lại những bài viết được chấp nhận
       const accepted = allBlogs.filter((blog) => {
         return blog.status === "approved";
       });
       setAcceptedBlogs(accepted);
 
-      // Lọc và ghi lại các khóa học bị từ chối
+      // Lọc và ghi lại các bài viết bị từ chối
       const rejected = allBlogs.filter((blog) => {
         return blog.status === "rejected";
       });
       setRejectedBlogs(rejected);
     } catch (error) {
-      console.error("Lỗi khi tải khóa học:", error);
+      console.error("Lỗi khi tải bài viết:", error);
     }
   };
   useEffect(() => {
@@ -162,8 +162,8 @@ function AdminBlog() {
       setSelectedBlog(response.data);
       setModalOpen(true);
     } catch (error) {
-      console.error("Lỗi khi tải thông tin chi tiết về khóa học:", error);
-      toast.error("Lỗi khi tải thông tin chi tiết về khóa học.");
+      console.error("Lỗi khi tải thông tin chi tiết về bài viết:", error);
+      toast.error("Lỗi khi tải thông tin chi tiết về bài viết.");
     }
   };
   const BlogTable = ({ blogs, onAccept, onReject, onViewDetails }) => {

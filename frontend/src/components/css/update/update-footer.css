@@ -1,0 +1,44 @@
+@import "./update-color";
+
+.ul-footer {
+    padding-left: 0;
+}
+
+.ul-footer li {
+    color: var(--color-white) !important;
+}
+
+.update-gt-text {
+    margin-bottom: 0 !important;
+}
+
+
+.update-gt-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.update-gt-text i {
+    font-size: 20px;
+    color: #333;
+}
+
+.update-gt-text p {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+}
+
+/* update mot so class cu */
+.gt-text.email p {
+    padding-top: 0 !important;
+}
+
+.gt-text p {
+    padding-top: 0 !important;
+}
+
+.fs-widget .fw-recent h6 {
+    margin-bottom: 4px !important;
+}

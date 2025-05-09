@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import "react-quill/dist/quill.snow.css"; // Import Quill styles
-import {
-  ImageSlider,
-  truncateDescription,
-} from "../user-components/course/Custom-Component-Course";
 import CategorySelect from "../user-components/course/Select-Category-Course";
 import SortBySelect from "../user-components/course/Select-Sort-Course";
 import "./CourseList.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const CoursesList = () => {
   const [courses, setCourses] = useState([]);
@@ -25,9 +22,6 @@ const CoursesList = () => {
   // State để lưu từ khóa tìm kiếm
   const coursesPerPage = 6;
 
-  // State to track which course's description is expanded
-  const [expandedCourses, setExpandedCourses] = useState({});
-
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -41,6 +35,7 @@ const CoursesList = () => {
         setFilteredCourses(acceptedCourses); // Đặt giá trị ban đầu cho filteredCourses
       } catch (err) {
         setError(err.message);
+        toast.error("Lỗi khi lấy danh sách khóa học");
       } finally {
         setLoading(false);
       }
@@ -60,7 +55,8 @@ const CoursesList = () => {
         ];
         setCategories(uniqueCategories); // Lưu các category duy nhất vào state
       } catch (err) {
-        console.error("Error fetching categories:", err);
+        console.error("Lỗi khi tìm kiếm danh mục:", err);
+        toast.error("Lỗi khi tìm kiếm danh mục");
       }
     };
 
@@ -103,8 +99,8 @@ const CoursesList = () => {
     setFilteredCourses(updatedCourses); // Cập nhật danh sách khóa học đã lọc và sắp xếp
   }, [filterCategory, sortBy, searchQuery, courses]);
 
-  if (loading) return <div className="loading">Loading courses...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
+  if (loading) return <div className="loading">Đang tải khóa học...</div>;
+  if (error) return <div className="error">Lỗi: {error}</div>;
 
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
@@ -120,14 +116,6 @@ const CoursesList = () => {
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
-  };
-
-  // Function to toggle the expanded state of course description
-  const toggleDescription = (courseId) => {
-    setExpandedCourses((prevState) => ({
-      ...prevState,
-      [courseId]: !prevState[courseId], // Toggle the state for the course
-    }));
   };
 
   const handleNavigateToDetail = (courseId) => {
@@ -154,6 +142,7 @@ const CoursesList = () => {
 
   return (
     <div className="container-full">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       {isNavigating && (
         <div className="navigation-loading-overlay">
           <div className="loading-spinner"></div>
@@ -168,8 +157,8 @@ const CoursesList = () => {
           <input
             type="text"
             placeholder="Tìm kiếm theo tên hoặc danh mục"
-            // value={searchQuery}
-            // onChange={(e) => setSearchQuery(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="search-input search-input-coures"
           />
 
@@ -180,9 +169,9 @@ const CoursesList = () => {
           />
 
           <SortBySelect
-            // sortOptions={sortOptions}
-            // selectedSort={sortBy}
-            // setSelectedSort={setSortBy}
+            sortOptions={sortOptions}
+            selectedSort={sortBy}
+            setSelectedSort={setSortBy}
           />
         </div>
 
@@ -241,9 +230,9 @@ const CoursesList = () => {
                     </div>
                   </div>
                   <p class="product-description-course ml-2">
-                  {course.description ? course.description : "No description"}
+                    {course.description ? course.description : "No description"}
                   </p>
-                  
+
 
                   <button
                     onClick={() => handleNavigateToDetail(course._id)}

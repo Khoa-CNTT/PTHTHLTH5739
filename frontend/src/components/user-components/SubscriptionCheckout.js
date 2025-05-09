@@ -40,7 +40,7 @@ const SubscriptionCheckout = () => {
         // Redirect đến trang thanh toán của MoMo
         window.location.href = response.data.payUrl;
       } else {
-        alert("Payment initiation failed. Please try again.");
+        alert("Không thể khởi tạo thanh toán. Vui lòng thử lại.");
       }
     } catch (error) {
       console.error("Lỗi thanh toán:", error);
@@ -67,7 +67,7 @@ const SubscriptionCheckout = () => {
             ) : (
               <img
                 src="https://via.placeholder.com/400"
-                alt="No Course Image"
+                alt="Không có hình ảnh khóa học"
                 className="course-placeholder-image"
               />
             )}
@@ -75,7 +75,7 @@ const SubscriptionCheckout = () => {
 
           <div className="course-info-checkout">
             <h2 className="course-name-checkout">
-              {course?.name || "No Name Available"}
+              {course?.name || "Không có tên có sẵn"}
             </h2>
 
             <p className="course-description-checkout">
@@ -93,10 +93,6 @@ const SubscriptionCheckout = () => {
               <strong>Giá:</strong>{" "}
               {discount > 0 ? (
                 <>
-                  {/* <span className="original-price">
-                    {course?.price?.toLocaleString()} VNĐ
-                  </span>
-                  <br /> */}
                   <span className="discounted-price">
                     {discountedPrice?.toLocaleString()} VNĐ
                   </span>
@@ -109,7 +105,7 @@ const SubscriptionCheckout = () => {
               <strong>HLV:</strong>{" "}
               {course?.coachId?.accountId?.name ||
                 course?.coachId?.name ||
-                "No Coach Assigned"}
+                "Không có huấn luyện viên được chỉ định"}
             </p>
           </div>
         </div>
@@ -118,9 +114,6 @@ const SubscriptionCheckout = () => {
         <button className="next-btn" onClick={handlePayment}>
           Thanh toán
         </button>
-        {/* <button className="next-btn">
-          Thanh toán
-        </button> */}
       </div>
     </div>
     </div>

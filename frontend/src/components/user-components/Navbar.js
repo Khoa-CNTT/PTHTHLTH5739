@@ -27,7 +27,7 @@ function Navbar(props) {
           setUserName(data.name);
           setIsLoggedIn(data.role === "user");
         })
-        .catch((error) => console.error("Error fetching user profile:", error));
+        .catch((error) => console.error("Lỗi khi tải hồ sơ người dùng:", error));
     }
 
     const handleScroll = () => setIsScrolled(window.scrollY > 50);

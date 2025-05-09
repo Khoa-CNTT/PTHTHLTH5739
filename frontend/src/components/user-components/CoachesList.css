@@ -17,7 +17,7 @@
   .coach-item {
     display: flex;
     justify-content: center; /* Center the card within the column */
-  } 
+  }
   
   /* Coach Card */
   .coach-card {
@@ -35,9 +35,6 @@
   .coach-card:hover {
     transform: translateY(-10px); /* Slight lift on hover */
   }
-  
-
-
   
   /* Details Button Wrapper */
   .details-button-wrapper {

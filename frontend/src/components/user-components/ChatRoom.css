@@ -1,4 +1,4 @@
-/* Kiểu hộp trò chuyện */
+/* Chat container styling */
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -6,32 +6,32 @@
   margin: 30px auto;
   height: 100vh;
   background-color: #1e1e1e;
-  /* Nền tối cho hộp trò chuyện */
+  /* Dark background for the chat container */
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: #fff;
-  /* Đặt màu văn bản mặc định thành màu trắng */
+  /* Set default text color to white */
   overflow: hidden;
-  /* Đảm bảo nội dung vừa với hộp */
-  }
-  
-  /* Hộp tin nhắn */
-  .messages-container {
+  /* Ensure content fits within container */
+}
+
+/* Messages container */
+.messages-container {
   flex-grow: 1;
   padding: 56px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  /* Giảm khoảng cách giữa các tin nhắn */
+  /* Reduced gap between messages */
   height: calc(100vh - 80px);
-  /* Điều chỉnh tính toán chiều cao */
+  /* Adjusted height calculation */
   margin-bottom: 16px;
-  /* Lề nhỏ cho tin nhắn cuối cùng */
-  }
-  
-  /* Kiểu tin nhắn */
-  .message {
+  /* Small margin for the last message */
+}
+
+/* Message styling */
+.message {
   max-width: 75%;
   padding: 10px 14px;
   border-radius: 16px;
@@ -42,35 +42,35 @@
   margin: 4px 8px;
   display: flex;
   align-items: center;
-  }
-  
-  /* Kiểu tin nhắn đã gửi */
-  .sent {
+}
+
+/* Sent message styling */
+.sent {
   align-self: flex-end;
   background-color: #3a3a3a;
-  /* Xám đậm hơn cho tin nhắn đã gửi */
+  /* Darker gray for sent messages */
   color: #fff;
   border-top-right-radius: 0;
   position: relative;
-  }
-  
-  /* Kiểu tin nhắn AI */
-  .ai-message {
+}
+
+/* AI message styling */
+.ai-message {
   align-self: flex-start;
   background-color: #ffe8a1;
-  /* Màu khác cho AI */
+  /* Different color for AI */
   color: #333;
-  /* Màu tối hơn cho văn bản AI */
+  /* Darker color for AI text */
   text-align: left;
   font-style: italic;
-  /* Kiểu in nghiêng cho AI */
+  /* Italic style for AI */
   border-top-left-radius: 0;
   position: relative;
-  }
-  
-  /* Ảnh đại diện tin nhắn đã gửi (phải) */
-  /* Ảnh đại diện tin nhắn đã gửi (phải) */
-  .sent::after {
+}
+
+/* Sent message avatar (right) */
+/* Sent message avatar (right) */
+.sent::after {
   content: "";
   width: 30px;
   height: 30px;
@@ -78,12 +78,12 @@
   position: absolute;
   top: 50%;
   right: -40px;
-  /* Khoảng cách điều chỉnh từ bên phải */
+  /* Adjusted distance from the right */
   transform: translateY(-50%);
-  }
-  
-  /* Ảnh đại diện tin nhắn AI (bên trái) */
-  .ai-message::before {
+}
+
+/* AI message avatar (left) */
+.ai-message::before {
   content: "";
   width: 30px;
   height: 30px;
@@ -91,16 +91,16 @@
   position: absolute;
   top: 50%;
   left: -40px;
-  /* Khoảng cách điều chỉnh từ bên trái */
+  /* Adjusted distance from the left */
   transform: translateY(-50%);
-  }
-  
-  /* Kiểu dáng chú giải công cụ thời gian */
-  .message-time {
+}
+
+/* Time tooltip styling */
+.message-time {
   visibility: hidden;
   position: absolute;
   top: -25px;
-  /* Đặt nó ở phía trên tin nhắn */
+  /* Position it above the message */
   background-color: rgba(255, 255, 255, 0.9);
   color: #000;
   padding: 4px 8px;
@@ -112,36 +112,36 @@
   transform: translateY(-5px);
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 10;
-  }
-  
-  /* Định vị chú giải công cụ cho tin nhắn đã gửi */
-  .sent .message-time {
+}
+
+/* Tooltip positioning for sent messages */
+.sent .message-time {
   right: 0;
   left: auto;
-  }
-  
-  /* Định vị chú giải công cụ cho tin nhắn đã nhận */
-  .received .message-time {
+}
+
+/* Tooltip positioning for received messages */
+.received .message-time {
   left: 0;
   right: auto;
-  }
-  
-  .message:hover .message-time {
+}
+
+.message:hover .message-time {
   visibility: visible;
   opacity: 1;
   transform: translateY(0);
-  }
-  
-  /* Kiểu dáng của vùng chứa đầu vào */
-  .input-container {
+}
+
+/* Input container styling */
+.input-container {
   display: flex;
   padding: 12px;
   border-top: 1px solid #444;
   background-color: #1e1e1e;
-  }
-  
-  /* Kiểu dáng của trường đầu vào */
-  .message-input {
+}
+
+/* Input field styling */
+.message-input {
   flex: 1;
   padding: 10px;
   font-size: 14px;
@@ -151,10 +151,10 @@
   margin-right: 8px;
   background-color: #2e2e2e;
   color: #fff;
-  }
-  
-  /* Kiểu dáng của nút gửi */
-  .send-button {
+}
+
+/* Send button styling */
+.send-button {
   background-color: #4caf50;
   color: white;
   border: none;
@@ -163,28 +163,28 @@
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.2s;
-  }
-  
-  .send-button:hover {
+}
+
+.send-button:hover {
   background-color: #45a049;
-  }
-  
-  /* Kiểu thanh cuộn */
-  .messages-container::-webkit-scrollbar {
+}
+
+/* Scroll bar styling */
+.messages-container::-webkit-scrollbar {
   width: 6px;
-  }
-  
-  .messages-container::-webkit-scrollbar-thumb {
+}
+
+.messages-container::-webkit-scrollbar-thumb {
   background-color: #555;
   border-radius: 4px;
-  }
-  
-  /* Dấu phân cách ngày */
-  .date-separator {
+}
+
+/* Date separator */
+.date-separator {
   text-align: center;
   margin: 10px 0;
   color: #999;
   font-weight: bold;
   font-size: 0.85em;
-  /* Phông chữ nhỏ hơn một chút cho ngày */
-  }
+  /* Slightly smaller font for the date */
+}

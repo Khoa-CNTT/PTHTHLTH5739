@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';  // Để điều hướng đến chi tiết blog
+import { toast, ToastContainer } from "react-toastify";
 
 function RecentPosts() {
-	const [recentPosts, setRecentPosts] = useState([]);
-	useEffect(() => {
+    const [recentPosts, setRecentPosts] = useState([]);
+    useEffect(() => {
         // Fetch all blogs
         const fetchBlogs = async () => {
             try {
@@ -18,7 +19,8 @@ function RecentPosts() {
                 // Lấy 3 bài viết gần đây nhất
                 setRecentPosts(sortedBlogs.slice(0, 3));  // chỉ lấy 3 bài đầu tiên
             } catch (error) {
-                console.error("Error fetching blogs:", error);
+                console.error("Lỗi khi tải blog:", error);
+                toast.error("Lỗi khi tải blog");
             }
         };
 
@@ -27,8 +29,9 @@ function RecentPosts() {
 
     return (
         <div className='flex flex-col gap-4 p-6 bg-gray-100'>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <h3 className='relative pb-2 text-xl font-bold before:absolute before:bottom-0 before:h-1 before:w-16 before:bg-red-500'>
-            Bài viết gần đây
+                Bài viết gần đây
             </h3>
             {recentPosts.map((post) => (
                 <div className='flex items-center gap-4' key={post._id}>
@@ -39,7 +42,7 @@ function RecentPosts() {
                             {post.title.length > 32 ? post.title.slice(0, 32) + '...' : post.title}
                         </h4>
                         <Link to={`/blog/${post._id}`} className='text-blue-500 hover:underline'>
-                        Đọc thêm
+                            Đọc thêm
                         </Link>
                     </div>
                 </div>

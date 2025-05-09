@@ -1,0 +1,160 @@
+/* SubscriptionList.module.css */
+
+/* Container chứa tất cả các card */
+.subscriptionList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Thẻ card */
+.card {
+    position: relative;
+    /* Cần thiết để căn chỉnh status ở góc trên bên phải */
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    flex: 0 0 calc(33.333% - 40px);
+    /* Mỗi hàng có 3 card */
+    transition: transform 0.2s;
+}
+
+/* Hiệu ứng hover cho card */
+.card:hover {
+    transform: scale(1.05);
+}
+
+/* Thân của card */
+.cardBody {
+    padding: 20px;
+}
+
+/* Tiêu đề của card */
+.cardTitle {
+    font-size: 22px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+/* Nội dung văn bản trong card */
+.cardText {
+    color: #555;
+    margin-bottom: 15px;
+}
+
+/* Các action buttons trong card */
+.cardActions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+    /* Khoảng cách giữa các button */
+}
+
+.btn {
+    flex: 1 1 23%;
+    text-align: center;
+    background-color: orange;
+    color: white;
+    border: none;
+}
+
+.btnSecondary {
+    background-color: blue !important;
+}
+
+/* Các lớp màu trạng thái */
+.subscriptionStatusPause {
+    background-color: red !important;
+    /* Màu đỏ cho trạng thái pause */
+}
+
+.subscriptionStatusFinish {
+    background-color: yellow !important;
+    /* Màu vàng cho trạng thái finish */
+}
+
+.subscriptionStatusActive,
+.subscriptionStatusOngoing {
+    background-color: rgb(122, 122, 122) !important;
+    /* Màu xanh cho các trạng thái active và ongoing */
+}
+
+/* Container cho thanh tiến độ */
+.progressContainer {
+    background-color: #6e6e6e;
+    border-radius: 10px;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    /* Cho phép căn vị trí con bên trong */
+}
+
+/* Wrapper chứa thanh tiến độ và văn bản */
+.progressBarWrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Thanh tiến độ */
+.progressBar {
+    height: 100%;
+    background-color: #4caf50;
+    border-radius: 10px;
+}
+
+/* Văn bản tiến độ */
+.progressText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    z-index: 1;
+    /* Đảm bảo văn bản nằm trên thanh tiến độ */
+}
+
+/* Media Queries để đảm bảo hiển thị responsive */
+@media (max-width: 768px) {
+    .card {
+        flex: 0 0 calc(50% - 20px);
+        /* Mỗi hàng có 2 card trên màn hình nhỏ */
+    }
+
+    .btn {
+        flex: 1 1 45%;
+        /* Đặt 2 button trên một hàng cho màn hình nhỏ */
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        flex: 0 0 100%;
+        /* Mỗi hàng 1 card trên màn hình nhỏ hơn nữa */
+    }
+
+    .btn {
+        flex: 1 1 100%;
+        /* Mỗi button chiếm toàn bộ chiều rộng */
+    }
+}
+
+/* Định vị trạng thái subscription ở góc trên bên phải */
+.status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(72, 255, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 25px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}

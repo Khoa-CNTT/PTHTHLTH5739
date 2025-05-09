@@ -23,7 +23,7 @@
     text-decoration: none; /* Remove default link underline */
     color: inherit; /* Inherit text color from parent */
   }
-   
+  
   .block:focus {
     outline: none; /* Optional: Remove default focus outline if you're providing custom focus styles */
   }

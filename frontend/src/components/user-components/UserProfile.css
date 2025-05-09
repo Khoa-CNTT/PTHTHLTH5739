@@ -8,7 +8,7 @@
     display: flex; /* Sử dụng flexbox */
     flex-direction: column; /* Xếp chồng các phần tử theo chiều dọc */
     align-items: center; /* Căn giữa theo chiều ngang */
-    /* text-align: center; Căn giữa văn bản */
+    text-align: center; /* Căn giữa văn bản */
   }
   
   .profile-info img {

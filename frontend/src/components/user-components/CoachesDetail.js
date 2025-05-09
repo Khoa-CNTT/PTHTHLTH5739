@@ -8,8 +8,8 @@ import WcIcon from "@mui/icons-material/Wc";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import CoachDetailSlideShow from "../user-components/coach/Coach-Slideshow-Image";
 import "./CoachesDetail.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const CoachDetails = () => {
   const { id } = useParams();
@@ -27,6 +27,7 @@ const CoachDetails = () => {
         setCoach(response.data);
       } catch (err) {
         setError(err.message);
+        toast.error("Lỗi khi lấy thông tin HLV");
       } finally {
         setLoading(false);
       }
@@ -63,10 +64,11 @@ const CoachDetails = () => {
     } catch (err) {
       return imageName;
     }
-  }; 
+  };
 
   return (
     <div className="coach-detail-page">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <button className="btn-back" onClick={handleBack}>
         &larr; Trở lại
       </button>
@@ -92,12 +94,7 @@ const CoachDetails = () => {
 
             <div className="coach-introduction-section">
               <h3 className="section-title">Giới thiệu</h3>
-              <ReactQuill
-                className="quill-viewer"
-                value={introduce || ""}
-                readOnly={true}
-                theme="bubble"
-              />
+              <span>{coach.introduce}</span>
             </div>
 
             <div className="coach-experience-section">

@@ -7,6 +7,7 @@ import SearchBar from './blog-components/SearchBar';
 import Categories from './blog-components/Categories';
 import RecentPosts from './blog-components/RecentPosts';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
 
 const Blog = () => {
     const [blogs, setBlogs] = useState([]);
@@ -15,7 +16,7 @@ const Blog = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
-    const blogsPerPage = 4; 
+    const blogsPerPage = 4;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -26,6 +27,7 @@ const Blog = () => {
                 setLoading(false);
             })
             .catch((err) => {
+                toast.error("Lỗi khi tải blog");
                 setError(err.message);
                 setLoading(false);
             });
@@ -56,6 +58,7 @@ const Blog = () => {
 
     return (
         <div className="bg-gray-50 min-h-screen">
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             <div className="container-cus py-12">
                 {/* Hero Section */}
                 <div className="text-center mb-12">
@@ -83,7 +86,7 @@ const Blog = () => {
                                             <img
                                                 src={blog.image}
                                                 alt={blog.title}
-                                                className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300" 
+                                                className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
                                             />
                                             <div className="absolute top-2 right-2"> {/* Điều chỉnh vị trí category badge */}
                                                 <span className="bg-orange-500 text-white px-2 py-1 rounded-full text-xs"> {/* Giảm kích thước badge */}
@@ -114,7 +117,7 @@ const Blog = () => {
 
                                             <button
                                                 onClick={() => navigate(`/blog/${blog._id}`)}
-                                                className="inline-flex items-center gap-1 hover:text-black-600 transition-colors text-sm" 
+                                                className="inline-flex items-center gap-1 hover:text-black-600 transition-colors text-sm"
                                             >
                                                 Đọc thêm
                                                 <i className="fas fa-arrow-right"></i>

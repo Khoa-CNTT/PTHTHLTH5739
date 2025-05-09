@@ -1,0 +1,20 @@
+.more-dropdown {
+    padding-left: 0;
+  }
+  
+  .more-dropdown li {
+    list-style: none;
+  }
+  
+  .more-dropdown li a {
+    display: block;
+    padding: 8px 16px;
+    text-align: left;
+    width: 100%;
+  }
+  
+  .more-dropdown li a:hover {
+    background-color: #ea580c;
+    color: white;
+  }
+  

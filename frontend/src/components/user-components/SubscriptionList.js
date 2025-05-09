@@ -63,7 +63,7 @@ const SubscriptionList = () => {
         setSubscriptions(sortedSubscriptions);
         setFilteredSubscriptions(sortedSubscriptions);
       } catch (err) {
-        setError("Error fetching subscriptions.");
+        setError("Có lỗi khi tải đăng ký.");
       } finally {
         setLoading(false);
       }
@@ -72,21 +72,9 @@ const SubscriptionList = () => {
     fetchSubscriptions();
   }, []);
 
-  // const handleViewSubscription = (subscriptionId) => {
-  //   navigate(`/userSubscription/${subscriptionId}`);
-  // };
-
   const handleViewSchedule = (subscriptionId) => {
     navigate(`/userSchedule/${subscriptionId}`);
   };
-
-  // const handleViewSurvey = (subscriptionId) => {
-  //   navigate(`/userSurvey/${subscriptionId}`);
-  // };
-
-  // const handleViewChatRoom = (subscriptionId) => {
-  //   navigate(`/chatRoom/${subscriptionId}`);
-  // };
 
   if (loading) return <p>Đang chạy...</p>;
   if (error) return <p>{error}</p>;

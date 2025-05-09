@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./CoachesList.css";
 import { Col, Row } from "react-bootstrap";
 import { color } from "chart.js/helpers";
+import { toast, ToastContainer } from "react-toastify";
 
 const CoachesList = () => {
   const [coaches, setCoaches] = useState([]);
@@ -19,6 +20,7 @@ const CoachesList = () => {
         setCoaches(response.data);
       } catch (err) {
         setError(err.message);
+        toast.error("Lỗi khi tải HLV")
       } finally {
         setLoading(false);
       }
@@ -40,14 +42,15 @@ const CoachesList = () => {
 
   return (
     <div className="container-full trainers-page">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <div className="coaches-list">
         <h1 className="courses-title">Đội ngũ huấn luyện viên</h1>
-        <Row className="coaches-container justify-content-center"> 
+        <Row className="coaches-container justify-content-center"> {/* Center the rows */}
           {coaches.map((coach) => (
             <Col key={coach._id} md={4} sm={6} xs={12} className="coach-item">
               <div className="coach-card mb-3 mt-3">
                 <div className="coach-img-container">
-                  <div className="avatar-wrapper"> 
+                  <div className="avatar-wrapper"> {/* Wrapper for centering avatar */}
                     <img
                       src={getImageSrc(coach.accountId?.avatar)}
                       alt={`${coach.accountId?.name || "Unknown Coach"}'s profile`}
@@ -56,17 +59,17 @@ const CoachesList = () => {
                     />
                   </div>
                 </div>
-                  <h2 className=" text-center"> 
-                    {coach.accountId?.name || "Unknown Coach"}
-                  </h2>
-                  <p className="coach-specialization text-center"> 
-                    <h6 className="text-black">HLV Gym</h6>
-                  </p>
-                <div className="details-button-wrapper"> 
+                <h2 className=" text-center"> {/* Center the name */}
+                  {coach.accountId?.name || "Unknown Coach"}
+                </h2>
+                <p className="coach-specialization text-center"> {/* Center the specialization */}
+                  <h6 className="text-black">HLV Gym</h6>
+                </p>
+                <div className="details-button-wrapper"> {/* Wrapper for centering button */}
                   <Link to={`/coach/${coach._id}`} className="coach-details-link">
-                    <button className="btn view-btn-coach">Xem chi tiết</button>
+                    <button className="btn view-btn-coach" style={{ color: "black", backgroundColor: "#e67e22" }}>Xem chi tiết</button>
                   </Link>
-                </div> 
+                </div>
               </div>
             </Col>
           ))}

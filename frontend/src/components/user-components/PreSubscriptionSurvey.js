@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./PreSubscriptionSurvey.css"; // Thêm file CSS để tùy chỉnh giao diện
+import { toast, ToastContainer } from "react-toastify";
 
 const PreSubscriptionSurvey = () => {
   const { subscriptionId } = useParams();
@@ -27,7 +28,7 @@ const PreSubscriptionSurvey = () => {
 
         setQuestions(response?.data?.courseId?.questions || []);
       } catch (err) {
-        setError("Error loading survey questions.");
+        setError("Lỗi khi tải câu hỏi khảo sáts.");
       } finally {
         setLoading(false);
       }
@@ -44,7 +45,8 @@ const PreSubscriptionSurvey = () => {
     if (step === 1) {
       // Kiểm tra nếu người dùng chưa nhập đầy đủ thông tin ở bước 1
       if (!height || !weight || dayPerWeek.length === 0) {
-        setSubmitError("Please fill in all required fields before proceeding.");
+        setSubmitError("Vui lòng điền đầy đủ các trường bắt buộc trước khi tiếp tục.");
+        toast.warning("Vui lòng điền đầy đủ các trường bắt buộc trước khi tiếp tục.");
         return;
       }
       setSubmitError(""); // Xóa lỗi nếu có
@@ -57,10 +59,11 @@ const PreSubscriptionSurvey = () => {
   };
 
   const handleSubmit = async () => {
-    // if (Object.keys(answers).length !== questions.length) {
-    //   setSubmitError("Vui lòng trả lời tất cả các câu hỏi trước khi gửi.");
-    //   return;
-    // }
+    if (Object.keys(answers).length !== questions.length) {
+      setSubmitError("Vui lòng trả lời tất cả các câu hỏi trước khi gửi.");
+      toast.warning("Vui lòng trả lời tất cả các câu hỏi trước khi gửi");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -71,17 +74,19 @@ const PreSubscriptionSurvey = () => {
         }
       );
       console.log("Response:", response.data);
-      setSuccessMessage("Survey submitted successfully!");
+      setSuccessMessage("Khảo sát đã được gửi thành công!");
+      toast.success("Khảo sát đã được gửi thành công!");
       setSubmitError("");
       setTimeout(() => {
         navigate(`/userSchedule/${subscriptionId}`);
       }, 2000);
     } catch (err) {
       console.error(
-        "Error submitting survey:",
+        "Lỗi khi gửi khảo sát:",
         err.response?.data || err.message
       );
-      setSubmitError("Error submitting survey. Please try again.");
+      setSubmitError("Lỗi khi gửi khảo sát");
+      toast.error("Lỗi khi gửi khảo sát");
     }
   };
 
@@ -109,6 +114,7 @@ const PreSubscriptionSurvey = () => {
 
   return (
     <div className="survey-container">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <button className='px-4 py-2 mb-6 text-white bg-orange-500 rounded-md' onClick={handleBack}>
         &larr; Quay lại
       </button>

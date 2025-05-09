@@ -1,0 +1,135 @@
+.container-signin {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.title-singin {
+    display: flex;
+    justify-content: center;
+    /* background: linear-gradient(to right, #ffa726, #fb8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+    font-weight: 900;
+    font-size: 32px;
+}
+
+.crossbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 2px;
+    background: linear-gradient(to right, #ffa726, #fb8c00);
+    margin: 0 auto;
+}
+
+.login-message {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 20px 0;
+}
+
+.welcome-text {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.forgot-password {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.link {
+    color: #fb8c00;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: none;
+    outline: none;
+    color: #fb8c00;
+}
+
+.gradient-button {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(90deg, #ffa726, #fb8c00);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gradient-button .button-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.gradient-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.gradient-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.divider span {
+    padding: 0 10px;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #ccc;
+}
+
+.divider::before {
+    margin-right: 10px;
+}
+
+.divider::after {
+    margin-left: 10px;
+}
+
+
+
+/* update cac css cu */
+.form-outline input {
+    border-radius: 0px;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    background-color: white;
+    border-bottom: 1px solid #ced4da;
+}
+
+.form-control-lg {
+    font-size: 12px !important;
+}

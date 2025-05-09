@@ -17,7 +17,6 @@ export default function DividerVariants({
   price,
   category,
   discount,
-
 }) {
   const discountedPrice = price - price * (discount / 100);
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { FaLock } from "react-icons/fa"; // Importing the lock icon from react-icons
+import { FaLock } from "react-icons/fa"; 
 import AccordionExpandIcon from "../user-components/course/Course-Accordion";
 import DividerVariants from "../user-components/course/Course-Divider-Variants";
 import FeedbackCourse from "./FeedbackCourse";
 import CourseDetailSlideShow from "../user-components/course/Course-SlideShow";
 import CourseVideoDialog from "../user-components/course/Course-Video-Popup";
-import { toast, ToastContainer } from "react-toastify"; // Importing react-toastify for toast notifications
+import { toast, ToastContainer } from "react-toastify"; // Importing react-toastify cho thông báo toast
 import "react-toastify/dist/ReactToastify.css";
 import "./CourseDetail.css";
 import { LeftOutlined } from "@ant-design/icons";
@@ -30,8 +30,6 @@ const CourseDetails = () => {
         const response = await axios.get(
           `http://localhost:4000/api/users/courses/${id}`
         );
-        // console.log("Course Data", response.data);
-
         const courseData = response.data;
 
         // Nếu có workout, lấy chi tiết từng workout
@@ -54,6 +52,7 @@ const CourseDetails = () => {
         setCourse(courseData);
       } catch (err) {
         setError(err.message);
+        toast.error("Lỗi khi lấy thông tin khóa học");
       } finally {
         setLoading(false);
       }
@@ -73,7 +72,8 @@ const CourseDetails = () => {
 
         setPurchasedSubscriptions(response.data.purchasedCourses);
       } catch (err) {
-        console.error("Error fetching purchased subscriptions:", err);
+        console.error("Lỗi khi tải các đăng ký đã mua:", err);
+        toast.error("Lỗi khi tải các đăng ký đã mua");
       }
     };
 
@@ -91,11 +91,9 @@ const CourseDetails = () => {
     if (!token) {
       console.log("token .....", token);
 
-      toast.warning("You need to be logged in to purchase the course", {
+      toast.warning("Bạn cần phải đăng nhập để mua khóa học", {
         autoClose: 3000,
       });
-      // alert("You need to be logged in to purchase the course");
-      // navigate("/signin");
     } else {
       // Nếu token hợp lệ, tiếp tục thực hiện thanh toán
       navigate("/subscriptionCheckout", { state: { course: course } });
@@ -157,7 +155,7 @@ const CourseDetails = () => {
 
   return (
     <div className="course-details">
-      <ToastContainer />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
       <div className="course-details-container">
         <Button
           icon={<LeftOutlined />}
@@ -176,10 +174,7 @@ const CourseDetails = () => {
             </button>
 
           ) : (
-            // <button className="enroll-btn" onClick={handlePayment}>
-            //   Đăng ký
-            // </button>
-            <button className="enroll-btn" >
+            <button className="enroll-btn" onClick={handlePayment}>
               Đăng ký
             </button>
           )}
@@ -195,9 +190,6 @@ const CourseDetails = () => {
               price={price}
               category={category}
               discount={discount}
-            // purchasedSubscription={purchasedSubscription}
-            // goToCourseSchedule={goToCourseSchedule}
-            // handlePayment={handlePayment}
             />
           </div>
         </div>

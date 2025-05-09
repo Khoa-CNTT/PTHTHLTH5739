@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./BlogDetail.css";
-import Comments from "../custom/Custom-Comment";
 
 const BlogDetail = () => {
   const { blogId } = useParams();
@@ -29,9 +28,9 @@ const BlogDetail = () => {
           });
           setUserId(response.data._id);
         } catch (error) {
-          console.error("Lỗi khi lấy thông tin cá nhân:", error);
+          console.error("Lỗi khi tải hồ sơ:", error);
           if (error.response && error.response.status === 401) {
-            toast.error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+            toast.error("Phiên đã hết hạn. Vui lòng đăng nhập lại.");
             setIsLoggedIn(false);
             localStorage.removeItem("token");
           }
@@ -47,6 +46,7 @@ const BlogDetail = () => {
         setBlog(blogResponse.data);
       } catch (err) {
         setError(err.message);
+        toast.error("Lỗi khi tải chi tiết bài viết")
       } finally {
         setLoading(false);
       }
@@ -54,7 +54,6 @@ const BlogDetail = () => {
 
     fetchData();
   }, [blogId]);
-
 
   if (loading) return <p>Đang tải...</p>;
   if (error) return <p>Lỗi: {error}</p>;
@@ -83,14 +82,14 @@ const BlogDetail = () => {
                           height="80"
                           width="80"
                           src="https://cellphones.com.vn/sforum/wp-content/uploads/2023/10/avatar-trang-4.jpg"
-                          alt="Tác giả"
+                          alt="Author"
                         />
                       </a>
                       <div className="inner-meta">
                         <span>
-                          Bởi{" "}
+                          By{" "}
                           <a className="created-by">
-                            {blog.author ? blog.author.name : "Không rõ"}
+                            {blog.author ? blog.author.name : "Unknown"}
                           </a>
                         </span>
                         <p className="created-at">
@@ -99,20 +98,18 @@ const BlogDetail = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="site-main article-text-wrap">
 
                     <div className="entry-summary">{blog.content}</div>
                   </div>
                 </div>
               </div>
-
             </>
           ) : (
             <p>Không tìm thấy bài viết nào</p>
           )}
 
-          <ToastContainer />
+          <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover/>
         </div>
       </div>
     </div>

@@ -21,13 +21,13 @@ export default function AccordionExpandIcon({ workout, handleOpenVideo }) {
             >
               <div className="summary-content">
                 <Typography>
-                  {workoutItem?.name || "Không có tên buổi tập"}
+                  {workoutItem?.name || "No workout name provided"}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Ngày:{" "}
                   {workoutItem.date
                     ? new Date(workoutItem.date).toLocaleDateString()
-                    : "Không có ngày"}
+                    : "No date provided"}
                 </Typography>
               </div>
             </AccordionSummary>
@@ -49,10 +49,10 @@ export default function AccordionExpandIcon({ workout, handleOpenVideo }) {
                           variant="subtitle1"
                           className="exercise-name"
                         >
-                          {exercise?.name || "Không có tên bài tập"}
+                          {exercise?.name || "No exercise name"}
                         </Typography>
                         {!exercise?.video && (
-                          <FaLock className="lock-icon" title="Video bị khóa" />
+                          <FaLock className="lock-icon" title="Video locked" />
                         )}
                       </div>
                     );

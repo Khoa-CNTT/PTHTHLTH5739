@@ -5,6 +5,7 @@ import moment from "moment";
 import axios from "axios";
 import { Card, Avatar, Tooltip, Space, Button } from "antd";
 import ReactMarkdown from "react-markdown";
+import { toast, ToastContainer } from "react-toastify";
 
 const socket = io("http://localhost:4000");
 
@@ -41,7 +42,10 @@ const ChatRoom = () => {
           console.error("Phòng chat hoặc dữ liệu cần thiết bị thiếu:", data);
         }
       })
-      .catch((error) => console.error("Lỗi khi tải phòng chat:", error));
+      .catch((error) => {
+        console.error("Lỗi khi tải phòng chat:", error);
+        toast.error("Lỗi khi tải phòng chat");
+      });
 
     // Cập nhật tin nhắn khi có tin nhắn mới được nhận qua socket
     socket.on("receive-message", async () => {
@@ -56,10 +60,11 @@ const ChatRoom = () => {
         if (data && data.chatRoom && data.chatRoom._id) {
           setMessages(data.chatRoom.messageId ?? []);
         } else {
-          console.error("Lỗi: Phòng chat hoặc dữ liệu cần thiết bị thiếu", data);
+          console.error("Phòng chat hoặc dữ liệu cần thiết bị thiếu", data);
         }
       } catch (error) {
         console.error("Lỗi khi tải phòng trò chuyện đã cập nhật:", error);
+        toast.error("Lỗi khi tải phòng trò chuyện đã cập nhật");
       }
     });
 
@@ -121,7 +126,7 @@ const ChatRoom = () => {
           const response = await axios.post(
             geminiEndpoint, // Sử dụng endpoint của Gemini
             {
-              model: "gemini-2.0-flash", // Hoặc model Gemini bạn muốn sử dụng
+              model: "gemini-2.0-flash", // Model Gemini sử dụng
               contents: [
                 {
                   parts: [
@@ -161,7 +166,8 @@ const ChatRoom = () => {
             body: JSON.stringify(aiMessage),
           });
         } catch (error) {
-          console.error("Lỗi với API Gemini:", error);
+          console.error("Lỗi với Gemini API:", error);
+          toast.error("Lỗi với Gemini API");
         }
       }
 
@@ -176,10 +182,11 @@ const ChatRoom = () => {
       if (data && data.chatRoom && data.chatRoom._id) {
         setMessages(data.chatRoom.messageId ?? []);
       } else {
-        console.error("Lỗi: Phòng chat hoặc dữ liệu cần thiết bị thiếu", data);
+        console.error("Phòng chat hoặc dữ liệu cần thiết bị thiếu", data);
       }
     } catch (error) {
-      console.error("Lỗi khi gửi tin nhắn hoặc tải phòng trò chuyện:", error);
+      console.error("Lỗi khi gửi tin nhắn hoặc tải phòng trò chuyện", error);
+      toast.error("Lỗi khi gửi tin nhắn hoặc tải phòng trò chuyện");
     } finally {
       setIsLoading(false);
     }
@@ -195,7 +202,7 @@ const ChatRoom = () => {
 
       const isAI = msg.senderId === null || msg.senderId?._id === "AI";
       const isLastMessage = index === messages.length - 1;
-
+      // ảnh AI chat
       const senderAvatar = isAI
         ? "https://i.pinimg.com/originals/41/7b/16/417b164404395c70a1bbd36b44c1ef10.gif"
         : msg.senderId.avatar;
@@ -236,10 +243,10 @@ const ChatRoom = () => {
           >
             <div
               className={`message ${isAI
-                  ? "ai-message"
-                  : msg.senderId?._id === accountId
-                    ? "sent"
-                    : "received"
+                ? "ai-message"
+                : msg.senderId?._id === accountId
+                  ? "sent"
+                  : "received"
                 }`}
               ref={isLastMessage ? latestMessageRef : null}
               style={{
@@ -432,7 +439,7 @@ const ChatRoom = () => {
           }}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Nhập tin nhắn của bạn..."
+          placeholder="Type your message..."
           rows={1}
         />
         <Button
@@ -453,7 +460,9 @@ const ChatRoom = () => {
           Gửi
         </Button>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
     </div>
+
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "./ViewSurvey.css";
 import { LeftOutlined } from "@ant-design/icons";
 import { Button } from "react-bootstrap";
@@ -38,30 +38,14 @@ const ViewSurvey = () => {
         setQuestions(response.data.surveyOptions || []);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching survey:", error);
-        setError("Error fetching survey data");
+        console.error("Lỗi khi tải khảo sát:", error);
+        setError("Lỗi khi tải khảo sát");
         setLoading(false);
       }
     };
 
     fetchSurvey();
   }, [subscriptionId]);
-
-  const handleStartEditing = () => {
-    // Đảm bảo rằng khi bấm "Edit Survey", các giá trị được set đúng
-    setEditForm({
-      level: survey.level || "",
-      dayPerWeek: [...(survey.dayPerWeek || [])], // Mỗi mảng phải được sao chép
-      hourPerDay: survey.hourPerDay || "",
-      height: survey.height || "",
-      weight: survey.weight || "",
-      surveyOptions: questions.map((q) => ({
-        questionId: q.questionId._id, // Đảm bảo lưu đúng cấu trúc ID
-        optionId: q.optionId,
-      })),
-    });
-    setIsEditing(true);
-  };
 
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
@@ -136,16 +120,11 @@ const ViewSurvey = () => {
       setQuestions(response.data.survey.surveyOptions);
       setIsEditing(false);
       setEditForm(null);
-      toast.success("Survey updated successfully!");
+      toast.success("Khảo sát đã được cập nhật thành công!");
     } catch (error) {
-      console.error("Error updating survey:", error);
-      toast.error("Failed to update survey");
+      console.error("Lỗi khi cập nhật khảo sát:", error);
+      toast.error("Lỗi khi cập nhật khảo sát");
     }
-  };
-
-  const handleCancel = () => {
-    setEditForm(null);
-    setIsEditing(false);
   };
 
   if (loading) return <div className="loading-spinner">Đang tải khảo sát...</div>;
@@ -163,6 +142,7 @@ const ViewSurvey = () => {
 
   return (
     <div className="survey-container">
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
       <div className="survey-form">
         <Button
           icon={<LeftOutlined />}
@@ -295,8 +275,6 @@ const ViewSurvey = () => {
               </div>
             ))}
           </div>
-
-
         </form>
       </div>
     </div>

@@ -51,6 +51,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
       setCurrentUserId(response.data._id);
     } catch (error) {
       console.error("Lỗi khi lấy ID người dùng hiện tại:", error);
+      toast.error("Không thể lấy thông tin người dùng");
       setError("Không thể lấy thông tin người dùng.");
     }
   };
@@ -66,6 +67,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
       setVisibleFeedbacksCount(visibleFeedbacks.length);
     } catch (error) {
       console.error("Lỗi khi lấy phản hồi:", error);
+      toast.error("Lỗi khi lấy phản hồi");
       setError("Không thể tải phản hồi.");
     }
   };
@@ -79,6 +81,7 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
       setRatings(response.data);
     } catch (error) {
       console.error("Lỗi khi lấy đánh giá:", error);
+      toast.error("Không thể tải đánh giá");
       setError("Không thể tải đánh giá.");
     }
   };
@@ -259,7 +262,6 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
             onChange={(e) => setNewFeedback(e.target.value)}
             placeholder={"Viết phản hồi của bạn..."}
           />
-
           <div className="rating-input">
             <span>Đánh giá khóa học này:</span>
             {[1, 2, 3, 4, 5].map((star) => (
@@ -297,7 +299,24 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
               </span>
             </div>
             <p>{feedback.content}</p>
+            {feedback.imageUrls && feedback.imageUrls.length > 0 && (
+              <div className="feedback-images">
+                {feedback.imageUrls.map((url, index) => (
+                  <img key={index} src={url} alt={`Hình ảnh phản hồi ${index}`} />
+                ))}
+              </div>
+            )}
 
+            {feedback.videos && feedback.videos.length > 0 && (
+              <div className="feedback-videos">
+                {feedback.videos[0] !== '' ? feedback.videos.map((url, index) => (
+                  <video key={index} controls>
+                    <source src={url} type="video/mp4" />
+                    Trình duyệt của bạn không hỗ trợ thẻ video.
+                  </video>
+                )) : <></>}
+              </div>
+            )}
             <div className="feedback-actions">
               {isLoggedIn && currentUserId && feedback.userId?._id === currentUserId && (
                 <>
@@ -345,7 +364,6 @@ const FeedbackCourse = ({ courseId, purchasedSubscriptions }) => {
                     </button>
                   ))}
                 </div>
-
                 {error && <p className="error-message">{error}</p>}
                 {successMessage && <p className="success-message">{successMessage}</p>}
                 <button onClick={() => updateFeedback(feedback._id)} disabled={loading}>

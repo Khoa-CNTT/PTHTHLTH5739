@@ -1,0 +1,325 @@
+/* search & filter */
+.container-full {
+    max-width: 100vw;
+    background-color: white;
+    /* padding-top: 200px; */
+}
+
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.filter-container>* {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input,
+.category-select,
+.sort-by-select {
+    height: 40px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 300px;
+}
+
+.category-select,
+.sort-by-select {
+    min-width: 200px;
+}
+
+.search-input-coures {
+    min-height: 56px;
+    margin-bottom: 0 !important;
+}
+
+/* list item */
+.product-card-course {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: start;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-image-course {
+    width: 100%;
+    height: 247px;
+    object-fit: fill;
+    display: block;
+}
+
+.product-title-course {
+    text-align: start;
+}
+
+.product-details-course {
+    padding: 36px;
+}
+
+.product-description-course {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    font-family: "Arial", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #7c7c7c;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.product-price-course {
+    font-size: 1.5em;
+    color: #e67e22;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.product-btn-course {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: 2px solid #8b4513;
+    border-radius: 25px;
+    background-color: transparent;
+    color: #8b4513;
+    font-family: "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.product-btn-course:hover {
+    background-color: #8b4513;
+    color: #fff;
+}
+
+.product-btn-course:focus {
+    outline: none;
+    background-color: #8b4513;
+    color: #fff;
+}
+
+.product-category-course {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    color: #ff5e00;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.back-to-courses {
+    cursor: pointer;
+}
+
+/* course detail */
+.course-details {
+    border-radius: 0 !important;
+}
+
+.course-details-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px;
+    font-family: Arial, sans-serif;
+}
+
+.product-course-detail-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+}
+
+.product-course-detail-info>.image-slider {
+    flex: 1 1 calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-course-detail-info>.image-slider img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.product-course-detail-info>div:not(.image-slider) {
+    flex: 1 1 calc(50% - 10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.course-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.highlight {
+    display: flex;
+    justify-content: space-between;
+}
+
+.highlight-label {
+    font-weight: bold;
+}
+
+.highlight-value {
+    font-style: italic;
+}
+
+.go-to-course-btn,
+.enroll-btn {
+    width: fit-content;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 700;
+    background-color: #f36100;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    margin: 14px 0 10px 0;
+    cursor: pointer;
+}
+
+.go-to-course-btn:hover,
+.enroll-btn:hover {
+    background-color: #0056b3;
+}
+
+.product-course-detail-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.course-highlights {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.image-slider {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-list {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: "Arial", sans-serif;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.list-text {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+}
+
+.value {
+    font-size: 16px;
+    color: #555;
+}
+
+.divider {
+    margin: 8px 0;
+    border-color: #e0e0e0;
+}
+
+.exercise-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.play-icon {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 24px;
+}
+
+.play-icon:hover {
+    color: #0056b3;
+}
+
+.lock-icon {
+    color: #ff6b6b;
+    font-size: 20px;
+}
+
+.exercise-name {
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.accordion-summary {
+    padding: 0 16px;
+}
+
+.summary-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.summary-content>.MuiTypography-root {
+    flex-grow: 1;
+}
+
+.summary-content>.MuiTypography-root:nth-child(2) {
+    text-align: right;
+}

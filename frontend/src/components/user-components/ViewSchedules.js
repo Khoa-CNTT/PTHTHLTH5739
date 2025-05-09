@@ -27,23 +27,23 @@ const ViewSchedules = () => {
   const [workouts, setWorkouts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [dailyWorkouts, setDailyWorkouts] = useState([]);
-  const [showModal, setShowModal] = useState(false); // Rename showPopup to showModal
+  const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  
+
   const [isChatPopupVisible, setIsChatPopupVisible] = useState(false);
   const toggleChatPopup = () => {
     setIsChatPopupVisible(!isChatPopupVisible);
   };
 
-  
-  const handleCloseModal = () => setShowModal(false); // Rename closeModal
-  const handleShowModal = (date) => { // Rename handleDateClick and update logic
+
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = (date) => {
     setSelectedDate(date);
     fetchWorkouts(date);
     setShowModal(true);
   };
-  
+
 
   const checkSurveyAndFetchSubscription = async () => {
     const token = localStorage.getItem('token');
@@ -63,7 +63,7 @@ const ViewSchedules = () => {
         fetchMonthlyWorkouts();
       }
     } catch (err) {
-      setMessage('Error fetching subscription details or survey status.');
+      setMessage('Có lỗi khi tìm thông tin chi tiết đăng ký hoặc trạng thái khảo sát.');
       console.error(err);
     }
   };
@@ -85,11 +85,11 @@ const ViewSchedules = () => {
       );
       setWorkouts(response.data.workouts || []);
     } catch (error) {
-      console.error("Error fetching workouts:", error);
+      console.error("Lỗi khi tải bài tập:", error);
     }
   };
 
-  const handleDateClick = (date) => { // Now only sets the date and shows the modal
+  const handleDateClick = (date) => { // Bây giờ chỉ đặt ngày và hiển thị modal
     const selectedWorkoutIndex = workouts.findIndex((workout) =>
       isSameDay(new Date(workout.date), date)
     );
@@ -114,7 +114,7 @@ const ViewSchedules = () => {
       );
       setDailyWorkouts(response.data.workouts || []);
     } catch (error) {
-      console.error("Error fetching workouts:", error);
+      console.error("Lỗi khi tải bài tập:", error);
     }
   };
 
@@ -280,20 +280,17 @@ const ViewSchedules = () => {
           </Modal>
         </div>
         {isChatPopupVisible && (
-        <div className="chatRoomPopup">
-          <ChatRoom />
-          <button onClick={toggleChatPopup} className="closeChatButton">
-            Đóng
-          </button>
-        </div>
-      )}
+          <div className="chatRoomPopup">
+            <ChatRoom />
+            <button onClick={toggleChatPopup} className="closeChatButton">
+              Đóng
+            </button>
+          </div>
+        )}
 
-      <div className="chatIcon" onClick={toggleChatPopup}>
-        Chat
-      </div>
-        {/* <div className='w-1/3'>
-          <ChatRoom />
-        </div> */}
+        <div className="chatIcon" onClick={toggleChatPopup}>
+          Chat
+        </div>
       </div>
     </section>
   );

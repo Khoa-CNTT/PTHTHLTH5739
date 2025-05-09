@@ -29,7 +29,7 @@ function Contact() {
             <div className="container">
                 <div className="contact-grid">
                     <div className="contact-info">
-                        <h2>Thông tin liên hệ</h2> 
+                        <h2>Thông tin liên hệ</h2>
                         <p><i className="fa fa-map-marker" /> Đại học Duy Tân, Hải Châu, Đà Nẵng</p>
                         <p><i className="fa fa-phone" /> (+84) 123 456 789</p>
                         <p><i className="fa fa-envelope" /> fitzoneteams@gmail.com</p>
